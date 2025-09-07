@@ -16,7 +16,7 @@ export const ROUTES = {
   STEP_3: '/step-3',
   REVIEW: '/review',
   SUCCESS: '/success',
-  ERROR: '/error'
+  DOCS: '/docs'
 };
 
 export const PREDEFINED_SUGGESTIONS = {
@@ -117,4 +117,50 @@ export const stepRequirements = {
       2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address'], // Need basic personal info
       3: ['maritalStatus', 'employmentStatus', 'monthlyIncome'], // Need family & financial info
       4: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying'] // Need step 3 data for review
+    };
+
+
+
+// Language-specific prompts and instructions
+export const PROMPTS = {
+  en: {
+    system: `You are an AI assistant for writing social support applications. Write professional, concise (2-4 sentences), factual text suitable for official use. Be empathetic but maintain professionalism.`,
+    instructions: {
+      currentFinancialSituation: 'Describe the current financial situation clearly',
+      employmentCircumstances: 'Explain employment situation and challenges',
+      reasonForApplying: 'Explain why assistance is needed and how it will help'
+    }
+  },
+  ar: {
+    system: `أنت مساعد ذكي لكتابة طلبات الدعم الاجتماعي. اكتب نصاً مهنياً ومختصراً (2-4 جمل) ومناسباً للاستخدام الرسمي. كن متفهماً ومهنياً.`,
+    instructions: {
+      currentFinancialSituation: 'وصف الوضع المالي الحالي بوضوح',
+      employmentCircumstances: 'شرح وضع العمل والتحديات',
+      reasonForApplying: 'شرح سبب الحاجة للمساعدة وكيف ستساعد'
+    }
+  }
+};
+
+
+  export const ERROR_MESSAGES = {
+      en: {
+        alreadyGenerating: 'AI is already generating a response. Please wait.',
+        invalidField: 'Invalid field name provided.',
+        emptyPrompt: 'Please provide a prompt or select a suggestion first.',
+        noSuggestion: 'No suggestion was generated. Please try again.',
+        rateLimited: 'AI service is temporarily busy. Please try again in a moment.',
+        authFailed: 'AI service authentication failed. Please check configuration.',
+        generationFailed: 'Failed to generate suggestion. Please try again.',
+        networkError: 'Network error. Please check your connection and try again.'
+      },
+      ar: {
+        alreadyGenerating: 'الذكاء الاصطناعي يعمل على إنشاء رد. يرجى الانتظار.',
+        invalidField: 'اسم الحقل المقدم غير صحيح.',
+        emptyPrompt: 'يرجى تقديم نص أو اختيار اقتراح أولاً.',
+        noSuggestion: 'لم يتم إنشاء اقتراح. يرجى المحاولة مرة أخرى.',
+        rateLimited: 'خدمة الذكاء الاصطناعي مشغولة مؤقتاً. يرجى المحاولة بعد قليل.',
+        authFailed: 'فشل في المصادقة مع خدمة الذكاء الاصطناعي. يرجى فحص الإعدادات.',
+        generationFailed: 'فشل في إنشاء الاقتراح. يرجى المحاولة مرة أخرى.',
+        networkError: 'خطأ في الشبكة. يرجى فحص الاتصال والمحاولة مرة أخرى.'
+      }
     };

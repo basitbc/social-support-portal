@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { CheckCircle, Copy, Download, Home, Phone, Mail, Calendar } from 'lucide-react';
 import { useFormContext } from '../context/FormContext';
 import { useUIContext } from '../context/UIContext';
-import PageLayout from '../components/layouts/PageLayout';
 import LanguageToggle from '../components/molecules/LanguageToggle';
 import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
@@ -97,12 +96,12 @@ ${t('pages.success.thankYou')}
 
   if (!submissionData) {
     return (
-      <PageLayout title={t('common.loading')} centered maxWidth="4xl">
+      <MainLayout title={t('common.loading')} centered maxWidth="4xl">
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">{t('pages.success.loadingConfirmation')}</p>
         </div>
-      </PageLayout>
+      </MainLayout>
     );
   }
 
@@ -110,8 +109,6 @@ ${t('pages.success.thankYou')}
   const expectedProcessingDate = new Date(submittedDate);
   expectedProcessingDate.setDate(expectedProcessingDate.getDate() + 10);
   
-  const locale = i18n.language === 'ar' ? 'ar-SA' : 'en-US';
-
   return (
     <MainLayout
       headerActions={<LanguageToggle />}

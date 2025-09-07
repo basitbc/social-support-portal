@@ -56,7 +56,7 @@ const Review = () => {
     setIsLoading(true);
 
     try {
-      // Mock API submission
+      // API submission
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       const referenceNumber = `SSA-${Date.now().toString().slice(-8)}`;

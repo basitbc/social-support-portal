@@ -1,6 +1,5 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { cn } from '../../utils/helpers';
-import { Lightbulb, Loader2 } from 'lucide-react';
 
 const Textarea = forwardRef(({
   placeholder,
@@ -33,12 +32,6 @@ const Textarea = forwardRef(({
   const rtlStyles = `
     rtl:text-right rtl:pr-4 rtl:pl-4
   `;
-
-  // For character count - we need to get the current value from props
-  const currentValue = props.value || props.defaultValue || '';
-  const currentLength = currentValue.length || 0;
-  const isNearLimit = maxLength && currentLength > maxLength * 0.8;
-  const isAtLimit = maxLength && currentLength >= maxLength;
 
   return (
     <div className="relative">

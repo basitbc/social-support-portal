@@ -1,9 +1,5 @@
 import { Component } from 'react';
 
-/**
- * Error Boundary Component for graceful error handling
- * Catches JavaScript errors anywhere in the component tree
- */
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -16,17 +12,15 @@ class ErrorBoundary extends Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI
     return {
       hasError: true,
       error
     };
   }
 
+
   componentDidCatch(error, errorInfo) {
-    // Log error details
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
     this.setState({
       error,
       errorInfo,
@@ -36,33 +30,6 @@ class ErrorBoundary extends Component {
 
   generateEventId = () => {
     return `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  };
-
-  reportError = (error, errorInfo) => {
-    // In a real app, you would send this to your error reporting service
-    // e.g., Sentry, LogRocket, Bugsnag, etc.
-    try {
-      const errorReport = {
-        message: error.message,
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        eventId: this.state.eventId
-      };
-      
-      // Example: Send to your error reporting endpoint
-      // fetch('/api/errors', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(errorReport)
-      // });
-      
-      console.log('Error report would be sent:', errorReport);
-    } catch (reportingError) {
-      console.error('Failed to report error:', reportingError);
-    }
   };
 
   handleReset = () => {
@@ -80,7 +47,6 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      // Use custom fallback UI if provided
       if (this.props.fallback) {
         return this.props.fallback({
           error: this.state.error,
@@ -89,7 +55,6 @@ class ErrorBoundary extends Component {
         });
       }
 
-      // Default fallback UI
       return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50" role="alert">
           <div className="max-w-md mx-auto text-center p-6">

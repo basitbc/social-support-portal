@@ -20,6 +20,8 @@ const Button = forwardRef(
     },
     ref
   ) => {
+
+    // base-styles
     const baseStyles = `
       inline-flex items-center justify-center font-medium
       cursor-pointer transition-all duration-200
@@ -27,6 +29,7 @@ const Button = forwardRef(
       disabled:cursor-not-allowed select-none shadow-sm
     `;
 
+    // variants
     const variants = {
       primary: `
         bg-primary-500 text-white border border-primary-500
@@ -60,27 +63,31 @@ const Button = forwardRef(
       `,
     };
 
+    // button-sizes
     const sizes = {
       sm: "px-3 py-2 text-sm",
       md: "px-4 py-2 sm:px-6 sm:py-3 text-base",
       lg: "px-6 py-3 sm:px-8 sm:py-4 text-lg",
     };
 
+
     const rtlStyles = `
       rtl:flex-row-reverse
     `;
 
-    // Check if children has any visible content (not just hidden elements)
+
+    // check if text is visible
     const hasVisibleText = React.Children.toArray(children).some(child => {
       if (typeof child === 'string') return child.trim().length > 0;
       if (React.isValidElement(child)) {
-        // Check if element has visible content or doesn't have 'hidden' classes
         const className = child.props?.className || '';
         const isHidden = className.includes('hidden') && !className.includes('sm:inline');
         return !isHidden;
       }
       return true;
     });
+
+
 
     const iconElement = icon && (
       <span
@@ -93,6 +100,7 @@ const Button = forwardRef(
         {typeof icon === "string" ? <i className={icon} /> : icon}
       </span>
     );
+
 
     const content = (
       <>
@@ -107,6 +115,8 @@ const Button = forwardRef(
         {!loading && iconPosition === "right" && iconElement}
       </>
     );
+
+    
 
     return (
       <button

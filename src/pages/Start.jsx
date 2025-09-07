@@ -11,14 +11,15 @@ import LanguageToggle from '../components/molecules/LanguageToggle';
 import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
 
+
+
+
 const Start = () => {
-    const { t, i18n } = useTranslation();
-    console.log('Current language:', i18n.language);
-  console.log('Translation test:', t('pages.start.title'));
-  console.log('Is ready:', i18n.isInitialized);
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { termsAccepted, setTermsAccepted } = useFormContext();
   const { setFieldError, clearFieldError } = useUIContext();
+
 
   const handleStartApplication = () => {
     if (!termsAccepted) {
@@ -29,10 +30,13 @@ const Start = () => {
     navigate(ROUTES.STEP_1);
   };
 
+
   const handleTermsChange = (accepted) => {
     setTermsAccepted(accepted);
     if (accepted) clearFieldError('terms');
   };
+
+
 
   const features = [
     {
@@ -51,6 +55,8 @@ const Start = () => {
       description: t('pages.start.features.quickProcessing.description')
     }
   ];
+
+  
 
   return (
     <MainLayout

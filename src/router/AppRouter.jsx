@@ -1,57 +1,70 @@
+// AppRouter.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-// Page Components
-import Start from '../pages/Start';
-import Step1 from '../pages/Step1';
-import Step2 from '../pages/Step2';
-import Step3 from '../pages/Step3';
-import Review from '../pages/Review';
-import Success from '../pages/Success';
 import { ROUTES } from '../config/constants';
 import ProtectedRoute from './ProtectedRoute';
+import Docs from '../pages/Documentation';
+
+// Page Components - Lazy loaded
+const Start = React.lazy(() => import('../pages/Start'));
+const Step1 = React.lazy(() => import('../pages/Step1'));
+const Step2 = React.lazy(() => import('../pages/Step2'));
+const Step3 = React.lazy(() => import('../pages/Step3'));
+const Review = React.lazy(() => import('../pages/Review'));
+const Success = React.lazy(() => import('../pages/Success'));
+
+// Step routes configuration
+const STEP_ROUTES = [
+  { path: ROUTES.STEP_1, component: Step1, stepNumber: 1 },
+  { path: ROUTES.STEP_2, component: Step2, stepNumber: 2 },
+  { path: ROUTES.STEP_3, component: Step3, stepNumber: 3 },
+  { path: ROUTES.REVIEW, component: Review, stepNumber: 4 }
+];
 
 const AppRouter = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path={ROUTES.HOME} element={<Start />} />
-      {/* Protected Step Routes */}
       <Route 
-        path={ROUTES.STEP_1} 
+        path={ROUTES.HOME} 
         element={
-          <ProtectedRoute stepNumber={1}>
-            <Step1 />
-          </ProtectedRoute>
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Start />
+          </React.Suspense>
         } 
       />
       <Route 
-        path={ROUTES.STEP_2} 
+        path={ROUTES.SUCCESS} 
         element={
-          <ProtectedRoute stepNumber={2}>
-            <Step2 />
-          </ProtectedRoute>
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Success />
+          </React.Suspense>
         } 
       />
-      <Route 
-        path={ROUTES.STEP_3} 
+
+        <Route 
+        path={ROUTES.DOCS} 
         element={
-          <ProtectedRoute stepNumber={3}>
-            <Step3 />
-          </ProtectedRoute>
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Docs/>
+          </React.Suspense>
         } 
       />
       
-      {/* Other Routes */}
-      <Route 
-        path={ROUTES.REVIEW} 
-        element={
-          <ProtectedRoute stepNumber={4}>
-            <Review />
-          </ProtectedRoute>
-        } 
-      />
-      <Route path={ROUTES.SUCCESS} element={<Success />} />
+      {/* Protected Step Routes */}
+      {STEP_ROUTES.map(({ path, component: Component, stepNumber }) => (
+        <Route 
+          key={path}
+          path={path} 
+          element={
+            <ProtectedRoute stepNumber={stepNumber}>
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <Component />
+              </React.Suspense>
+            </ProtectedRoute>
+          } 
+        />
+      ))}
       
       {/* Fallback - redirect to home */}
       <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
