@@ -15,7 +15,7 @@ import LoadingSpinner from './components/atoms/LoadingSpinner.jsx';
 
 // Custom Hooks
 import useAccessibility from './hooks/useAccessibility.js';
-import AppProviders from './context/providers.jsx';
+import AppProviders from './context/AppProviders.jsx';
 
 // Loading fallback
 const LoadingFallback = () => (
