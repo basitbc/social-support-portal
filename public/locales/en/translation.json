@@ -1,0 +1,358 @@
+{
+    "components": {
+        "termsBox": {
+            "title": "Terms and Conditions",
+            "readAndAccept": "Please read and accept to continue",
+            "collapse": "Collapse terms",
+            "expand": "Expand terms",
+            "backToTop": "Back to top",
+            "fullTerms": "Full Terms & Conditions",
+            "privacyPolicy": "Privacy Policy",
+            "acceptanceLabel": "I have read and agree to the {{title}}",
+            "requiredDescription": "You must accept the terms to continue with your application",
+            "optionalDescription": "Optional acceptance for newsletter and updates",
+            "additionalInfo": "By accepting these terms, you acknowledge that you understand your rights and responsibilities. If you have questions about these terms, please contact our support team before proceeding.",
+            "content": "**Social Support Application Terms and Conditions**\n\nBy submitting this application, you agree to the following terms:\n\n**1. Information Accuracy**\nYou certify that all information provided in this application is true, accurate, and complete to the best of your knowledge. Providing false or misleading information may result in the denial or termination of benefits.\n\n**2. Privacy and Data Use**\n- Your personal information will be used solely for the purpose of evaluating your eligibility for social support services\n- Information may be shared with relevant government agencies and authorized personnel involved in processing your application\n- We implement appropriate security measures to protect your personal data\n\n**3. Application Processing**\n- Applications are processed in the order they are received\n- Processing times may vary depending on application volume and complexity\n- You may be contacted for additional information or documentation\n\n**4. Eligibility Requirements**\n- You must meet all eligibility criteria as defined by the social support program\n- Eligibility is subject to verification and periodic review\n- Changes in your circumstances must be reported promptly\n\n**5. Benefits and Responsibilities**\n- Benefits are provided based on verified need and available funding\n- You are responsible for using benefits as intended\n- Misuse of benefits may result in termination and potential legal action\n\n**6. Appeals Process**\nIf your application is denied, you have the right to appeal the decision within 30 days of notification.\n\nBy checking the box below, you acknowledge that you have read, understood, and agree to these terms and conditions."
+        }
+    },
+    "common": {
+        "loading": "Loading...",
+        "save": "Save",
+        "cancel": "Cancel",
+        "continue": "Continue",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "submit": "Submit",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirm": "Confirm",
+        "close": "Close",
+        "dismiss": "Dismiss",
+        "characters": "characters",
+        "stepOf": "Step {{current}} of {{total}}",
+        "copy": "Copy",
+        "download": "Download"
+    },
+    "navigation": {
+        "personalInformation": "Personal Information",
+        "familyFinancialInformation": "Family & Financial Information",
+        "situationDescriptions": "Situation Descriptions",
+        "review": "Review",
+        "submitApplication": "Submit Application",
+        "start": "Start"
+    },
+    "help": {
+        "financialSituation": "Describe your current financial challenges and circumstances",
+        "employmentCircumstances": "Explain your work situation and any employment difficulties",
+        "reasonForApplying": "Tell us why you need assistance and how it will help",
+        "default": "Provide clear and honest information"
+    },
+    "notifications": {
+        "step3Saved": "Information saved successfully",
+        "saveFailed": "Failed to save information. Please try again.",
+        "suggestionAccepted": "AI suggestion accepted",
+        "suggestionAcceptFailed": "Failed to accept suggestion. Please try again."
+    },
+    "errors": {
+        "noFieldSelected": "No field selected for AI assistance",
+        "generationFailed": "Failed to generate AI suggestion",
+        "networkError": "Network error. Please check your connection.",
+        "emptyPrompt": "Please provide a prompt or select a suggestion"
+    },
+    "sections": {
+        "familyInformation": "Family Information",
+        "financialInformation": "Financial Information"
+    },
+    "fields": {
+        "name": {
+            "label": "Full Name",
+            "placeholder": "Enter your full name"
+        },
+        "nationalId": {
+            "label": "National ID",
+            "placeholder": "Enter your national ID number"
+        },
+        "dateOfBirth": {
+            "label": "Date of Birth"
+        },
+        "gender": {
+            "label": "Gender",
+            "placeholder": "Select your gender",
+            "options": {
+                "male": "Male",
+                "female": "Female",
+                "other": "Other",
+                "preferNotToSay": "Prefer not to say"
+            }
+        },
+        "address": {
+            "label": "Address",
+            "placeholder": "Enter your complete address"
+        },
+        "city": {
+            "label": "City",
+            "placeholder": "Enter your city"
+        },
+        "state": {
+            "label": "State/Province",
+            "placeholder": "Enter your state or province"
+        },
+        "country": {
+            "label": "Country",
+            "placeholder": "Select your country",
+            "options": {
+                "us": "United States",
+                "ca": "Canada",
+                "uk": "United Kingdom",
+                "au": "Australia",
+                "in": "India",
+                "other": "Other"
+            }
+        },
+        "phone": {
+            "label": "Phone Number",
+            "placeholder": "+1 (555) 123-4567"
+        },
+        "email": {
+            "label": "Email Address",
+            "placeholder": "Enter your email address"
+        },
+        "maritalStatus": {
+            "label": "Marital Status",
+            "placeholder": "Select your marital status",
+            "options": {
+                "single": "Single",
+                "married": "Married",
+                "divorced": "Divorced",
+                "widowed": "Widowed",
+                "separated": "Separated"
+            }
+        },
+        "dependents": {
+            "label": "Number of Dependents",
+            "placeholder": "0",
+            "helpText": "Include children, elderly parents, or other dependents you support financially"
+        },
+        "employmentStatus": {
+            "label": "Employment Status",
+            "placeholder": "Select your employment status",
+            "options": {
+                "employed": "Employed full-time",
+                "parttime": "Employed part-time",
+                "unemployed": "Unemployed",
+                "retired": "Retired",
+                "student": "Student",
+                "disabled": "Disabled",
+                "other": "Other"
+            }
+        },
+        "monthlyIncome": {
+            "label": "Monthly Income",
+            "placeholder": "0.00",
+            "helpText": "Include all sources of income before taxes and deductions"
+        },
+        "housingStatus": {
+            "label": "Housing Status",
+            "placeholder": "Select your housing status",
+            "options": {
+                "owned": "Owned",
+                "rented": "Rented",
+                "livingwithfamily": "Living with family",
+                "temporaryhousing": "Temporary housing",
+                "homeless": "Homeless",
+                "other": "Other"
+            }
+        },
+        "currentFinancialSituation": {
+            "label": "Current Financial Situation",
+            "placeholder": "Describe your current financial situation..."
+        },
+        "employmentCircumstances": {
+            "label": "Employment Circumstances",
+            "placeholder": "Describe your employment circumstances..."
+        },
+        "reasonForApplying": {
+            "label": "Reason for Applying",
+            "placeholder": "Explain why you are applying for assistance..."
+        }
+    },
+    "steps": {
+        "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+        },
+        "familyFinancial": {
+            "title": "Family & Financial Information",
+            "description": "Tell us about your family and financial situation"
+        },
+        "situationDescriptions": {
+            "title": "Situation Descriptions",
+            "description": "Describe your current situation (AI assistance available)"
+        }
+    },
+    "validation": {
+        "required": "This field is required",
+        "email": "Please enter a valid email address",
+        "phone": "Please enter a valid phone number",
+        "minLength": "Must be at least {{min}} characters",
+        "maxLength": "Cannot exceed {{max}} characters",
+        "min": "Must be at least {{min}}",
+        "max": "Cannot exceed {{max}}",
+        "summary": "Please correct the following errors:"
+    },
+    "app": {
+        "title": "Social Support Application",
+        "subtitle": "Apply for government financial assistance",
+        "welcome": "Welcome to the Social Support Application portal"
+    },
+    "aiModal": {
+        "title": "AI Writing Assistant",
+        "forField": "For field:",
+        "originalText": "Original Text:",
+        "originalSuggestion": "Original AI Suggestion:",
+        "aiSuggestion": "AI Suggestion:",
+        "predefinedSuggestions": "Quick Start Suggestions:",
+        "writeYourOwn": "Or write your own prompt:",
+        "generateFromInput": "Generate AI Suggestion",
+        "noOriginalText": "No original text",
+        "noSuggestion": "No suggestion available",
+        "copied": "Copied!",
+        "generating": "Generating...",
+        "regenerate": "Regenerate",
+        "editFirst": "Edit First",
+        "edit": "Edit",
+        "editSuggestion": "Edit AI Suggestion:",
+        "accept": "Accept",
+        "acceptEdited": "Accept Edited",
+        "acceptSuggestion": "Accept Suggestion",
+        "discard": "Discard",
+        "saveChanges": "Save Changes",
+        "cancel": "Cancel",
+        "characters": "characters",
+        "selectSuggestion": "Select a suggestion to get started, or write your own prompt below",
+        "generatingNew": "Generating new suggestion...",
+        "yourPrompt": "Your Prompt:",
+        "yourText": "Your text:",
+        "back": "Back",
+        "helpAvailable": "AI assistance available for all fields",
+        "helpMeWrite": "Help Me Write",
+        "promptPlaceholder": "Describe what you want to write about...",
+        "footerNote": "AI suggestions are meant to help you get started. Please review and modify as needed.",
+        "errors": {
+            "emptyPrompt": "Please provide a prompt or select a suggestion first",
+            "generationFailed": "Failed to generate suggestion. Please try again.",
+            "tooShort": "Prompt is too short. Please provide more details.",
+            "tooLong": "Prompt is too long. Please keep it under 500 characters.",
+            "termsRequired": "You must accept the terms and conditions to continue"
+        },
+        "predefinedOptions": {
+            "currentFinancialSituation": [
+                "I am currently facing financial difficulties due to reduced work hours and need assistance with basic expenses.",
+                "My family's monthly expenses exceed our current income, creating a significant budget shortfall that affects our daily needs.",
+                "Unexpected medical expenses have put considerable strain on our finances, making it difficult to cover essential costs.",
+                "Recent job loss has left us struggling to meet basic living expenses including housing, utilities, and groceries.",
+                "Rising costs of living have made it increasingly difficult to maintain financial stability with my current income level."
+            ],
+            "employmentCircumstances": [
+                "I am currently unemployed and actively seeking employment opportunities in my field of expertise.",
+                "My work hours have been significantly reduced, which has substantially decreased my monthly income and financial stability.",
+                "I work part-time but require additional income to adequately support my family's needs and expenses.",
+                "Health issues have impacted my ability to maintain consistent full-time employment, affecting my earning capacity.",
+                "I am employed but my current wages are insufficient to cover the rising costs of basic living expenses."
+            ],
+            "reasonForApplying": [
+                "I need temporary financial assistance while I search for stable, full-time employment to support my family.",
+                "This support would help us maintain housing stability and cover essential expenses during this challenging period.",
+                "Financial assistance is needed to cover basic necessities while I work toward rebuilding our economic stability.",
+                "This support would provide crucial help for my family's essential needs including food, housing, and utilities.",
+                "Assistance would help bridge the financial gap while I pursue employment opportunities and improve our situation."
+            ]
+        }
+    },
+    "pages": {
+        "start": {
+            "title": "Social Support Application",
+            "subtitle": "Apply for government financial assistance quickly and easily.",
+            "features": {
+                "simpleApplication": {
+                    "title": "Simple Application",
+                    "description": "Complete a straightforward 3-step form to apply for financial assistance"
+                },
+                "securePrivate": {
+                    "title": "Secure & Private",
+                    "description": "Your personal information is protected with enterprise-grade security"
+                },
+                "quickProcessing": {
+                    "title": "Quick Processing",
+                    "description": "Applications are reviewed promptly to get you the help you need"
+                }
+            },
+            "termsTitle": "Terms and Conditions",
+            "startButton": "Start Application",
+            "estimatedTime": "Takes approximately 10-15 minutes to complete"
+        },
+        "review": {
+            "title": "Review Your Application",
+            "subtitle": "Review Your Information",
+            "description": "Please review all information before submitting your application",
+            "completed": "Completed",
+            "notProvided": "Not provided",
+            "readyToSubmit": "Ready to Submit?",
+            "certificationText": "By submitting this application, you certify that all information provided is accurate and complete.",
+            "submitApplication": "Submit Application",
+            "incompleteWarning": "Application is {{percentage}}% complete. Please fill in all required fields before submitting."
+        },
+        "success": {
+            "title": "Application Submitted Successfully!",
+            "description": "Thank you for submitting your social support application. We have received your information and will begin processing your request.",
+            "yourReferenceNumber": "Your Reference Number",
+            "copied": "Copied!",
+            "referenceCopied": "Reference number copied to clipboard!",
+            "copyFailed": "Failed to copy reference number",
+            "downloadSuccess": "Confirmation downloaded successfully!",
+            "saveReferenceNote": "Please save this reference number. You will need it to check your application status.",
+            "loadingConfirmation": "Loading confirmation...",
+            "confirmationTitle": "SOCIAL SUPPORT APPLICATION CONFIRMATION",
+            "referenceNumber": "Reference Number",
+            "submitted": "Submitted",
+            "applicationStatus": "Application Status",
+            "statusReceived": "RECEIVED",
+            "confirmationMessage": "Your application has been successfully submitted and is now being processed.\nPlease keep this reference number for your records.",
+            "nextStepsTitle": "Next Steps",
+            "nextStep1": "You will receive an email confirmation within 24 hours",
+            "nextStep2": "Processing typically takes 5-10 business days",
+            "nextStep3": "You will be contacted if additional information is needed",
+            "contactInfoTitle": "Contact Information",
+            "phone": "Phone",
+            "email": "Email",
+            "phoneNumber": "1-800-SUPPORT",
+            "emailAddress": "support@socialsupport.gov",
+            "thankYou": "Thank you for your application.",
+            "confirmationFilename": "application-confirmation",
+            "whatHappensNext": "What Happens Next?",
+            "timeline": {
+                "step1": {
+                    "title": "Application Received",
+                    "description": "Your application has been successfully submitted and assigned a reference number."
+                },
+                "step2": {
+                    "title": "Email Confirmation",
+                    "description": "You will receive an email confirmation within 24 hours with your reference number and next steps."
+                },
+                "step3": {
+                    "title": "Processing & Review",
+                    "description": "Our team will review your application and may contact you for additional information if needed."
+                }
+            },
+            "expectedBy": "Expected by",
+            "needHelp": "Need Help?",
+            "phoneSupport": "Phone Support",
+            "phoneHours": "Monday - Friday, 8:00 AM - 6:00 PM",
+            "emailSupport": "Email Support",
+            "emailResponse": "Response within 24-48 hours",
+            "returnToHome": "Return to Home",
+            "startNewApplication": "Start New Application"
+        }
+    }
+}
