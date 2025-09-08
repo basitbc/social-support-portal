@@ -157,7 +157,7 @@ const Step1 = () => {
               onChange={(e) => handleFieldChange('name', e.target.value)}
             />
             <FormField
-              type="text"
+              type="number"
               name="nationalId"
               label={t('fields.nationalId.label')}
               placeholder={t('fields.nationalId.placeholder')}

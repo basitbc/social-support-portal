@@ -13,7 +13,7 @@ import MainLayout from '../components/layouts/MainLayout';
 const Success = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { submissionData, resetForm } = useFormContext();
+  const { submissionData, clearFormData } = useFormContext();
   const { addNotification } = useUIContext();
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -22,6 +22,18 @@ const Success = () => {
       navigate(ROUTES.HOME);
     }
   }, [submissionData, navigate]);
+
+useEffect(() => {
+  if (submissionData) {
+    const timer = setTimeout(() => {
+      clearFormData();
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }
+}, [submissionData, clearFormData]);
+
+  
 
   const handleCopyReference = async () => {
     if (!submissionData?.referenceNumber) return;
@@ -89,10 +101,6 @@ ${t('pages.success.thankYou')}
     });
   };
 
-  const handleStartNewApplication = () => {
-    resetForm();
-    navigate(ROUTES.HOME);
-  };
 
   if (!submissionData) {
     return (
@@ -223,16 +231,6 @@ ${t('pages.success.thankYou')}
           >
             {t('pages.success.returnToHome')}
           </Button>
-          
-          <div>
-            <Button
-              variant="outline"
-              onClick={handleStartNewApplication}
-              className="text-gray-600"
-            >
-              {t('pages.success.startNewApplication')}
-            </Button>
-          </div>
         </div>
       </div>
     </MainLayout>

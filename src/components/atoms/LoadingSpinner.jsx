@@ -22,7 +22,8 @@ const LoadingSpinner = ({
     white: 'text-white',
     success: 'text-green-600',
     danger: 'text-red-600',
-    warning: 'text-yellow-600'
+    warning: 'text-yellow-600',
+    pink: 'text-primary-500', 
   };
 
   return (

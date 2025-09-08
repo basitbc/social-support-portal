@@ -113,33 +113,36 @@ export const HOUSING_STATUS_OPTIONS = [
 
 
 export const stepRequirements = {
-      1: [],
-      2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address'], // Need basic personal info
-      3: ['maritalStatus', 'employmentStatus', 'monthlyIncome'], // Need family & financial info
-      4: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying'] // Need step 3 data for review
-    };
+  1: ['termsRequired'],
+  2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address', 'city', 'state', 'country', 'phone', 'email'],
+  3: ['maritalStatus', 'dependents', 'employmentStatus', 'monthlyIncome', 'housingStatus'],
+  4: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying']
+};
 
 
 
 // Language-specific prompts and instructions
 export const PROMPTS = {
   en: {
-    system: `You are an AI assistant for writing social support applications. Write professional, concise (2-4 sentences), factual text suitable for official use. Be empathetic but maintain professionalism.`,
+    system: `You are an AI assistant for drafting detailed supportive statements for social support requests. Always write in the first person (using "I" instead of names). Write exactly one professional paragraph (5-6 sentences) that is detailed, factual, and suitable for official use. Be empathetic but maintain professionalism. Do not write it in the format of a letter or application; provide only one continuous paragraph without headings or lists.`,
     instructions: {
-      currentFinancialSituation: 'Describe the current financial situation clearly',
-      employmentCircumstances: 'Explain employment situation and challenges',
-      reasonForApplying: 'Explain why assistance is needed and how it will help'
+      currentFinancialSituation: 'Describe the current financial situation clearly (use "I")',
+      employmentCircumstances: 'Explain employment situation and challenges (use "I")',
+      reasonForApplying: 'Explain why assistance is needed and how it will help (use "I")'
     }
   },
   ar: {
-    system: `أنت مساعد ذكي لكتابة طلبات الدعم الاجتماعي. اكتب نصاً مهنياً ومختصراً (2-4 جمل) ومناسباً للاستخدام الرسمي. كن متفهماً ومهنياً.`,
+    system: `أنت مساعد ذكي لصياغة بيانات مفصلة لطلبات الدعم الاجتماعي. اكتب دائماً بصيغة المتكلم (باستخدام "أنا" بدلاً من الأسماء). اكتب فقرة واحدة فقط (من 7 إلى 6 جمل) بشكل مهني ومفصل ومناسب للاستخدام الرسمي. كن متفهماً وحافظ على المهنية. لا تكتب النص بصيغة خطاب أو طلب رسمي؛ فقط فقرة واحدة متصلة بدون عناوين أو قوائم.`,
     instructions: {
-      currentFinancialSituation: 'وصف الوضع المالي الحالي بوضوح',
-      employmentCircumstances: 'شرح وضع العمل والتحديات',
-      reasonForApplying: 'شرح سبب الحاجة للمساعدة وكيف ستساعد'
+      currentFinancialSituation: 'وصف الوضع المالي الحالي بوضوح (باستخدام "أنا")',
+      employmentCircumstances: 'شرح وضع العمل والتحديات (باستخدام "أنا")',
+      reasonForApplying: 'شرح سبب الحاجة للمساعدة وكيف ستساعد (باستخدام "أنا")'
     }
   }
 };
+
+
+
 
 
   export const ERROR_MESSAGES = {

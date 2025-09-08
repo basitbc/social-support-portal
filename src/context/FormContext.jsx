@@ -3,7 +3,7 @@ import { STORAGE_KEYS } from '../config/constants';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 
-// Initial form data
+// Initial form data structure with all required fields across 3 steps
 const initialFormData = {
   // Step 1 - Personal Information (9 fields)
   name: '',
@@ -30,85 +30,104 @@ const initialFormData = {
   reasonForApplying: ''
 };
 
+// Create React context for form state management
 const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
-  const navigate = useNavigate(); // Move useNavigate inside the component
+  const navigate = useNavigate(); // React Router navigation hook
   
-  // Use the custom hook for each piece of state that needs persistence
+  // Persistent state using custom localStorage hook
   const [formData, setFormData, removeFormData] = useLocalStorage(STORAGE_KEYS.FORM_DATA, initialFormData);
   const [currentStep, setCurrentStep, removeCurrentStep] = useLocalStorage(STORAGE_KEYS.CURRENT_STEP, 1);
   const [termsAccepted, setTermsAccepted, removeTermsAccepted] = useLocalStorage(STORAGE_KEYS.TERMS_ACCEPTED, false);
   const [submissionData, setSubmissionData, removeSubmissionData] = useLocalStorage(STORAGE_KEYS.SUBMISSION_DATA, null);
   
-  // Derived state - doesn't need localStorage since it's based on submissionData
+  // Computed state - form is submitted if submission data exists
   const isSubmitted = submissionData !== null;
 
-  // Update multiple fields at once
+  // Update multiple form fields simultaneously
   const updateFormData = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
 
-  // Update single field
+  // Update a single form field
   const updateField = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  // Reset entire form
+  // Reset all form data and state to initial values
   const resetForm = () => {
     setFormData(initialFormData);
     setCurrentStep(1);
     setTermsAccepted(false);
     setSubmissionData(null);
+    // Clear all localStorage entries
     removeFormData();
     removeCurrentStep();
     removeTermsAccepted();
     removeSubmissionData();
   };
 
-  // Navigate to specific step
+  // Navigate to a specific step (1-4)
   const goToStep = (step) => {
-    if (step >= 1 && step <= 4) { // Updated to include step 4 (Review)
+    if (step >= 1 && step <= 4) { // Include step 4 for review page
       setCurrentStep(step);
     }
   };
 
-  // Set submission status
+  // Handle form submission status
   const setIsSubmitted = (status) => {
     if (!status) {
-      setSubmissionData(null);
+      setSubmissionData(null); // Clear submission data when marking as not submitted
     }
   };
 
+  // Clear form data but keep other state
+  const clearFormData = () => {
+    setFormData(initialFormData);
+    removeFormData();
+  };
+
+  // Check if user has completed required fields for a given step
   const hasRequiredDataForStep = (step) => {
+    // Define required fields for each step
     const stepRequirements = {
-      1: [], // Step 1 has no requirements
-      2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address'], // Need basic info
-      3: ['maritalStatus', 'employmentStatus', 'monthlyIncome'] // Need family & financial
+      1: [], // Step 1 has no prerequisites
+      2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address', 'city', 'state', 'country', 'phone', 'email'],
+      3: ['maritalStatus', 'dependents', 'employmentStatus', 'monthlyIncome', 'housingStatus'],
+      4: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying']
     };
 
     const required = stepRequirements[step] || [];
+    // Check if all required fields are filled and not empty
     return required.every(field => formData[field] && formData[field].trim() !== '');
   };
 
-   // Navigate to specific step with validation
+  // Navigate to step with validation and access control
   const navigateToStep = (targetStep) => {
-    // Find highest accessible step
+    // Redirect to home if terms not accepted
+    if (!termsAccepted) {
+      navigate('/');
+      return;
+    }
+
+    // Calculate the highest step user can access based on completed data
     let highestAccessible = 1;
     for (let step = 2; step <= 3; step++) {
       if (hasRequiredDataForStep(step)) {
         highestAccessible = step;
       } else {
-        break;
+        break; // Stop at first incomplete step
       }
     }
 
-    // Only allow navigation to accessible steps
+    // Limit navigation to only accessible steps
     const allowedStep = Math.min(targetStep, highestAccessible);
     
-    // Update current step and navigate
+    // Update current step state
     setCurrentStep(allowedStep);
     
+    // Map steps to their corresponding routes
     const routes = {
       1: '/step-1',
       2: '/step-2', 
@@ -116,11 +135,13 @@ export const FormProvider = ({ children }) => {
       4: '/review'
     };
     
+    // Navigate to the appropriate route
     if (routes[allowedStep]) {
       navigate(routes[allowedStep]);
     }
   };
 
+  // Context value object with all state and methods
   const value = {
     formData,
     currentStep,
@@ -136,7 +157,8 @@ export const FormProvider = ({ children }) => {
     resetForm,
     goToStep,
     navigateToStep, 
-    hasRequiredDataForStep
+    hasRequiredDataForStep,
+    clearFormData
   };
 
   return (
@@ -146,6 +168,7 @@ export const FormProvider = ({ children }) => {
   );
 };
 
+// Custom hook to access form context with error handling
 export const useFormContext = () => {
   const context = useContext(FormContext);
   if (!context) {

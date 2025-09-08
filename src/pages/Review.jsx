@@ -15,7 +15,7 @@ import { ROUTES } from '../config/constants';
 const Review = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { formData, setIsSubmitted, setSubmissionData } = useFormContext();
+  const { formData, setIsSubmitted, setSubmissionData, clearFormData } = useFormContext();
   const { isLoading, setIsLoading, setFieldError } = useUIContext();
 
   // Generate review sections from config with translations

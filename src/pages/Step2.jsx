@@ -180,21 +180,8 @@ const Step2 = () => {
             </h3>
             
             <div className="space-y-6">
-              <FormField
-                type="select"
-                name="employmentStatus"
-                label={t('fields.employmentStatus.label')}
-                placeholder={t('fields.employmentStatus.placeholder')}
-                required={true}
-                register={register}
-                rules={getValidationRules('employmentStatus')}
-                errors={errors}
-                options={getEmploymentStatusOptions()}
-                onChange={(e) => handleFieldChange('employmentStatus', e.target.value)}
-              />
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <FormField
+            
+                  <FormField
                   type="number"
                   name="monthlyIncome"
                   label={t('fields.monthlyIncome.label')}
@@ -208,6 +195,20 @@ const Step2 = () => {
                   helpText={t('fields.monthlyIncome.helpText')}
                   onChange={(e) => handleFieldChange('monthlyIncome', e.target.value)}
                 />
+
+              <div className="grid md:grid-cols-2 gap-6">
+              <FormField
+                type="select"
+                name="employmentStatus"
+                label={t('fields.employmentStatus.label')}
+                placeholder={t('fields.employmentStatus.placeholder')}
+                required={true}
+                register={register}
+                rules={getValidationRules('employmentStatus')}
+                errors={errors}
+                options={getEmploymentStatusOptions()}
+                onChange={(e) => handleFieldChange('employmentStatus', e.target.value)}
+              />
 
                 <FormField
                   type="select"

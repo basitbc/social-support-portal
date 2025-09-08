@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from '../config/constants';
 import ProtectedRoute from './ProtectedRoute';
 import Docs from '../pages/Documentation';
+import LoadingSpinner from '../components/atoms/LoadingSpinner';
 
 // Page Components - Lazy loaded
 const Start = React.lazy(() => import('../pages/Start'));
@@ -21,6 +22,15 @@ const STEP_ROUTES = [
   { path: ROUTES.REVIEW, component: Review, stepNumber: 4 }
 ];
 
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-[700px]">
+    <div className="flex flex-col items-center gap-3">
+      <LoadingSpinner size="lg" color="pink" />
+      <p className="text-gray-600 text-sm">Loading...</p>
+    </div>
+  </div>
+);
+
 const AppRouter = () => {
   return (
     <Routes>
@@ -28,7 +38,7 @@ const AppRouter = () => {
       <Route 
         path={ROUTES.HOME} 
         element={
-          <React.Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<LoadingFallback />}>
             <Start />
           </React.Suspense>
         } 
@@ -36,7 +46,7 @@ const AppRouter = () => {
       <Route 
         path={ROUTES.SUCCESS} 
         element={
-          <React.Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<LoadingFallback />}>
             <Success />
           </React.Suspense>
         } 
@@ -45,7 +55,7 @@ const AppRouter = () => {
         <Route 
         path={ROUTES.DOCS} 
         element={
-          <React.Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<LoadingFallback />}>
             <Docs/>
           </React.Suspense>
         } 
@@ -58,7 +68,7 @@ const AppRouter = () => {
           path={path} 
           element={
             <ProtectedRoute stepNumber={stepNumber}>
-              <React.Suspense fallback={<div>Loading...</div>}>
+              <React.Suspense fallback={<LoadingFallback />}>
                 <Component />
               </React.Suspense>
             </ProtectedRoute>

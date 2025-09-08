@@ -103,6 +103,19 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
+input[type="date"] {
+  width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 /* Focus and selection styles */
 ::selection {
   background-color: var(--color-primary-200);

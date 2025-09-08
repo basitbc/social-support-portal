@@ -4,7 +4,7 @@ import { useFormContext } from '../context/FormContext';
 import { ROUTES, stepRequirements } from '../config/constants';
 
 const ProtectedRoute = ({ children, stepNumber, requiredData = [] }) => {
-  const { formData, currentStep, setCurrentStep } = useFormContext();
+  const { formData, currentStep, setCurrentStep, termsAccepted } = useFormContext();
 
   // Sync currentStep with URL on mount/route change
   useEffect(() => {
@@ -13,10 +13,13 @@ const ProtectedRoute = ({ children, stepNumber, requiredData = [] }) => {
     }
   }, [stepNumber, currentStep, setCurrentStep]);
 
+  // If terms are not accepted, redirect to home/start page
+  if (!termsAccepted) {
+    return <Navigate to={ROUTES.HOME} replace />;
+  }
+
   // Check if required data from previous steps exists
   const hasRequiredData = (step) => {
-  
-
     const required = stepRequirements[step] || [];
     return required.every(field => formData[field] && formData[field].trim() !== '');
   };
