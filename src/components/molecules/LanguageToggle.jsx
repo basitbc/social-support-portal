@@ -3,22 +3,25 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown, Globe, Check } from 'lucide-react';
 import { useUIContext } from '../../context/UIContext';
 
+// Available language options with display information
 const LANGUAGES = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' }
 ];
 
+// Language selection dropdown component with RTL support
 const LanguageToggle = () => {
-  const { t, i18n } = useTranslation();
-  const { language, changeLanguage, isRTL } = useUIContext();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
+  const { t, i18n } = useTranslation(); // Translation hook
+  const { language, changeLanguage, isRTL } = useUIContext(); // UI context for language state
+  const [isOpen, setIsOpen] = useState(false); // Dropdown open/close state
+  const dropdownRef = useRef(null); // Reference to dropdown element
+  const buttonRef = useRef(null); // Reference to toggle button
 
+  // Find current language object or default to first language
   const currentLanguage =
     LANGUAGES.find((lang) => lang.code === language) || LANGUAGES[0];
 
-  // Close dropdown when clicking outside
+  // Handle clicks outside dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -29,35 +32,39 @@ const LanguageToggle = () => {
         setIsOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close dropdown on escape key
+  // Handle escape key to close dropdown
   useEffect(() => {
     if (!isOpen) return;
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') setIsOpen(false);
     };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
+  // Handle language selection and update context/i18n
   const handleLanguageChange = async (langCode) => {
     if (langCode !== language) {
       try {
-        await changeLanguage(langCode);
-        i18n.changeLanguage(langCode);
+        await changeLanguage(langCode); // Update UI context
+        i18n.changeLanguage(langCode); // Update i18next
       } catch (error) {
         console.error('Failed to change language:', error);
       }
     }
-    setIsOpen(false);
+    setIsOpen(false); // Close dropdown after selection
   };
 
   return (
     <div className="relative">
-      {/* Toggle Button */}
+      {/* Language toggle button */}
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
@@ -80,7 +87,7 @@ const LanguageToggle = () => {
         />
       </button>
 
-      {/* Dropdown */}
+      {/* Language selection dropdown */}
       {isOpen && (
         <div
           ref={dropdownRef}
@@ -99,12 +106,15 @@ const LanguageToggle = () => {
               role="option"
               aria-selected={language === lang.code}
             >
+              {/* Language display info */}
               <div className="flex items-center space-x-3">
                 <div>
                   <div className="text-sm font-medium">{lang.nativeName}</div>
                   <div className="text-xs text-gray-500">{lang.name}</div>
                 </div>
               </div>
+              
+              {/* Show checkmark for currently selected language */}
               {language === lang.code && (
                 <Check className="w-4 h-4 text-primary-600" />
               )}

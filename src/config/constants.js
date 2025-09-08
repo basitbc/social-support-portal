@@ -73,13 +73,16 @@ export const GENDER_OPTIONS = [
 
 // Country options with translation keys
 export const COUNTRY_OPTIONS = [
-  { value: 'US', translationKey: 'fields.country.options.us' },
-  { value: 'CA', translationKey: 'fields.country.options.ca' },
-  { value: 'UK', translationKey: 'fields.country.options.uk' },
-  { value: 'AU', translationKey: 'fields.country.options.au' },
-  { value: 'IN', translationKey: 'fields.country.options.in' },
-  { value: 'other', translationKey: 'fields.country.options.other' }
+  { value: 'AU', translationKey: 'fields.country.options.au' }, 
+  { value: 'CA', translationKey: 'fields.country.options.ca' }, 
+  { value: 'IN', translationKey: 'fields.country.options.in' }, 
+  { value: 'PK', translationKey: 'fields.country.options.pk' }, 
+  { value: 'AE', translationKey: 'fields.country.options.ae' }, 
+  { value: 'UK', translationKey: 'fields.country.options.uk' }, 
+  { value: 'US', translationKey: 'fields.country.options.us' }, 
+  { value: 'other', translationKey: 'fields.country.options.other' } 
 ];
+
 
 // Marital status options with translation keys
 export const MARITAL_STATUS_OPTIONS = [

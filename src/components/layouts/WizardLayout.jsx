@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../../utils/helpers';
 import ProgressBar from '../atoms/ProgressBar';
 import { useFormContext } from '../../context/FormContext';
@@ -18,8 +17,8 @@ const WizardLayout = ({
   ...props
 }) => {
   const { currentStep, navigateToStep } = useFormContext();
-  const { t, i18n } = useTranslation();
-  const { language, isRTL } = useUIContext();
+  const { t } = useTranslation();
+  const { isRTL } = useUIContext();
 
   // Generate steps from config
  const steps = Object.entries(STEPS_CONFIG).map(([stepNum, config]) => ({

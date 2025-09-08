@@ -102,11 +102,13 @@
             "label": "Country",
             "placeholder": "Select your country",
             "options": {
-                "us": "United States",
-                "ca": "Canada",
-                "uk": "United Kingdom",
                 "au": "Australia",
+                "ca": "Canada",
                 "in": "India",
+                "pk": "Pakistan",
+                "ae": "United Arab Emirates",
+                "uk": "United Kingdom",
+                "us": "United States",
                 "other": "Other"
             }
         },

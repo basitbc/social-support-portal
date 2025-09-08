@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
 import { cn } from '../../utils/helpers';
 import Header from './Header';
-import { Phone, Mail } from 'lucide-react';
-import { useFormContext } from '../../context/FormContext';
 
 const MainLayout = ({
   children,
