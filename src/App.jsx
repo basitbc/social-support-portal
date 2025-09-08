@@ -15,6 +15,7 @@ import LoadingSpinner from './components/atoms/LoadingSpinner.jsx';
 
 // Custom Hooks
 import AppProviders from './context/AppProviders.jsx';
+import ScrollToTop from './components/atoms/ScrollToTop.jsx';
 
 // Loading fallback
 const LoadingFallback = () => (
@@ -39,6 +40,7 @@ function App() {
       <div className="App" id="app">
         <BrowserRouter>
           <AppProviders>
+            <ScrollToTop />
             <Suspense fallback={<LoadingFallback />}>
               <AppRouter />
             </Suspense>

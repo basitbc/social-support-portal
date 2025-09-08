@@ -10,31 +10,38 @@ import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
 import MainLayout from '../components/layouts/MainLayout';
 
+// Success page component displaying submission confirmation
 const Success = () => {
+  // Navigation and localization hooks
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  
+  // Context hooks for form data and UI state
   const { submissionData, clearFormData } = useFormContext();
   const { addNotification } = useUIContext();
+  
+  // State for copy button feedback
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // Redirect to home if no submission data exists
   useEffect(() => {
     if (!submissionData) {
       navigate(ROUTES.HOME);
     }
   }, [submissionData, navigate]);
 
-useEffect(() => {
-  if (submissionData) {
-    const timer = setTimeout(() => {
-      clearFormData();
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }
-}, [submissionData, clearFormData]);
+  // Clean up form data after a delay to allow user to see confirmation
+  useEffect(() => {
+    if (submissionData) {
+      const timer = setTimeout(() => {
+        clearFormData();
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [submissionData, clearFormData]);
 
-  
-
+  // Copy reference number to clipboard
   const handleCopyReference = async () => {
     if (!submissionData?.referenceNumber) return;
 
@@ -46,6 +53,8 @@ useEffect(() => {
         message: t('pages.success.referenceCopied'),
         duration: 3000
       });
+      
+      // Reset copy success state after 2 seconds
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
       addNotification({
@@ -56,12 +65,15 @@ useEffect(() => {
     }
   };
 
+  // Generate and download confirmation text file
   const handleDownloadConfirmation = () => {
     if (!submissionData) return;
 
+    // Format dates based on current language
     const submittedDate = new Date(submissionData.submittedAt);
     const locale = i18n.language === 'ar' ? 'ar-SA' : 'en-US';
     
+    // Create confirmation text content
     const confirmationText = `
 ${t('pages.success.confirmationTitle')}
 
@@ -84,6 +96,7 @@ ${t('pages.success.email')}: ${t('pages.success.emailAddress')}
 ${t('pages.success.thankYou')}
     `;
 
+    // Create and download the file
     const blob = new Blob([confirmationText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -94,6 +107,7 @@ ${t('pages.success.thankYou')}
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
+    // Show success notification
     addNotification({
       type: 'success',
       message: t('pages.success.downloadSuccess'),
@@ -101,7 +115,7 @@ ${t('pages.success.thankYou')}
     });
   };
 
-
+  // Show loading state if no submission data
   if (!submissionData) {
     return (
       <MainLayout title={t('common.loading')} centered maxWidth="4xl">
@@ -113,6 +127,7 @@ ${t('pages.success.thankYou')}
     );
   }
 
+  // Calculate processing timeline
   const submittedDate = new Date(submissionData.submittedAt);
   const expectedProcessingDate = new Date(submittedDate);
   expectedProcessingDate.setDate(expectedProcessingDate.getDate() + 10);
@@ -124,7 +139,7 @@ ${t('pages.success.thankYou')}
       className="bg-gradient-to-br from-primary-50 to-blue-50"
     >
       <div className="py-12">
-        {/* Success Message */}
+        {/* Success Message Section */}
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
@@ -143,10 +158,14 @@ ${t('pages.success.thankYou')}
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               {t('pages.success.yourReferenceNumber')}
             </h2>
+            
+            {/* Reference Number Display */}
             <div className="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
               <div className="text-3xl font-mono font-bold text-primary-600 mb-4">
                 {submissionData.referenceNumber}
               </div>
+              
+              {/* Action Buttons */}
               <div className="flex justify-center gap-3">
                 <Button
                   variant="outline"
@@ -167,19 +186,21 @@ ${t('pages.success.thankYou')}
                 </Button>
               </div>
             </div>
+            
             <p className="text-sm text-gray-500 mt-4">
               {t('pages.success.saveReferenceNote')}
             </p>
           </div>
         </div>
 
-        {/* Contact Information */}
+        {/* Contact Information Section */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
             {t('pages.success.needHelp')}
           </h3>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Phone Support */}
             <div className="text-center">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Phone className="w-6 h-6 text-primary-600" />
@@ -199,6 +220,7 @@ ${t('pages.success.thankYou')}
               </Button>
             </div>
             
+            {/* Email Support */}
             <div className="text-center">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Mail className="w-6 h-6 text-primary-600" />
@@ -220,7 +242,7 @@ ${t('pages.success.thankYou')}
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Navigation Actions */}
         <div className="text-center space-y-4">
           <Button
             variant="primary"

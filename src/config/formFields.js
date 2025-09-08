@@ -1,17 +1,8 @@
 // Form field definitions with options and configurations
 
 import { useCallback } from "react";
+import { FIELD_TYPES } from "./constants";
 
-export const FIELD_TYPES = {
-  TEXT: 'text',
-  EMAIL: 'email',
-  TEL: 'tel',
-  DATE: 'date',
-  SELECT: 'select',
-  TEXTAREA: 'textarea',
-  NUMBER: 'number',
-  RADIO: 'radio'
-};
 
 // Form field configurations
 export const FORM_FIELDS = {

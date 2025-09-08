@@ -1,4 +1,4 @@
-// pages/Review.jsx
+// Review page component - Final step to review and submit application form
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ const Review = () => {
   const { formData, setIsSubmitted, setSubmissionData, clearFormData } = useFormContext();
   const { isLoading, setIsLoading, setFieldError } = useUIContext();
 
-  // Generate review sections from config with translations
+  // Generate review sections from config with translations and formatted values
   const reviewSections = Object.entries(STEPS_CONFIG).map(([stepNum, config]) => ({
     id: config.id,
     title: t(config.titleKey) || config.title,
@@ -31,16 +31,19 @@ const Review = () => {
     }))
   }));
 
+  // Navigate to specific step for editing
   const handleEdit = (route) => {
     navigate(route);
   };
 
+  // Navigate back to previous step
   const handlePrevious = () => {
     navigate(ROUTES.STEP_3);
   };
 
+  // Handle form submission with validation and API call
   const handleSubmit = async () => {
-    // Basic validation
+    // Basic validation - check for required fields
     const requiredFields = Object.values(STEPS_CONFIG)
       .flatMap(step => getFieldsByStep(parseInt(Object.keys(STEPS_CONFIG).find(key => STEPS_CONFIG[key] === step))));
 
@@ -56,9 +59,10 @@ const Review = () => {
     setIsLoading(true);
 
     try {
-      // API submission
+      // Simulate API submission delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
+      // Generate submission data with reference number
       const referenceNumber = `SSA-${Date.now().toString().slice(-8)}`;
       const submissionData = {
         referenceNumber,
@@ -66,6 +70,7 @@ const Review = () => {
         formData: { ...formData }
       };
       
+      // Update context state and navigate to success page
       setSubmissionData(submissionData);
       setIsSubmitted(true);
       navigate(ROUTES.SUCCESS);
@@ -84,7 +89,7 @@ const Review = () => {
     return t(`fields.${fieldName}.label`, { defaultValue: fieldName });
   }
 
-  // Helper function to format field values with translations
+  // Helper function to format field values with translations and proper formatting
   function formatFieldValue(fieldName, value) {
     if (!value) return null;
 
@@ -102,7 +107,7 @@ const Review = () => {
       return translatedValue;
     }
 
-    // Format currency for monthlyIncome
+    // Format currency for monthlyIncome field
     if (fieldName === 'monthlyIncome') {
       const number = parseFloat(value);
       return new Intl.NumberFormat(t('common.locale', { defaultValue: 'en-US' }), {
@@ -111,7 +116,7 @@ const Review = () => {
       }).format(number);
     }
 
-    // Format date for dateOfBirth
+    // Format date for dateOfBirth field
     if (fieldName === 'dateOfBirth') {
       const date = new Date(value);
       return new Intl.DateTimeFormat(t('common.locale', { defaultValue: 'en-US' })).format(date);
@@ -120,7 +125,7 @@ const Review = () => {
     return value;
   }
 
-  // Calculate completion
+  // Calculate completion percentage for progress indication
   const totalFields = reviewSections.reduce((total, section) => total + section.fields.length, 0);
   const completedFields = reviewSections.reduce((total, section) => 
     total + section.fields.filter(field => field.value && field.value.toString().trim()).length, 0
@@ -134,31 +139,38 @@ const Review = () => {
       maxWidth="5xl"
     >
       <div className="space-y-8">
-        {/* Completion Status */}
+        {/* Completion Status Header */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="text-center mb-6">
+            {/* Status icon */}
             <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-primary-600" />
             </div>
+            
+            {/* Page title */}
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               {t('pages.review.title')}
             </h2>
+            
+            {/* Description */}
             <p className="text-gray-600 mb-4">
               {t('pages.review.description')}
             </p>
           </div>
         </div>
 
-        {/* Review Sections */}
+        {/* Review Sections - Display all form data organized by steps */}
         <div className="space-y-6">
           {reviewSections.map((section) => (
             <div key={section.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
-              {/* Section Header */}
+              {/* Section Header with Edit Button */}
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">
                     {section.title}
                   </h3>
+                  
+                  {/* Edit button for this section */}
                   <Button
                     variant="outline"
                     size="sm"
@@ -171,14 +183,17 @@ const Review = () => {
                 </div>
               </div>
 
-              {/* Section Content */}
+              {/* Section Content - Display all fields from this step */}
               <div className="p-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   {section.fields.map((field) => (
                     <div key={field.name} className={field.isTextArea ? 'md:col-span-2' : ''}>
+                      {/* Field label */}
                       <label className="text-sm font-medium text-gray-700">
                         {field.label}
                       </label>
+                      
+                      {/* Field value - different rendering for textarea vs regular fields */}
                       {field.isTextArea ? (
                         <div className="bg-gray-50 rounded-lg p-3 min-h-[100px] mt-1">
                           <p className="text-gray-900 text-sm leading-relaxed whitespace-pre-wrap">
@@ -206,24 +221,25 @@ const Review = () => {
           ))}
         </div>
 
-        {/* Final Actions */}
+        {/* Final Actions - Submit section */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="text-center mb-6">
+            {/* Submission confirmation text */}
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {t('pages.review.readyToSubmit')}
             </h3>
             <p className="text-gray-600 text-sm">
               {t('pages.review.certificationText')}
             </p>
-            
           </div>
 
+          {/* Navigation with submit functionality */}
           <StepNavigation
             currentStep={4}
             totalSteps={4}
             onNext={handleSubmit}
             onPrev={handlePrevious}
-            canGoNext={completionPercentage === 100}
+            canGoNext={completionPercentage === 100} // Only allow submit if 100% complete
             canGoPrev={true}
             isFirstStep={false}
             isLastStep={true}

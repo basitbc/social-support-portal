@@ -1,14 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-/**
- * Custom hook for managing localStorage with React state
- * @param {string} key - localStorage key
- * @param {*} initialValue - initial/default value
- * @returns {[value, setValue, removeValue]} - current value, setter function, and remove function
- */
+// Custom hook for managing localStorage with React state synchronization
 export const useLocalStorage = (key, initialValue) => {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
+  // Initialize state with localStorage value or fallback to initial value
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {
       return initialValue;
@@ -23,17 +17,16 @@ export const useLocalStorage = (key, initialValue) => {
     }
   });
 
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
+  // Wrapped setter function that persists to localStorage
   const setValue = useCallback((value) => {
     try {
-      // Allow value to be a function so we have the same API as useState
+      // Support function values like useState
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       
-      // Save state
+      // Update state
       setStoredValue(valueToStore);
       
-      // Save to local storage
+      // Persist to localStorage
       if (typeof window !== "undefined") {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
@@ -42,7 +35,7 @@ export const useLocalStorage = (key, initialValue) => {
     }
   }, [key, storedValue]);
 
-  // Function to remove the item from localStorage
+  // Remove item from localStorage and reset to initial value
   const removeValue = useCallback(() => {
     try {
       setStoredValue(initialValue);

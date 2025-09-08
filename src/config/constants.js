@@ -1,5 +1,4 @@
-
-
+// Storage keys for localStorage persistence
 export const STORAGE_KEYS = {
   FORM_DATA: 'social_support_app_form_data',
   TERMS_ACCEPTED: 'social_support_app_terms_accepted',
@@ -9,6 +8,7 @@ export const STORAGE_KEYS = {
   CURRENT_THEME: 'social_support_app_theme',
 };
 
+// Application routes
 export const ROUTES = {
   HOME: '/',
   STEP_1: '/step-1',
@@ -19,6 +19,7 @@ export const ROUTES = {
   DOCS: '/docs'
 };
 
+// Predefined AI suggestions for form fields by language
 export const PREDEFINED_SUGGESTIONS = {
   en: {
     currentFinancialSituation: [
@@ -62,8 +63,7 @@ export const PREDEFINED_SUGGESTIONS = {
   }
 };
 
-
-// Gender Options
+// Gender options with translation keys
 export const GENDER_OPTIONS = [
   { value: 'male', translationKey: 'fields.gender.options.male' },
   { value: 'female', translationKey: 'fields.gender.options.female' },
@@ -71,7 +71,7 @@ export const GENDER_OPTIONS = [
   { value: 'prefer-not-to-say', translationKey: 'fields.gender.options.preferNotToSay' }
 ];
 
-// Country Options
+// Country options with translation keys
 export const COUNTRY_OPTIONS = [
   { value: 'US', translationKey: 'fields.country.options.us' },
   { value: 'CA', translationKey: 'fields.country.options.ca' },
@@ -81,7 +81,7 @@ export const COUNTRY_OPTIONS = [
   { value: 'other', translationKey: 'fields.country.options.other' }
 ];
 
-// Marital Status Options
+// Marital status options with translation keys
 export const MARITAL_STATUS_OPTIONS = [
   { value: 'single', translationKey: 'fields.maritalStatus.options.single' },
   { value: 'married', translationKey: 'fields.maritalStatus.options.married' },
@@ -90,7 +90,7 @@ export const MARITAL_STATUS_OPTIONS = [
   { value: 'separated', translationKey: 'fields.maritalStatus.options.separated' }
 ];
 
-// Employment Status Options
+// Employment status options with translation keys
 export const EMPLOYMENT_STATUS_OPTIONS = [
   { value: 'employed', translationKey: 'fields.employmentStatus.options.employed' },
   { value: 'parttime', translationKey: 'fields.employmentStatus.options.parttime' },
@@ -101,7 +101,7 @@ export const EMPLOYMENT_STATUS_OPTIONS = [
   { value: 'other', translationKey: 'fields.employmentStatus.options.other' }
 ];
 
-// Housing Status Options
+// Housing status options with translation keys
 export const HOUSING_STATUS_OPTIONS = [
   { value: 'owned', translationKey: 'fields.housingStatus.options.owned' },
   { value: 'rented', translationKey: 'fields.housingStatus.options.rented' },
@@ -111,7 +111,7 @@ export const HOUSING_STATUS_OPTIONS = [
   { value: 'other', translationKey: 'fields.housingStatus.options.other' }
 ];
 
-
+// Required fields for each step
 export const stepRequirements = {
   1: ['termsRequired'],
   2: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address', 'city', 'state', 'country', 'phone', 'email'],
@@ -119,9 +119,7 @@ export const stepRequirements = {
   4: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying']
 };
 
-
-
-// Language-specific prompts and instructions
+// AI prompts and instructions by language
 export const PROMPTS = {
   en: {
     system: `You are an AI assistant for drafting detailed supportive statements for social support requests. Always write in the first person (using "I" instead of names). Write exactly one professional paragraph (5-6 sentences) that is detailed, factual, and suitable for official use. Be empathetic but maintain professionalism. Do not write it in the format of a letter or application; provide only one continuous paragraph without headings or lists.`,
@@ -141,29 +139,37 @@ export const PROMPTS = {
   }
 };
 
+// Form field types
+export const FIELD_TYPES = {
+  TEXT: 'text',
+  EMAIL: 'email',
+  TEL: 'tel',
+  DATE: 'date',
+  NUMBER: 'number',
+  SELECT: 'select',
+  TEXTAREA: 'textarea'
+};
 
-
-
-
-  export const ERROR_MESSAGES = {
-      en: {
-        alreadyGenerating: 'AI is already generating a response. Please wait.',
-        invalidField: 'Invalid field name provided.',
-        emptyPrompt: 'Please provide a prompt or select a suggestion first.',
-        noSuggestion: 'No suggestion was generated. Please try again.',
-        rateLimited: 'AI service is temporarily busy. Please try again in a moment.',
-        authFailed: 'AI service authentication failed. Please check configuration.',
-        generationFailed: 'Failed to generate suggestion. Please try again.',
-        networkError: 'Network error. Please check your connection and try again.'
-      },
-      ar: {
-        alreadyGenerating: 'الذكاء الاصطناعي يعمل على إنشاء رد. يرجى الانتظار.',
-        invalidField: 'اسم الحقل المقدم غير صحيح.',
-        emptyPrompt: 'يرجى تقديم نص أو اختيار اقتراح أولاً.',
-        noSuggestion: 'لم يتم إنشاء اقتراح. يرجى المحاولة مرة أخرى.',
-        rateLimited: 'خدمة الذكاء الاصطناعي مشغولة مؤقتاً. يرجى المحاولة بعد قليل.',
-        authFailed: 'فشل في المصادقة مع خدمة الذكاء الاصطناعي. يرجى فحص الإعدادات.',
-        generationFailed: 'فشل في إنشاء الاقتراح. يرجى المحاولة مرة أخرى.',
-        networkError: 'خطأ في الشبكة. يرجى فحص الاتصال والمحاولة مرة أخرى.'
-      }
-    };
+// Error messages by language
+export const ERROR_MESSAGES = {
+  en: {
+    alreadyGenerating: 'AI is already generating a response. Please wait.',
+    invalidField: 'Invalid field name provided.',
+    emptyPrompt: 'Please provide a prompt or select a suggestion first.',
+    noSuggestion: 'No suggestion was generated. Please try again.',
+    rateLimited: 'AI service is temporarily busy. Please try again in a moment.',
+    authFailed: 'AI service authentication failed. Please check configuration.',
+    generationFailed: 'Failed to generate suggestion. Please try again.',
+    networkError: 'Network error. Please check your connection and try again.'
+  },
+  ar: {
+    alreadyGenerating: 'الذكاء الاصطناعي يعمل على إنشاء رد. يرجى الانتظار.',
+    invalidField: 'اسم الحقل المقدم غير صحيح.',
+    emptyPrompt: 'يرجى تقديم نص أو اختيار اقتراح أولاً.',
+    noSuggestion: 'لم يتم إنشاء اقتراح. يرجى المحاولة مرة أخرى.',
+    rateLimited: 'خدمة الذكاء الاصطناعي مشغولة مؤقتاً. يرجى المحاولة بعد قليل.',
+    authFailed: 'فشل في المصادقة مع خدمة الذكاء الاصطناعي. يرجى فحص الإعدادات.',
+    generationFailed: 'فشل في إنشاء الاقتراح. يرجى المحاولة مرة أخرى.',
+    networkError: 'خطأ في الشبكة. يرجى فحص الاتصال والمحاولة مرة أخرى.'
+  }
+};

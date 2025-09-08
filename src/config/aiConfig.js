@@ -1,7 +1,4 @@
-/**
- * Get OpenAI configuration settings
- * @returns {Object} OpenAI configuration object
- */
+// Get OpenAI configuration settings from environment variables
 export const getOpenAIConfig = () => {
   return {
     // API Configuration
@@ -15,10 +12,10 @@ export const getOpenAIConfig = () => {
     // Request Settings
     timeout: parseInt(import.meta.env.VITE_OPENAI_TIMEOUT) || 30000,
     
-    // Fallback/Development Settings
+    // Development Settings
     useMockInDevelopment: import.meta.env.DEV && !import.meta.env.VITE_OPENAI_API_KEY,
     
-    // Validation
+    // Configuration validation function
     isConfigured: () => {
       const config = getOpenAIConfig();
       return Boolean(config.apiKey && config.apiKey.startsWith('sk-'));

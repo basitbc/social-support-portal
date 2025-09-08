@@ -1,4 +1,4 @@
-// pages/Step1.jsx
+// Step1 page component - Personal information form (first step of wizard)
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,8 @@ import { useFormContext } from '../context/FormContext';
 import { useUIContext } from '../context/UIContext';
 import { STEPS_CONFIG } from '../config/stepsConfig';
 import { getFieldsByStep } from '../config/formFields';
+import { GENDER_OPTIONS, COUNTRY_OPTIONS, FIELD_TYPES } from '../config/constants';
+import { createValidationRules } from '../utils/validation';
 import WizardLayout from '../components/layouts/WizardLayout';
 import FormField from '../components/molecules/FormField';
 import StepNavigation from '../components/molecules/StepNavigation';
@@ -21,6 +23,7 @@ const Step1 = () => {
   const stepConfig = STEPS_CONFIG[1];
   const stepFields = getFieldsByStep(1);
 
+  // Initialize form with react-hook-form and existing data
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ const Step1 = () => {
 
   const watchedValues = watch();
 
+  // Handle form submission and navigate to next step
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
@@ -53,74 +57,40 @@ const Step1 = () => {
     }
   };
 
+  // Navigate back to home/start page
   const handlePrevious = () => {
     navigate(ROUTES.HOME);
   };
 
+  // Handle real-time field changes with validation and context update
   const handleFieldChange = async (fieldName, value) => {
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
+    // Clear field error if it exists
     if (errors[fieldName]) {
       clearErrors(fieldName);
     }
     
+    // Trigger field validation
     await trigger(fieldName);
   };
 
-  // Get gender options with translations
-  const getGenderOptions = () => [
-    { value: 'male', label: t('fields.gender.options.male') },
-    { value: 'female', label: t('fields.gender.options.female') },
-    { value: 'other', label: t('fields.gender.options.other') },
-    { value: 'prefer-not-to-say', label: t('fields.gender.options.preferNotToSay') }
-  ];
+  // Get translated gender options from constants
+  const getGenderOptions = () => GENDER_OPTIONS.map(option => ({
+    value: option.value,
+    label: t(option.translationKey)
+  }));
 
-  // Get country options with translations
-  const getCountryOptions = () => [
-    { value: 'US', label: t('fields.country.options.us') },
-    { value: 'CA', label: t('fields.country.options.ca') },
-    { value: 'UK', label: t('fields.country.options.uk') },
-    { value: 'AU', label: t('fields.country.options.au') },
-    { value: 'IN', label: t('fields.country.options.in') },
-    { value: 'other', label: t('fields.country.options.other') }
-  ];
+  // Get translated country options from constants
+  const getCountryOptions = () => COUNTRY_OPTIONS.map(option => ({
+    value: option.value,
+    label: t(option.translationKey)
+  }));
 
-  // Create validation rules with translated messages
-  const getValidationRules = (fieldName) => {
-    const baseRules = stepConfig.validationRules[fieldName] || {};
-    const translatedRules = { ...baseRules };
-
-    if (translatedRules.required) {
-      translatedRules.required = t('validation.required');
-    }
-    if (translatedRules.pattern && fieldName === 'email') {
-      translatedRules.pattern = {
-        ...translatedRules.pattern,
-        message: t('validation.email')
-      };
-    }
-    if (translatedRules.pattern && fieldName === 'phone') {
-      translatedRules.pattern = {
-        ...translatedRules.pattern,
-        message: t('validation.phone')
-      };
-    }
-    if (translatedRules.minLength) {
-      translatedRules.minLength = {
-        ...translatedRules.minLength,
-        message: t('validation.minLength', { min: translatedRules.minLength.value })
-      };
-    }
-    if (translatedRules.maxLength) {
-      translatedRules.maxLength = {
-        ...translatedRules.maxLength,
-        message: t('validation.maxLength', { max: translatedRules.maxLength.value })
-      };
-    }
-
-    return translatedRules;
-  };
+  // Get validation rules using extracted validation function
+  const getValidationRules = (fieldName) => 
+    createValidationRules(stepConfig, fieldName, t);
 
   return (
     <WizardLayout
@@ -131,22 +101,27 @@ const Step1 = () => {
       <div className="bg-white rounded-xl shadow-lg p-8">
         {/* Step Header */}
         <div className="text-center mb-8">
+          {/* Step icon */}
           <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-primary-600" />
           </div>
+          
+          {/* Step title */}
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             {t('steps.personalInfo.title')}
           </h2>
+          
+          {/* Step description */}
           <p className="text-gray-600">
             {t('steps.personalInfo.description')}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(handleNext)} className="space-y-6">
-          {/* Name and National ID */}
+          {/* Name and National ID Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
-              type="text"
+              type={FIELD_TYPES.TEXT}
               name="name"
               label={t('fields.name.label')}
               placeholder={t('fields.name.placeholder')}
@@ -157,7 +132,7 @@ const Step1 = () => {
               onChange={(e) => handleFieldChange('name', e.target.value)}
             />
             <FormField
-              type="number"
+              type={FIELD_TYPES.NUMBER}
               name="nationalId"
               label={t('fields.nationalId.label')}
               placeholder={t('fields.nationalId.placeholder')}
@@ -169,21 +144,21 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Date of Birth and Gender */}
+          {/* Date of Birth and Gender Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
-              type="date"
+              type={FIELD_TYPES.DATE}
               name="dateOfBirth"
               label={t('fields.dateOfBirth.label')}
               required={true}
               register={register}
               rules={getValidationRules('dateOfBirth')}
               errors={errors}
-              max={new Date().toISOString().split('T')[0]}
+              max={new Date().toISOString().split('T')[0]} // Prevent future dates
               onChange={(e) => handleFieldChange('dateOfBirth', e.target.value)}
             />
             <FormField
-              type="select"
+              type={FIELD_TYPES.SELECT}
               name="gender"
               label={t('fields.gender.label')}
               placeholder={t('fields.gender.placeholder')}
@@ -196,9 +171,9 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Address */}
+          {/* Address Field (Full Width) */}
           <FormField
-            type="textarea"
+            type={FIELD_TYPES.TEXTAREA}
             name="address"
             label={t('fields.address.label')}
             placeholder={t('fields.address.placeholder')}
@@ -210,10 +185,10 @@ const Step1 = () => {
             onChange={(e) => handleFieldChange('address', e.target.value)}
           />
 
-          {/* City, State, Country */}
+          {/* City, State, Country Row */}
           <div className="grid md:grid-cols-3 gap-6">
             <FormField
-              type="text"
+              type={FIELD_TYPES.TEXT}
               name="city"
               label={t('fields.city.label')}
               placeholder={t('fields.city.placeholder')}
@@ -224,7 +199,7 @@ const Step1 = () => {
               onChange={(e) => handleFieldChange('city', e.target.value)}
             />
             <FormField
-              type="text"
+              type={FIELD_TYPES.TEXT}
               name="state"
               label={t('fields.state.label')}
               placeholder={t('fields.state.placeholder')}
@@ -235,7 +210,7 @@ const Step1 = () => {
               onChange={(e) => handleFieldChange('state', e.target.value)}
             />
             <FormField
-              type="select"
+              type={FIELD_TYPES.SELECT}
               name="country"
               label={t('fields.country.label')}
               placeholder={t('fields.country.placeholder')}
@@ -248,10 +223,10 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Phone and Email */}
+          {/* Phone and Email Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
-              type="tel"
+              type={FIELD_TYPES.TEL}
               name="phone"
               label={t('fields.phone.label')}
               placeholder={t('fields.phone.placeholder')}
@@ -262,7 +237,7 @@ const Step1 = () => {
               onChange={(e) => handleFieldChange('phone', e.target.value)}
             />
             <FormField
-              type="email"
+              type={FIELD_TYPES.EMAIL}
               name="email"
               label={t('fields.email.label')}
               placeholder={t('fields.email.placeholder')}
@@ -274,14 +249,14 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={1}
               totalSteps={3}
               onNext={handleSubmit(handleNext)}
               onPrev={handlePrevious}
-              canGoNext={Object.keys(errors).length === 0}
+              canGoNext={Object.keys(errors).length === 0} // Enable next only if no validation errors
               canGoPrev={true}
               isFirstStep={true}
               isLastStep={false}

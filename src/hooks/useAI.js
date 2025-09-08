@@ -4,17 +4,17 @@ import { useFormContext } from '../context/FormContext';
 import { useUIContext } from '../context/UIContext';
 import apiService from '../services/apiService';
 
+// Custom hook for AI assistance functionality
 export const useAI = () => {
+  // Local state for AI operations
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Context hooks for form data and UI state
   const { formData } = useFormContext();
   const { language, addNotification } = useUIContext();
 
-  /**
-   * Get predefined suggestions for a field
-   * @param {string} fieldName - Form field name
-   * @returns {Array<string>} Predefined suggestions
-   */
+  // Get predefined suggestions for a field
   const getPredefinedSuggestions = useCallback((fieldName) => {
     try {
       return apiService.getPredefinedSuggestions(fieldName, language);
@@ -24,13 +24,7 @@ export const useAI = () => {
     }
   }, [language]);
 
-  /**
-   * Generate AI suggestion from user prompt
-   * @param {string} fieldName - Form field name
-   * @param {string} userPrompt - User's prompt/input
-   * @param {Object} additionalContext - Additional context beyond formData
-   * @returns {Promise<string>} AI suggestion
-   */
+  // Generate AI suggestion from user prompt
   const generateSuggestion = useCallback(async (fieldName, userPrompt, additionalContext = {}) => {
     if (isGenerating) {
       throw new Error(language === 'ar' ? 'جاري الإنشاء بالفعل' : 'Already generating');
@@ -88,28 +82,18 @@ export const useAI = () => {
     }
   }, [formData, language, isGenerating, addNotification]);
 
-  /**
-   * Retry last failed generation
-   * @param {string} fieldName - Form field name
-   * @param {string} userPrompt - User prompt
-   * @param {Object} additionalContext - Additional context
-   * @returns {Promise<string>} AI suggestion
-   */
+  // Retry last failed generation
   const retryGeneration = useCallback(async (fieldName, userPrompt, additionalContext = {}) => {
     setError(null);
     return await generateSuggestion(fieldName, userPrompt, additionalContext);
   }, [generateSuggestion]);
 
-  /**
-   * Clear current error
-   */
+  // Clear current error state
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
-  /**
-   * Cancel current generation
-   */
+  // Cancel current generation process
   const cancelGeneration = useCallback(() => {
     if (isGenerating) {
       apiService.cancelGeneration();
@@ -124,10 +108,7 @@ export const useAI = () => {
     }
   }, [isGenerating, language, addNotification]);
 
-  /**
-   * Get context summary for debugging
-   * @returns {Object} Context summary
-   */
+  // Get context summary for debugging purposes
   const getContextSummary = useCallback(() => {
     return {
       hasEmployment: !!formData.employmentStatus,
@@ -140,12 +121,7 @@ export const useAI = () => {
     };
   }, [formData, language]);
 
-  /**
-   * Validate if generation is possible
-   * @param {string} fieldName - Form field name
-   * @param {string} userPrompt - User prompt
-   * @returns {Object} Validation result
-   */
+  // Validate if generation is possible with current inputs
   const validateGeneration = useCallback((fieldName, userPrompt) => {
     const errors = [];
     
@@ -176,12 +152,12 @@ export const useAI = () => {
   }, [isGenerating, language]);
 
   return {
-    // Core functions
+    // Core AI functions
     generateSuggestion,
     getPredefinedSuggestions,
     retryGeneration,
     
-    // State
+    // State management
     isGenerating,
     error,
     
@@ -191,7 +167,7 @@ export const useAI = () => {
     validateGeneration,
     getContextSummary,
     
-    // Service status
+    // Service status indicators
     isServiceAvailable: true, // Could be enhanced to check service health
     canGenerate: !isGenerating && !error
   };

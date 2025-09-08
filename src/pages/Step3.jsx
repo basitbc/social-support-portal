@@ -16,11 +16,17 @@ import StepNavigation from '../components/molecules/StepNavigation';
 import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
 
+// Step 3 component for situation descriptions with AI assistance
 const Step3 = () => {
+  // Navigation and localization hooks
   const navigate = useNavigate();
   const { t } = useTranslation();
+  
+  // Context hooks for form data and UI state
   const { formData, updateFormData } = useFormContext();
   const { isLoading, setIsLoading, language, addNotification } = useUIContext();
+  
+  // AI assistance hook for generating suggestions
   const { 
     generateSuggestion, 
     getPredefinedSuggestions, 
@@ -30,16 +36,17 @@ const Step3 = () => {
     validateGeneration
   } = useAI();
 
+  // Configuration for current step
   const stepConfig = STEPS_CONFIG[3];
   const stepFields = getFieldsByStep(3);
   const aiFields = getAIFields();
 
-  // AI Modal state
+  // State for AI suggestion modal
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [currentField, setCurrentField] = useState('');
   const [currentFieldLabel, setCurrentFieldLabel] = useState('');
 
-  // Form setup
+  // React Hook Form setup with validation
   const {
     register,
     handleSubmit,
@@ -61,12 +68,11 @@ const Step3 = () => {
   // Watch form values for real-time updates
   const watchedValues = watch();
 
-  /**
-   * Handle form submission and navigation
-   */
+  // Handle form submission and navigation to review page
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
+      // Save form data to context
       updateFormData(data);
       
       // Show success notification
@@ -89,9 +95,7 @@ const Step3 = () => {
     }
   };
 
-  /**
-   * Handle previous step navigation
-   */
+  // Handle navigation to previous step
   const handlePrevious = () => {
     // Save current progress before navigating
     const currentData = getValues();
@@ -99,10 +103,9 @@ const Step3 = () => {
     navigate(ROUTES.STEP_2);
   };
 
-  /**
-   * Handle field value changes with validation
-   */
+  // Handle field value changes with validation
   const handleFieldChange = useCallback(async (fieldName, value) => {
+    // Update form field value
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
@@ -115,9 +118,7 @@ const Step3 = () => {
     await trigger(fieldName);
   }, [setValue, updateFormData, errors, clearErrors, trigger]);
 
-  /**
-   * Open AI assistance modal for a specific field
-   */
+  // Open AI assistance modal for a specific field
   const handleAIHelp = useCallback((fieldName) => {
     const fieldConfig = aiFields.find(f => f.name === fieldName);
     if (!fieldConfig) {
@@ -125,6 +126,7 @@ const Step3 = () => {
       return;
     }
 
+    // Set modal state and open
     setCurrentField(fieldName);
     setCurrentFieldLabel(fieldConfig.config.label);
     setAiModalOpen(true);
@@ -133,9 +135,7 @@ const Step3 = () => {
     clearError();
   }, [aiFields, clearError]);
 
-  /**
-   * Generate AI suggestion from user prompt
-   */
+  // Generate AI suggestion from user prompt
   const handleGenerateFromInput = useCallback(async (userPrompt) => {
     if (!currentField) {
       throw new Error(t('errors.noFieldSelected'));
@@ -148,6 +148,7 @@ const Step3 = () => {
     }
 
     try {
+      // Generate suggestion using AI
       const suggestion = await generateSuggestion(currentField, userPrompt, {
         originalText: getValues(currentField)
       });
@@ -159,16 +160,14 @@ const Step3 = () => {
     }
   }, [currentField, generateSuggestion, validateGeneration, getValues, t]);
 
-  /**
-   * Accept AI suggestion and update form
-   */
+  // Accept AI suggestion and update form
   const handleAIAccept = useCallback(async (suggestion) => {
     if (!currentField || !suggestion) {
       return;
     }
 
     try {
-      // Update form field
+      // Update form field with suggestion
       setValue(currentField, suggestion);
       updateFormData({ [currentField]: suggestion });
       
@@ -198,9 +197,7 @@ const Step3 = () => {
     }
   }, [currentField, setValue, updateFormData, errors, clearErrors, trigger, addNotification, t]);
 
-  /**
-   * Discard AI suggestion and close modal
-   */
+  // Discard AI suggestion and close modal
   const handleAIDiscard = useCallback(() => {
     setAiModalOpen(false);
     setCurrentField('');
@@ -208,26 +205,20 @@ const Step3 = () => {
     clearError();
   }, [clearError]);
 
-  /**
-   * Get field configuration for rendering
-   */
-const getFieldConfig = useCallback((fieldName) => {
-  const baseConfig = aiFields.find(f => f.name === fieldName)?.config || {};
-  return {
-    ...baseConfig,
-    label: t(`fields.${fieldName}.label`),
-    placeholder: t(`fields.${fieldName}.placeholder`)
-  };
-}, [aiFields, t]);
+  // Get field configuration for rendering with translations
+  const getFieldConfig = useCallback((fieldName) => {
+    const baseConfig = aiFields.find(f => f.name === fieldName)?.config || {};
+    return {
+      ...baseConfig,
+      label: t(`fields.${fieldName}.label`),
+      placeholder: t(`fields.${fieldName}.placeholder`)
+    };
+  }, [aiFields, t]);
 
-  /**
-   * Check if form is valid for submission
-   */
+  // Check if form is valid for submission
   const isFormValid = Object.keys(errors).length === 0;
 
-  /**
-   * Get help text for each field
-   */
+  // Get localized help text for each field
   const getHelpText = useCallback((fieldName, index) => {
     const helpTexts = {
       currentFinancialSituation: t('help.financialSituation'),
@@ -245,7 +236,7 @@ const getFieldConfig = useCallback((fieldName) => {
       maxWidth="4xl"
     >
       <div className="bg-white rounded-xl shadow-lg p-8">
-        {/* Step Header */}
+        {/* Step Header Section */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Edit3 className="w-8 h-8 text-primary-600" />
@@ -275,12 +266,14 @@ const getFieldConfig = useCallback((fieldName) => {
             
             return (
               <div key={aiField.name} className="bg-gray-50 rounded-lg p-6">
+                {/* Field Header with AI Button */}
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-primary-600" />
                     {fieldConfig.label}
                   </h3>
                   
+                  {/* AI Help Button */}
                   <Button
                     type="button"
                     variant="outline"
@@ -299,6 +292,7 @@ const getFieldConfig = useCallback((fieldName) => {
                   </Button>
                 </div>
 
+                {/* Text Area Field */}
                 <FormField
                   type="textarea"
                   name={aiField.name}
@@ -334,8 +328,7 @@ const getFieldConfig = useCallback((fieldName) => {
             </div>
           )}
 
-
-          {/* Navigation */}
+          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={3}
@@ -370,4 +363,4 @@ const getFieldConfig = useCallback((fieldName) => {
   );
 };
 
-export default Step3;
+export default Step3

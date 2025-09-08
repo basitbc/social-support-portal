@@ -3,15 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { STORAGE_KEYS } from '../config/constants';
 
+// Create React context for UI state management
 const UIContext = createContext();
 
+// UI provider component managing global UI state, theme, language, and notifications
 export const UIProvider = ({ children }) => {
   const { i18n } = useTranslation();
   
-  // Loading states (no persistence needed)
+  // Loading states (not persisted)
   const [isLoading, setIsLoading] = useState(false);
 
-  // Error management (no persistence needed)
+  // Error management (not persisted)
   const [errors, setErrors] = useState({});
   
   // Language state - persisted to localStorage
@@ -51,20 +53,22 @@ export const UIProvider = ({ children }) => {
     body.classList.add(isRTL ? 'font-arabic' : 'font-english');
   }, [language]);
 
-  // Update theme
+  // Update theme classes on document element
   useEffect(() => {
     document.documentElement.className = document.documentElement.className
       .replace(/theme-\w+/g, '')
       .trim() + ` theme-${theme}`;
   }, [theme]);
 
-  // Error management functions
+  // Clear all form errors
   const clearErrors = () => setErrors({});
   
+  // Set error for specific field
   const setFieldError = (field, message) => {
     setErrors(prev => ({ ...prev, [field]: message }));
   };
 
+  // Clear error for specific field
   const clearFieldError = (field) => {
     setErrors(prev => {
       const newErrors = { ...prev };
@@ -73,7 +77,7 @@ export const UIProvider = ({ children }) => {
     });
   };
 
-  // Language management - just change i18next, let the listener handle the rest
+  // Change language via i18next (listener handles localStorage sync)
   const changeLanguage = async (lang) => {
     try {
       await i18n.changeLanguage(lang);
@@ -82,14 +86,15 @@ export const UIProvider = ({ children }) => {
     }
   };
 
-  // Theme management
+  // Update theme state
   const changeTheme = (newTheme) => {
     setTheme(newTheme);
   };
 
-  // Notification state (no persistence needed)
+  // Notification system (not persisted)
   const [notifications, setNotifications] = useState([]);
 
+  // Add notification with auto-removal
   const addNotification = (notification) => {
     const id = Date.now().toString();
     const newNotification = {
@@ -101,6 +106,7 @@ export const UIProvider = ({ children }) => {
 
     setNotifications(prev => [...prev, newNotification]);
 
+    // Auto-remove after duration
     if (newNotification.duration > 0) {
       setTimeout(() => {
         removeNotification(id);
@@ -110,31 +116,36 @@ export const UIProvider = ({ children }) => {
     return id;
   };
 
+  // Remove specific notification
   const removeNotification = (id) => {
     setNotifications(prev => prev.filter(notification => notification.id !== id));
   };
 
+  // Clear all notifications
   const clearNotifications = () => {
     setNotifications([]);
   };
 
-  // Global loading overlay (no persistence needed)
+  // Global loading overlay (not persisted)
   const [globalLoading, setGlobalLoading] = useState(false);
   const [globalLoadingMessage, setGlobalLoadingMessage] = useState('');
 
+  // Show global loading overlay with message
   const showGlobalLoading = (message = 'Loading...') => {
     setGlobalLoadingMessage(message);
     setGlobalLoading(true);
   };
 
+  // Hide global loading overlay
   const hideGlobalLoading = () => {
     setGlobalLoading(false);
     setGlobalLoadingMessage('');
   };
 
-  // Accessibility helpers (no persistence needed)
+  // Accessibility helpers (not persisted)
   const [announcements, setAnnouncements] = useState([]);
 
+  // Announce message to screen readers
   const announceToScreenReader = (message, priority = 'polite') => {
     const announcement = {
       id: Date.now().toString(),
@@ -144,11 +155,13 @@ export const UIProvider = ({ children }) => {
 
     setAnnouncements(prev => [...prev, announcement]);
 
+    // Remove announcement after 1 second
     setTimeout(() => {
       setAnnouncements(prev => prev.filter(a => a.id !== announcement.id));
     }, 1000);
   };
 
+  // Context value object with all UI state and methods
   const value = {
     // Loading states
     isLoading,
@@ -189,7 +202,7 @@ export const UIProvider = ({ children }) => {
     <UIContext.Provider value={value}>
       {children}
       
-      {/* Screen reader announcements */}
+      {/* Screen reader announcement regions */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         {announcements.filter(a => a.priority === 'polite').map(a => (
           <div key={a.id}>{a.message}</div>
@@ -215,6 +228,7 @@ export const UIProvider = ({ children }) => {
   );
 };
 
+// Custom hook to access UI context with error handling
 export const useUIContext = () => {
   const context = useContext(UIContext);
   if (!context) {

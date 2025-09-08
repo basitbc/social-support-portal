@@ -21,7 +21,7 @@ const Button = forwardRef(
     ref
   ) => {
 
-    // base-styles
+    // Base styles - Common styles applied to all button variants
     const baseStyles = `
       inline-flex items-center justify-center font-medium
       cursor-pointer transition-all duration-200
@@ -29,7 +29,7 @@ const Button = forwardRef(
       disabled:cursor-not-allowed select-none shadow-sm
     `;
 
-    // variants
+    // Button variant styles - Different visual styles for different button types
     const variants = {
       primary: `
         bg-primary-500 text-white border border-primary-500
@@ -63,37 +63,47 @@ const Button = forwardRef(
       `,
     };
 
-    // button-sizes
+    // Button size styles - Different padding and text sizes
     const sizes = {
       sm: "px-3 py-2 text-sm",
       md: "px-4 py-2 sm:px-6 sm:py-3 text-base",
       lg: "px-6 py-3 sm:px-8 sm:py-4 text-lg",
     };
 
-
+    // RTL (Right-to-Left) layout support styles
     const rtlStyles = `
       rtl:flex-row-reverse
     `;
 
-
-    // check if text is visible
+    /**
+     * Check if button has visible text content
+     * This helps determine proper icon spacing when text is present
+     */
     const hasVisibleText = React.Children.toArray(children).some(child => {
+      // Check for non-empty string children
       if (typeof child === 'string') return child.trim().length > 0;
+      
+      // Check for React elements that aren't hidden
       if (React.isValidElement(child)) {
         const className = child.props?.className || '';
         const isHidden = className.includes('hidden') && !className.includes('sm:inline');
         return !isHidden;
       }
+      
       return true;
     });
 
-
-
+    /**
+     * Render icon element with proper spacing
+     * Supports both icon class strings and React elements
+     */
     const iconElement = icon && (
       <span
         className={cn(
           "flex-shrink-0",
+          // Left icon spacing (with RTL support)
           hasVisibleText && iconPosition === "left" && "mr-1 rtl:mr-0 rtl:ml-2",
+          // Right icon spacing (with RTL support)
           hasVisibleText && iconPosition === "right" && "ml-2 rtl:ml-0 rtl:mr-2"
         )}
       >
@@ -101,38 +111,46 @@ const Button = forwardRef(
       </span>
     );
 
-
+    /**
+     * Compose button content with loading spinner, icons, and children
+     * Order: [loading spinner] [left icon] [children] [right icon]
+     */
     const content = (
       <>
+        {/* Loading spinner - shown when loading state is active */}
         {loading && (
           <LoadingSpinner
             size="sm"
             className={cn("text-current", hasVisibleText && "mr-2 rtl:mr-0 rtl:ml-2")}
           />
         )}
+        
+        {/* Left-positioned icon (when not loading) */}
         {!loading && iconPosition === "left" && iconElement}
+        
+        {/* Button content/children */}
         {children}
+        
+        {/* Right-positioned icon (when not loading) */}
         {!loading && iconPosition === "right" && iconElement}
       </>
     );
-
-    
 
     return (
       <button
         ref={ref}
         type={type}
-        disabled={disabled || loading}
+        disabled={disabled || loading} // Disable button when explicitly disabled or loading
         onClick={onClick}
-        dir={dir}
+        dir={dir} // Text direction for RTL support
         className={cn(
           baseStyles,
           variants[variant],
           sizes[size], 
           rtlStyles,
-          className
+          className // Allow custom classes to override defaults
         )}
-        {...props}
+        {...props} // Spread any additional props
       >
         {content}
       </button>
@@ -140,6 +158,7 @@ const Button = forwardRef(
   }
 );
 
+// Set display name for better debugging in React DevTools
 Button.displayName = "Button";
 
 export default Button;

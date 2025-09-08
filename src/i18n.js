@@ -3,16 +3,17 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+// Initialize i18next with plugins and configuration
 i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
+  .use(Backend) // Load translations from backend
+  .use(LanguageDetector) // Detect user language preferences
+  .use(initReactI18next) // Connect with React
   .init({
     fallbackLng: 'en',
     debug: false,
     
-    // Add language mapping
-    load: 'languageOnly', // This will use 'en' instead of 'en-GB'
+    // Use language codes only (en instead of en-GB)
+    load: 'languageOnly',
     
     // Supported languages
     supportedLngs: ['en', 'ar'],
@@ -21,26 +22,29 @@ i18n
     cleanCode: true,
 
     interpolation: {
-      escapeValue: false // React already does escaping
+      escapeValue: false // React already handles escaping
     },
 
     react: {
-      useSuspense: false // Avoid suspense for now
+      useSuspense: false // Disable suspense to avoid loading issues
     },
 
+    // Language detection configuration
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
-      // Map language codes
+      
+      // Normalize detected language codes
       convertDetectedLanguage: (lng) => {
-        // Convert any English variant to 'en'
+        // Map any English variant to 'en'
         if (lng.startsWith('en')) return 'en';
-        // Convert any Arabic variant to 'ar'  
+        // Map any Arabic variant to 'ar'  
         if (lng.startsWith('ar')) return 'ar';
         return lng;
       }
     },
 
+    // Backend configuration for loading translation files
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'
     }

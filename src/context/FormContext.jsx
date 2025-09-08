@@ -33,8 +33,10 @@ const initialFormData = {
 // Create React context for form state management
 const FormContext = createContext();
 
+// Form provider component managing all form state and navigation logic
 export const FormProvider = ({ children }) => {
-  const navigate = useNavigate(); // React Router navigation hook
+  // React Router navigation hook
+  const navigate = useNavigate();
   
   // Persistent state using custom localStorage hook
   const [formData, setFormData, removeFormData] = useLocalStorage(STORAGE_KEYS.FORM_DATA, initialFormData);
@@ -49,6 +51,7 @@ export const FormProvider = ({ children }) => {
   const updateFormData = (data) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
+  
 
   // Update a single form field
   const updateField = (field, value) => {
@@ -61,6 +64,7 @@ export const FormProvider = ({ children }) => {
     setCurrentStep(1);
     setTermsAccepted(false);
     setSubmissionData(null);
+    
     // Clear all localStorage entries
     removeFormData();
     removeCurrentStep();
@@ -85,7 +89,9 @@ export const FormProvider = ({ children }) => {
   // Clear form data but keep other state
   const clearFormData = () => {
     setFormData(initialFormData);
+    removeTermsAccepted();
     removeFormData();
+    setTermsAccepted(false);
   };
 
   // Check if user has completed required fields for a given step

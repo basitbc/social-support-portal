@@ -11,18 +11,28 @@ import WizardLayout from '../components/layouts/WizardLayout';
 import FormField from '../components/molecules/FormField';
 import StepNavigation from '../components/molecules/StepNavigation';
 import STEPS_CONFIG from '../config/stepsConfig';
-import { EMPLOYMENT_STATUS_OPTIONS, HOUSING_STATUS_OPTIONS, MARITAL_STATUS_OPTIONS, ROUTES } from '../config/constants';
+import { 
+  EMPLOYMENT_STATUS_OPTIONS, 
+  HOUSING_STATUS_OPTIONS, 
+  MARITAL_STATUS_OPTIONS, 
+  ROUTES 
+} from '../config/constants';
 
-
+// Step 2 component for family and financial information collection
 const Step2 = () => {
+  // Navigation and internationalization hooks
   const navigate = useNavigate();
   const { t } = useTranslation();
+  
+  // Form and UI context hooks
   const { formData, updateFormData, setCurrentStep } = useFormContext();
   const { isLoading, setIsLoading } = useUIContext();
 
+  // Get configuration for current step
   const stepConfig = STEPS_CONFIG[2];
   const stepFields = getFieldsByStep(2);
 
+  // Form validation and state management
   const {
     register,
     handleSubmit,
@@ -34,14 +44,17 @@ const Step2 = () => {
   } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
+    // Initialize form with existing data or empty strings
     defaultValues: stepFields.reduce((acc, field) => ({
       ...acc,
       [field]: formData[field] || ''
     }), {})
   });
 
+  // Watch form values for real-time updates
   const watchedValues = watch();
 
+  // Handle form submission and navigation to next step
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
@@ -55,54 +68,65 @@ const Step2 = () => {
     }
   };
 
+  // Navigate to previous step
   const handlePrevious = () => {
     navigate(ROUTES.STEP_1);
   };
 
+  // Handle individual field changes with validation
   const handleFieldChange = async (fieldName, value) => {
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
+    // Clear field errors when user starts typing
     if (errors[fieldName]) {
       clearErrors(fieldName);
     }
     
+    // Trigger validation for the field
     await trigger(fieldName);
   };
 
-  // Get translated options
+  // Get marital status options with translations
   const getMaritalStatusOptions = () => 
     MARITAL_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.maritalStatus.options.${option.value}`)
     }));
 
+  // Get employment status options with translations
   const getEmploymentStatusOptions = () => 
     EMPLOYMENT_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.employmentStatus.options.${option.value}`)
     }));
 
+  // Get housing status options with translations
   const getHousingStatusOptions = () => 
     HOUSING_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.housingStatus.options.${option.value}`)
     }));
 
-  // Create validation rules with translated messages
+  // Create validation rules with translated error messages
   const getValidationRules = (fieldName) => {
     const baseRules = stepConfig.validationRules[fieldName] || {};
     const translatedRules = { ...baseRules };
 
+    // Translate required field message
     if (translatedRules.required) {
       translatedRules.required = t('validation.required');
     }
+    
+    // Translate minimum value message
     if (translatedRules.min) {
       translatedRules.min = {
         ...translatedRules.min,
         message: t('validation.min', { min: translatedRules.min.value })
       };
     }
+    
+    // Translate maximum value message
     if (translatedRules.max) {
       translatedRules.max = {
         ...translatedRules.max,
@@ -142,6 +166,7 @@ const Step2 = () => {
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
+              {/* Marital Status Field */}
               <FormField
                 type="select"
                 name="maritalStatus"
@@ -155,6 +180,7 @@ const Step2 = () => {
                 onChange={(e) => handleFieldChange('maritalStatus', e.target.value)}
               />
 
+              {/* Number of Dependents Field */}
               <FormField
                 type="number"
                 name="dependents"
@@ -180,36 +206,39 @@ const Step2 = () => {
             </h3>
             
             <div className="space-y-6">
-            
-                  <FormField
-                  type="number"
-                  name="monthlyIncome"
-                  label={t('fields.monthlyIncome.label')}
-                  placeholder={t('fields.monthlyIncome.placeholder')}
-                  required={true}
-                  register={register}
-                  rules={getValidationRules('monthlyIncome')}
-                  errors={errors}
-                  min={0}
-                  step={0.01}
-                  helpText={t('fields.monthlyIncome.helpText')}
-                  onChange={(e) => handleFieldChange('monthlyIncome', e.target.value)}
-                />
-
-              <div className="grid md:grid-cols-2 gap-6">
+              {/* Monthly Income Field - Full Width */}
               <FormField
-                type="select"
-                name="employmentStatus"
-                label={t('fields.employmentStatus.label')}
-                placeholder={t('fields.employmentStatus.placeholder')}
+                type="number"
+                name="monthlyIncome"
+                label={t('fields.monthlyIncome.label')}
+                placeholder={t('fields.monthlyIncome.placeholder')}
                 required={true}
                 register={register}
-                rules={getValidationRules('employmentStatus')}
+                rules={getValidationRules('monthlyIncome')}
                 errors={errors}
-                options={getEmploymentStatusOptions()}
-                onChange={(e) => handleFieldChange('employmentStatus', e.target.value)}
+                min={0}
+                step={0.01}
+                helpText={t('fields.monthlyIncome.helpText')}
+                onChange={(e) => handleFieldChange('monthlyIncome', e.target.value)}
               />
 
+              {/* Employment and Housing Status - Two Column Layout */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Employment Status Field */}
+                <FormField
+                  type="select"
+                  name="employmentStatus"
+                  label={t('fields.employmentStatus.label')}
+                  placeholder={t('fields.employmentStatus.placeholder')}
+                  required={true}
+                  register={register}
+                  rules={getValidationRules('employmentStatus')}
+                  errors={errors}
+                  options={getEmploymentStatusOptions()}
+                  onChange={(e) => handleFieldChange('employmentStatus', e.target.value)}
+                />
+
+                {/* Housing Status Field */}
                 <FormField
                   type="select"
                   name="housingStatus"
@@ -226,7 +255,7 @@ const Step2 = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={2}

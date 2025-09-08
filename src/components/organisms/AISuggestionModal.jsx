@@ -1,5 +1,5 @@
 // components/organisms/AISuggestionModal.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Sparkles, Edit3, RotateCcw, Check, ArrowLeft, Copy } from 'lucide-react';
 import { useUIContext } from '../../context/UIContext';
@@ -20,7 +20,8 @@ const AISuggestionModal = ({
 }) => {
   const { t, i18n } = useTranslation();
   const { language, isRTL } = useUIContext();
-  
+  const inputRef = useRef(null);
+
   // Modal state management
   const [modalState, setModalState] = useState('input'); // 'input', 'suggestion', 'editing'
   const [userPrompt, setUserPrompt] = useState('');
@@ -53,6 +54,9 @@ const AISuggestionModal = ({
   // Handle predefined suggestion selection
   const handlePredefinedSelect = (suggestion) => {
     setUserPrompt(suggestion);
+    setTimeout(() => {
+    inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
   };
 
   // Copy suggestion to clipboard
@@ -228,7 +232,7 @@ const AISuggestionModal = ({
               )}
 
               {/* Custom Prompt Input */}
-              <div>
+              <div ref={inputRef}>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                   {t('aiModal.writeYourOwn')}
                 </h3>

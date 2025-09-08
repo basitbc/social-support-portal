@@ -2,13 +2,10 @@ import React from 'react';
 import { FormProvider } from './FormContext';
 import { UIProvider } from './UIContext';
 
-// Import i18n configuration to initialize it
+// Initialize i18n configuration
 import '../i18n';
 
-/**
- * Combined providers wrapper for the application
- * This wraps all the context providers in the correct order
- */
+// Combined providers wrapper for the application context layer
 const AppProviders = ({ children }) => {
   return (
     <UIProvider>

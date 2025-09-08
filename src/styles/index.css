@@ -6,7 +6,7 @@
 
 /* Custom Theme Colors */
 @theme {
-  /* Primary color scale */
+  /* Primary color scale - Pink theme */
   --color-primary-50: #fce4ec;
   --color-primary-100: #f8bbd9;
   --color-primary-200: #f48fb1;
@@ -19,7 +19,7 @@
   --color-primary-900: #880e4f;
   --color-primary-950: #4a0e2f;
 
-  /* Mint color scale */
+  /* Mint color scale - Secondary theme */
   --color-mint-50: #f0fdfa;
   --color-mint-100: #ccfbf1;
   --color-mint-200: #99f6e4;
@@ -32,13 +32,13 @@
   --color-mint-900: #134e4a;
   --color-mint-950: #042f2e;
 
-  /* Font families */
+  /* Font families for different languages */
   --font-family-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
   --font-family-arabic: 'Noto Sans Arabic', 'Open Sans', system-ui, sans-serif;
   --font-family-roboto: 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
-/* Base RTL styles */
+/* Global root styles */
 :root {
   --scroll-behavior: smooth;
 }
@@ -47,7 +47,7 @@ html {
   scroll-behavior: var(--scroll-behavior);
 }
 
-/* RTL and LTR directional styles */
+/* Language-specific font families */
 [dir="rtl"] {
   font-family: var(--font-family-arabic);
 }
@@ -66,7 +66,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* FIXED: Simplified infinite scroll styles - remove aggressive overrides */
+/* Infinite scroll component fixes */
 .infinite-scroll-component {
   overflow: visible !important;
   width: 100% !important;
@@ -77,14 +77,12 @@ body {
   padding: 1rem;
 }
 
-/* FIXED: Minimal RTL adjustments for infinite scroll */
+/* RTL infinite scroll adjustments */
 [dir="rtl"] .infinite-scroll-component__end-message {
-  text-align: center; /* Keep centered regardless of direction */
+  text-align: center;
 }
 
-/* REMOVED: All the aggressive RTL infinite scroll overrides that were causing issues */
-
-/* Scrollbar styling for both directions */
+/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -103,32 +101,29 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
+/* Date input styling fixes */
 input[type="date"] {
   width: 100% !important;
   min-width: 0;
   box-sizing: border-box;
-  
   overflow: hidden;
   text-overflow: ellipsis;
-  
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
 
-/* Focus and selection styles */
+/* Selection and focus styles */
 ::selection {
   background-color: var(--color-primary-200);
   color: var(--color-primary-900);
 }
 
-
-
 :focus:not(:focus-visible) {
   outline: none;
 }
 
-/* RTL text input fixes */
+/* RTL text input alignment */
 [dir="rtl"] input[type="text"],
 [dir="rtl"] input[type="email"],
 [dir="rtl"] input[type="password"],
@@ -137,7 +132,7 @@ input[type="date"] {
   text-align: right;
 }
 
-/* NEW: Better RTL layout support without breaking infinite scroll */
+/* RTL layout support */
 [dir="rtl"] {
   text-align: right;
 }
@@ -151,13 +146,13 @@ input[type="date"] {
   margin-right: auto;
 }
 
-/* NEW: Mobile-specific RTL fixes */
+/* Mobile responsive font sizes */
 @media (max-width: 640px) {
   html {
     font-size: 14px;
   }
   
-  /* Ensure proper mobile RTL behavior */
+  /* Mobile RTL overflow fixes */
   [dir="rtl"] {
     overflow-x: hidden;
   }
@@ -169,24 +164,26 @@ input[type="date"] {
   }
 }
 
-/* Responsive font scaling */
+/* Tablet font size */
 @media (min-width: 641px) and (max-width: 1024px) {
   html {
     font-size: 15px;
   }
 }
 
+/* Desktop font size */
 @media (min-width: 1025px) {
   html {
     font-size: 16px;
   }
 }
 
-/* Animation performance optimization */
+/* Performance optimization */
 * {
   box-sizing: border-box;
 }
 
+/* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -199,7 +196,7 @@ input[type="date"] {
   }
 }
 
-/* NEW: Direct RTL fixes without wrapper classes */
+/* Additional RTL fixes */
 [dir="rtl"] {
   overflow-x: hidden;
 }
@@ -208,7 +205,7 @@ input[type="date"] {
   box-sizing: border-box;
 }
 
-/* Prevent infinite scroll width issues in RTL */
+/* Infinite scroll width fixes for RTL */
 [dir="rtl"] .infinite-scroll-component,
 [dir="rtl"] .infinite-scroll-component > div {
   width: 100% !important;

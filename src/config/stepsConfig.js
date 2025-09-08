@@ -140,41 +140,46 @@ export const STEPS_CONFIG = {
         maxLength: { value: 1000, message: 'Description cannot exceed 1000 characters' }
       }
     }
-  },
-  
+  }
 };
 
-// Step navigation helpers
+// Total number of steps in the wizard
 export const TOTAL_STEPS = Object.keys(STEPS_CONFIG).length;
 
+// Get configuration for a specific step
 export const getStepConfig = (stepNumber) => {
   return STEPS_CONFIG[stepNumber] || null;
 };
 
+// Get next step number or null if at end
 export const getNextStep = (currentStep) => {
   const nextStep = currentStep + 1;
   return nextStep <= TOTAL_STEPS ? nextStep : null;
 };
 
+// Get previous step number or null if at beginning
 export const getPreviousStep = (currentStep) => {
   const prevStep = currentStep - 1;
   return prevStep >= 1 ? prevStep : null;
 };
 
+// Get all step routes as an array
 export const getAllStepRoutes = () => {
   return Object.values(STEPS_CONFIG).map(step => step.route);
 };
 
+// Find step configuration by route
 export const getStepByRoute = (route) => {
   return Object.values(STEPS_CONFIG).find(step => step.route === route) || null;
 };
 
+// Get step number from route
 export const getStepNumberByRoute = (route) => {
   const stepEntry = Object.entries(STEPS_CONFIG).find(([_, config]) => config.route === route);
   return stepEntry ? parseInt(stepEntry[0]) : null;
 };
 
-// Validation helper
+// Get validation rules for a specific field in a step
 export const getFieldValidation = (stepNumber, fieldName) => {
   const step = getStepConfig(stepNumber);
   return step?.validationRules?.[fieldName] || {};
