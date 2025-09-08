@@ -65,9 +65,9 @@ export default function ProgressBar({ steps = [], activeStep = 1, onStepClick, c
         sx={{
           width: '100%',
           padding: '0 16px',
-          direction: 'ltr', // Force LTR direction
+          direction: 'ltr', 
           '& *': {
-            direction: 'ltr !important', // Force all children to be LTR
+            direction: 'ltr !important', 
           },
           '& .MuiStep-root': {
             minWidth: 'auto',
@@ -78,11 +78,11 @@ export default function ProgressBar({ steps = [], activeStep = 1, onStepClick, c
           },
           '& .MuiStepLabel-labelContainer': {
             width: 'auto',
-            maxWidth: { xs: '70px', sm: '180px', md: '220px' }, // Increased from 120px to accommodate longer text
+            maxWidth: { xs: '70px', sm: '180px', md: '220px' }, 
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            textAlign: 'center', // Keep text centered
+            textAlign: 'center',
           },
           '& .MuiStepConnector-root': {
             left: 'calc(-50% + 20px)',
@@ -98,18 +98,16 @@ export default function ProgressBar({ steps = [], activeStep = 1, onStepClick, c
                sx={{
                 cursor: onStepClick ? "pointer" : "default",
                 '& .MuiStepLabel-label': {
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' }, // Smaller on mobile
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' }, 
                   fontWeight: 500,
                   color: activeStep === index + 1 ? '#e91e63' : 'inherit',
                   textAlign: 'center',
-                  lineHeight: { xs: 1.2, sm: 1.4 }, // Tighter line spacing on mobile
-                  // Mobile: Allow text wrapping
+                  lineHeight: { xs: 1.2, sm: 1.4 },
                   '@media (max-width: 600px)': {
                     whiteSpace: 'normal',
                     wordBreak: 'break-word',
                     hyphens: 'auto',
                   },
-                  // Desktop: Single line with ellipsis
                   '@media (min-width: 601px)': {
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',

@@ -9,7 +9,7 @@ const RadioGroup = ({
   error,
   disabled = false,
   required = false,
-  orientation = 'vertical', // 'vertical' | 'horizontal'
+  orientation = 'vertical',
   className,
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
@@ -114,7 +114,6 @@ const RadioGroup = ({
             {optionLabel}
           </label>
           
-          {/* Optional description */}
           {typeof option === 'object' && option.description && (
             <p className={cn(
               'mt-1 text-xs',

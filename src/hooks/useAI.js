@@ -1,20 +1,16 @@
-// hooks/useAI.js
 import { useState, useCallback } from 'react';
 import { useFormContext } from '../context/FormContext';
 import { useUIContext } from '../context/UIContext';
 import apiService from '../services/apiService';
+import { AI_CONSTANTS } from '../config/constants';
 
-// Custom hook for AI assistance functionality
 export const useAI = () => {
-  // Local state for AI operations
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState(null);
   
-  // Context hooks for form data and UI state
   const { formData } = useFormContext();
   const { language, addNotification } = useUIContext();
 
-  // Get predefined suggestions for a field
   const getPredefinedSuggestions = useCallback((fieldName) => {
     try {
       return apiService.getPredefinedSuggestions(fieldName, language);
@@ -24,27 +20,26 @@ export const useAI = () => {
     }
   }, [language]);
 
-  // Generate AI suggestion from user prompt
   const generateSuggestion = useCallback(async (fieldName, userPrompt, additionalContext = {}) => {
+    const messages = language === 'ar' ? AI_CONSTANTS.MESSAGES.AR : AI_CONSTANTS.MESSAGES.EN;
+    
     if (isGenerating) {
-      throw new Error(language === 'ar' ? 'جاري الإنشاء بالفعل' : 'Already generating');
+      throw new Error(messages.ALREADY_GENERATING);
     }
 
     if (!userPrompt || !userPrompt.trim()) {
-      throw new Error(language === 'ar' ? 'يرجى إدخال نص أو اختيار اقتراح' : 'Please provide a prompt or select a suggestion');
+      throw new Error(messages.PROMPT_REQUIRED);
     }
 
     setIsGenerating(true);
     setError(null);
 
     try {
-      // Combine form data with additional context
       const context = {
         ...formData,
         ...additionalContext
       };
 
-      // Filter out empty values for cleaner context
       const cleanContext = Object.entries(context)
         .filter(([_, value]) => value && value.toString().trim())
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -56,24 +51,22 @@ export const useAI = () => {
         language
       );
 
-      // Show success notification
       addNotification({
         type: 'success',
-        message: language === 'ar' ? 'تم إنشاء الاقتراح بنجاح' : 'Suggestion generated successfully',
-        duration: 3000
+        message: messages.SUCCESS,
+        duration: AI_CONSTANTS.NOTIFICATION_DURATION.SUCCESS
       });
 
       return suggestion;
 
     } catch (err) {
-      const errorMessage = err.message || (language === 'ar' ? 'فشل في إنشاء الاقتراح' : 'Failed to generate suggestion');
+      const errorMessage = err.message || messages.FAILED;
       setError(errorMessage);
       
-      // Show error notification
       addNotification({
         type: 'error',
         message: errorMessage,
-        duration: 5000
+        duration: AI_CONSTANTS.NOTIFICATION_DURATION.ERROR
       });
       
       throw err;
@@ -82,33 +75,30 @@ export const useAI = () => {
     }
   }, [formData, language, isGenerating, addNotification]);
 
-  // Retry last failed generation
   const retryGeneration = useCallback(async (fieldName, userPrompt, additionalContext = {}) => {
     setError(null);
     return await generateSuggestion(fieldName, userPrompt, additionalContext);
   }, [generateSuggestion]);
 
-  // Clear current error state
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
-  // Cancel current generation process
   const cancelGeneration = useCallback(() => {
     if (isGenerating) {
       apiService.cancelGeneration();
       setIsGenerating(false);
       setError(null);
       
+      const messages = language === 'ar' ? AI_CONSTANTS.MESSAGES.AR : AI_CONSTANTS.MESSAGES.EN;
       addNotification({
         type: 'info',
-        message: language === 'ar' ? 'تم إلغاء الإنشاء' : 'Generation cancelled',
-        duration: 2000
+        message: messages.CANCELLED,
+        duration: AI_CONSTANTS.NOTIFICATION_DURATION.INFO
       });
     }
   }, [isGenerating, language, addNotification]);
 
-  // Get context summary for debugging purposes
   const getContextSummary = useCallback(() => {
     return {
       hasEmployment: !!formData.employmentStatus,
@@ -121,28 +111,28 @@ export const useAI = () => {
     };
   }, [formData, language]);
 
-  // Validate if generation is possible with current inputs
   const validateGeneration = useCallback((fieldName, userPrompt) => {
     const errors = [];
+    const messages = language === 'ar' ? AI_CONSTANTS.MESSAGES.AR : AI_CONSTANTS.MESSAGES.EN;
     
     if (!fieldName) {
-      errors.push(language === 'ar' ? 'اسم الحقل مطلوب' : 'Field name is required');
+      errors.push(messages.FIELD_NAME_REQUIRED);
     }
     
     if (!userPrompt || !userPrompt.trim()) {
-      errors.push(language === 'ar' ? 'النص أو الاقتراح مطلوب' : 'Prompt or suggestion is required');
+      errors.push(messages.PROMPT_REQUIRED_VALIDATION);
     }
     
-    if (userPrompt && userPrompt.trim().length < 5) {
-      errors.push(language === 'ar' ? 'النص قصير جداً' : 'Prompt is too short');
+    if (userPrompt && userPrompt.trim().length < AI_CONSTANTS.MIN_PROMPT_LENGTH) {
+      errors.push(messages.PROMPT_TOO_SHORT);
     }
     
-    if (userPrompt && userPrompt.trim().length > 500) {
-      errors.push(language === 'ar' ? 'النص طويل جداً' : 'Prompt is too long');
+    if (userPrompt && userPrompt.trim().length > AI_CONSTANTS.MAX_PROMPT_LENGTH) {
+      errors.push(messages.PROMPT_TOO_LONG);
     }
     
     if (isGenerating) {
-      errors.push(language === 'ar' ? 'جاري الإنشاء بالفعل' : 'Already generating');
+      errors.push(messages.ALREADY_GENERATING);
     }
 
     return {
@@ -152,23 +142,16 @@ export const useAI = () => {
   }, [isGenerating, language]);
 
   return {
-    // Core AI functions
     generateSuggestion,
     getPredefinedSuggestions,
     retryGeneration,
-    
-    // State management
     isGenerating,
     error,
-    
-    // Utility functions
     clearError,
     cancelGeneration,
     validateGeneration,
     getContextSummary,
-    
-    // Service status indicators
-    isServiceAvailable: true, // Could be enhanced to check service health
+    isServiceAvailable: true,
     canGenerate: !isGenerating && !error
   };
 };

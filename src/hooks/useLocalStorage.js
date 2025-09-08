@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Custom hook for managing localStorage with React state synchronization
+// Custom hook for managing localStorage
 export const useLocalStorage = (key, initialValue) => {
-  // Initialize state with localStorage value or fallback to initial value
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {
       return initialValue;
     }
-    
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
@@ -17,16 +15,12 @@ export const useLocalStorage = (key, initialValue) => {
     }
   });
 
-  // Wrapped setter function that persists to localStorage
   const setValue = useCallback((value) => {
     try {
-      // Support function values like useState
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       
-      // Update state
       setStoredValue(valueToStore);
       
-      // Persist to localStorage
       if (typeof window !== "undefined") {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
@@ -35,7 +29,6 @@ export const useLocalStorage = (key, initialValue) => {
     }
   }, [key, storedValue]);
 
-  // Remove item from localStorage and reset to initial value
   const removeValue = useCallback(() => {
     try {
       setStoredValue(initialValue);

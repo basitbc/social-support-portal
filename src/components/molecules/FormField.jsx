@@ -9,45 +9,37 @@ import Checkbox from '../atoms/Checkbox';
 import ErrorMessage from '../atoms/ErrorMessage';
 
 const FormField = forwardRef(({
-  // Field configuration
   type = 'text',
   name,
   label,
   placeholder,
   
-  // React Hook Form integration
   register,
   rules = {},
   errors = {},
   control,
   
-  // Field options (for select, radio, checkbox)
   options = [],
   optionGroups = [],
   
-  // Validation & state
   required = false,
   optional = false,
   disabled = false,
   
-  // Help & description
   helpText,
   description,
   
   aiLoading = false,
   
-  // Layout & styling
   className,
   fieldClassName,
   labelClassName,
-  layout = 'vertical', // 'vertical' | 'horizontal'
+  layout = 'vertical', 
   size = 'md',
   
-  // Accessibility
   'aria-describedby': ariaDescribedBy,
   dir = 'auto',
   
-  // Other props passed to the input component
   ...props
 }, ref) => {
   const fieldId = generateId(name || 'field');
@@ -75,10 +67,8 @@ const FormField = forwardRef(({
     layout === 'vertical' ? 'space-y-2' : 'space-y-1'
   );
 
-  // Get register props if register function is provided
   const registerProps = register && name ? register(name, rules) : {};
 
-  // Render the appropriate field component based on type
   const renderField = () => {
     const commonProps = {
       id: fieldId,
@@ -91,7 +81,7 @@ const FormField = forwardRef(({
       'aria-invalid': fieldError ? 'true' : 'false',
       dir,
       className: fieldClassName,
-      ...registerProps, // Spread register props (ref, onChange, onBlur, name)
+      ...registerProps, 
       ...props
     };
 
@@ -167,17 +157,14 @@ const FormField = forwardRef(({
         </div>
       )}
 
-      {/* Field Section */}
       <div className={fieldWrapperClasses}>
         <div className={fieldSpacing}>
-          {/* Description (shown above field) */}
           {description && type !== 'checkbox' && (
             <p className="text-sm text-gray-600" id={`${fieldId}-description`}>
               {description}
             </p>
           )}
 
-          {/* The actual form field */}
           {renderField()}
 
           {/* Help text */}
@@ -190,7 +177,6 @@ const FormField = forwardRef(({
             </p>
           )}
 
-          {/* Error messages */}
           {fieldError && (
             <ErrorMessage
               id={errorId}

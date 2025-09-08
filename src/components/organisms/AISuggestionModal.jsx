@@ -1,4 +1,3 @@
-// components/organisms/AISuggestionModal.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Sparkles, Edit3, RotateCcw, Check, ArrowLeft, Copy } from 'lucide-react';
@@ -6,6 +5,7 @@ import { useUIContext } from '../../context/UIContext';
 import Button from '../atoms/Button';
 import LoadingSpinner from '../atoms/LoadingSpinner';
 import Textarea from '../atoms/Textarea';
+import { COPY_TIMEOUT, DEFAULT_PROMPTS, FALLBACK_PROMPT, MAX_PROMPT_LENGTH, MAX_SUGGESTION_LENGTH, MODAL_STATES, SCROLL_DELAY } from '../../config/constants';
 
 const AISuggestionModal = ({
   isOpen,
@@ -22,8 +22,7 @@ const AISuggestionModal = ({
   const { language, isRTL } = useUIContext();
   const inputRef = useRef(null);
 
-  // Modal state management
-  const [modalState, setModalState] = useState('input'); // 'input', 'suggestion', 'editing'
+  const [modalState, setModalState] = useState(MODAL_STATES.INPUT);
   const [userPrompt, setUserPrompt] = useState('');
   const [aiSuggestion, setAiSuggestion] = useState('');
   const [editedSuggestion, setEditedSuggestion] = useState('');
@@ -31,7 +30,6 @@ const AISuggestionModal = ({
   const [error, setError] = useState('');
   const [copiedIndex, setCopiedIndex] = useState(null);
 
-  // Get predefined suggestions based on field and language
   const getPredefinedSuggestions = () => {
     const suggestions = t(`aiModal.predefinedOptions.${fieldName}`, { returnObjects: true });
     return Array.isArray(suggestions) ? suggestions : [];
@@ -39,10 +37,9 @@ const AISuggestionModal = ({
 
   const predefinedSuggestions = getPredefinedSuggestions();
 
-  // Reset modal state when opened/closed
   useEffect(() => {
     if (isOpen) {
-      setModalState('input');
+      setModalState(MODAL_STATES.INPUT);
       setUserPrompt('');
       setAiSuggestion('');
       setEditedSuggestion('');
@@ -51,26 +48,23 @@ const AISuggestionModal = ({
     }
   }, [isOpen]);
 
-  // Handle predefined suggestion selection
   const handlePredefinedSelect = (suggestion) => {
     setUserPrompt(suggestion);
     setTimeout(() => {
-    inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, SCROLL_DELAY);
   };
 
-  // Copy suggestion to clipboard
   const handleCopy = async (text, index) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
+      setTimeout(() => setCopiedIndex(null), COPY_TIMEOUT);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
   };
 
-  // Generate AI suggestion from user prompt
   const handleGenerate = async () => {
     if (!userPrompt.trim()) {
       setError(t('aiModal.errors.emptyPrompt'));
@@ -84,7 +78,7 @@ const AISuggestionModal = ({
       const suggestion = await onGenerateFromInput(userPrompt.trim());
       setAiSuggestion(suggestion);
       setEditedSuggestion(suggestion);
-      setModalState('suggestion');
+      setModalState(MODAL_STATES.SUGGESTION);
     } catch (err) {
       setError(err.message || t('aiModal.errors.generationFailed'));
     } finally {
@@ -92,10 +86,16 @@ const AISuggestionModal = ({
     }
   };
 
-  // Handle regeneration with current prompt
+  const getRandomPromptForField = () => {
+    const fieldPrompt = DEFAULT_PROMPTS[fieldName];
+    if (fieldPrompt) {
+      return fieldPrompt[language] || fieldPrompt.en;
+    }
+    return FALLBACK_PROMPT[language] || FALLBACK_PROMPT.en;
+  };
+
   const handleRegenerate = async () => {
     if (!userPrompt.trim()) {
-      // Generate random prompt if none exists
       const randomPrompt = getRandomPromptForField();
       setUserPrompt(randomPrompt);
       await handleGenerate();
@@ -104,48 +104,26 @@ const AISuggestionModal = ({
     await handleGenerate();
   };
 
-  // Get random prompt for field when user hasn't provided one
-  const getRandomPromptForField = () => {
-    const fieldPrompts = {
-      currentFinancialSituation: language === 'ar' 
-        ? 'اكتب وصفاً مهنياً لوضعي المالي الحالي'
-        : 'Write a professional description of my current financial situation',
-      employmentCircumstances: language === 'ar'
-        ? 'اشرح ظروف عملي الحالية بطريقة مهنية'
-        : 'Explain my current employment circumstances professionally',
-      reasonForApplying: language === 'ar'
-        ? 'اشرح سبب حاجتي للمساعدة المالية'
-        : 'Explain why I need financial assistance'
-    };
-    
-    return fieldPrompts[fieldName] || (language === 'ar' ? 'ساعدني في كتابة هذا القسم' : 'Help me write this section');
-  };
-
-  // Handle suggestion editing
   const handleEdit = () => {
-    setModalState('editing');
+    setModalState(MODAL_STATES.EDITING);
   };
 
-  // Save edited suggestion
   const handleSaveEdit = () => {
     setAiSuggestion(editedSuggestion);
-    setModalState('suggestion');
+    setModalState(MODAL_STATES.SUGGESTION);
   };
 
-  // Accept final suggestion
   const handleAcceptSuggestion = () => {
-    const finalText = modalState === 'editing' ? editedSuggestion : aiSuggestion;
+    const finalText = modalState === MODAL_STATES.EDITING ? editedSuggestion : aiSuggestion;
     onAccept(finalText);
     onClose();
   };
 
-  // Go back to input state
   const handleBackToInput = () => {
-    setModalState('input');
+    setModalState(MODAL_STATES.INPUT);
     setError('');
   };
 
-  // Handle modal close/discard
   const handleClose = () => {
     onDiscard();
     onClose();
@@ -156,7 +134,6 @@ const AISuggestionModal = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className={`bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -180,12 +157,9 @@ const AISuggestionModal = ({
           />
         </div>
 
-        {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-          {/* Input State */}
-          {modalState === 'input' && (
+          {modalState === MODAL_STATES.INPUT && (
             <div className="space-y-6">
-              {/* Original Text Display */}
               {originalText && (
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h3 className="text-sm font-medium text-gray-700 mb-2">
@@ -197,7 +171,6 @@ const AISuggestionModal = ({
                 </div>
               )}
 
-              {/* Predefined Suggestions */}
               {predefinedSuggestions.length > 0 && (
                 <div>
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
@@ -231,7 +204,6 @@ const AISuggestionModal = ({
                 </div>
               )}
 
-              {/* Custom Prompt Input */}
               <div ref={inputRef}>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                   {t('aiModal.writeYourOwn')}
@@ -242,21 +214,19 @@ const AISuggestionModal = ({
                   placeholder={t('aiModal.promptPlaceholder')}
                   rows={4}
                   className="w-full"
-                  maxLength={500}
+                  maxLength={MAX_PROMPT_LENGTH}
                 />
                 <div className={`text-xs text-gray-500 mt-1 ${isRTL ? 'text-left' : 'text-right'}`}>
-                  {userPrompt.length}/500 {t('aiModal.characters')}
+                  {userPrompt.length}/{MAX_PROMPT_LENGTH} {t('aiModal.characters')}
                 </div>
               </div>
 
-              {/* Error Display */}
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <p className="text-red-700 text-sm">{error}</p>
                 </div>
               )}
 
-              {/* Generate Button */}
               <div className="flex justify-end">
                 <Button
                   onClick={handleGenerate}
@@ -270,10 +240,8 @@ const AISuggestionModal = ({
             </div>
           )}
 
-          {/* Suggestion State */}
-          {modalState === 'suggestion' && (
+          {modalState === MODAL_STATES.SUGGESTION && (
             <div className="space-y-6">
-              {/* User Prompt Display */}
               <div className="bg-blue-50 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-blue-700 mb-2">
                   {t('aiModal.yourPrompt')}
@@ -283,7 +251,6 @@ const AISuggestionModal = ({
                 </p>
               </div>
 
-              {/* AI Suggestion */}
               <div className="bg-green-50 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-green-700 mb-2">
                   {t('aiModal.aiSuggestion')}
@@ -293,7 +260,6 @@ const AISuggestionModal = ({
                 </p>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 justify-between">
                 <div className="flex gap-3">
                   <Button
@@ -333,10 +299,8 @@ const AISuggestionModal = ({
             </div>
           )}
 
-          {/* Editing State */}
-          {modalState === 'editing' && (
+          {modalState === MODAL_STATES.EDITING && (
             <div className="space-y-6">
-              {/* Original Suggestion */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-gray-700 mb-2">
                   {t('aiModal.originalSuggestion')}
@@ -346,7 +310,6 @@ const AISuggestionModal = ({
                 </p>
               </div>
 
-              {/* Editable Suggestion */}
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                   {t('aiModal.editSuggestion')}
@@ -356,15 +319,14 @@ const AISuggestionModal = ({
                   onChange={(e) => setEditedSuggestion(e.target.value)}
                   rows={8}
                   className="w-full"
-                  maxLength={1000}
+                  maxLength={MAX_SUGGESTION_LENGTH}
                 />
               </div>
 
-              {/* Edit Action Buttons */}
               <div className="flex justify-between">
                 <Button
                   variant="outline"
-                  onClick={() => setModalState('suggestion')}
+                  onClick={() => setModalState(MODAL_STATES.SUGGESTION)}
                   icon={<ArrowLeft className="w-4 h-4" />}
                 >
                   {t('aiModal.back')}
@@ -390,7 +352,6 @@ const AISuggestionModal = ({
           )}
         </div>
 
-        {/* Footer */}
         <div className="p-6 border-t border-gray-200 bg-gray-50">
           <div className="flex justify-between items-center">
             <p className="text-xs text-gray-500">

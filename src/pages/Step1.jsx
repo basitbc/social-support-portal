@@ -23,7 +23,7 @@ const Step1 = () => {
   const stepConfig = STEPS_CONFIG[1];
   const stepFields = getFieldsByStep(1);
 
-  // Initialize form with react-hook-form and existing data
+  // react-hook-form
   const {
     register,
     handleSubmit,
@@ -43,7 +43,6 @@ const Step1 = () => {
 
   const watchedValues = watch();
 
-  // Handle form submission and navigate to next step
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
@@ -57,17 +56,15 @@ const Step1 = () => {
     }
   };
 
-  // Navigate back to home/start page
   const handlePrevious = () => {
     navigate(ROUTES.HOME);
   };
 
-  // Handle real-time field changes with validation and context update
+  // Handle field changes with validation and context update
   const handleFieldChange = async (fieldName, value) => {
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
-    // Clear field error if it exists
     if (errors[fieldName]) {
       clearErrors(fieldName);
     }
@@ -76,19 +73,16 @@ const Step1 = () => {
     await trigger(fieldName);
   };
 
-  // Get translated gender options from constants
   const getGenderOptions = () => GENDER_OPTIONS.map(option => ({
     value: option.value,
     label: t(option.translationKey)
   }));
 
-  // Get translated country options from constants
   const getCountryOptions = () => COUNTRY_OPTIONS.map(option => ({
     value: option.value,
     label: t(option.translationKey)
   }));
 
-  // Get validation rules using extracted validation function
   const getValidationRules = (fieldName) => 
     createValidationRules(stepConfig, fieldName, t);
 
@@ -99,26 +93,21 @@ const Step1 = () => {
       maxWidth="4xl"
     >
       <div className="bg-white rounded-xl shadow-lg p-8">
-        {/* Step Header */}
         <div className="text-center mb-8">
-          {/* Step icon */}
           <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-primary-600" />
           </div>
           
-          {/* Step title */}
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             {t('steps.personalInfo.title')}
           </h2>
           
-          {/* Step description */}
           <p className="text-gray-600">
             {t('steps.personalInfo.description')}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(handleNext)} className="space-y-6">
-          {/* Name and National ID Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
               type={FIELD_TYPES.TEXT}
@@ -144,7 +133,6 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Date of Birth and Gender Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
               type={FIELD_TYPES.DATE}
@@ -171,7 +159,6 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Address Field (Full Width) */}
           <FormField
             type={FIELD_TYPES.TEXTAREA}
             name="address"
@@ -185,7 +172,6 @@ const Step1 = () => {
             onChange={(e) => handleFieldChange('address', e.target.value)}
           />
 
-          {/* City, State, Country Row */}
           <div className="grid md:grid-cols-3 gap-6">
             <FormField
               type={FIELD_TYPES.TEXT}
@@ -223,7 +209,6 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Phone and Email Row */}
           <div className="grid md:grid-cols-2 gap-6">
             <FormField
               type={FIELD_TYPES.TEL}
@@ -249,14 +234,13 @@ const Step1 = () => {
             />
           </div>
 
-          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={1}
               totalSteps={3}
               onNext={handleSubmit(handleNext)}
               onPrev={handlePrevious}
-              canGoNext={Object.keys(errors).length === 0} // Enable next only if no validation errors
+              canGoNext={Object.keys(errors).length === 0}
               canGoPrev={true}
               isFirstStep={true}
               isLastStep={false}

@@ -1,5 +1,4 @@
-// pages/Success.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { CheckCircle, Copy, Download, Home, Phone, Mail, Calendar } from 'lucide-react';
@@ -10,27 +9,20 @@ import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
 import MainLayout from '../components/layouts/MainLayout';
 
-// Success page component displaying submission confirmation
 const Success = () => {
-  // Navigation and localization hooks
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   
-  // Context hooks for form data and UI state
   const { submissionData, clearFormData } = useFormContext();
   const { addNotification } = useUIContext();
-  
-  // State for copy button feedback
   const [copySuccess, setCopySuccess] = useState(false);
 
-  // Redirect to home if no submission data exists
   useEffect(() => {
     if (!submissionData) {
       navigate(ROUTES.HOME);
     }
   }, [submissionData, navigate]);
 
-  // Clean up form data after a delay to allow user to see confirmation
   useEffect(() => {
     if (submissionData) {
       const timer = setTimeout(() => {
@@ -41,7 +33,6 @@ const Success = () => {
     }
   }, [submissionData, clearFormData]);
 
-  // Copy reference number to clipboard
   const handleCopyReference = async () => {
     if (!submissionData?.referenceNumber) return;
 
@@ -54,7 +45,6 @@ const Success = () => {
         duration: 3000
       });
       
-      // Reset copy success state after 2 seconds
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
       addNotification({
@@ -65,7 +55,6 @@ const Success = () => {
     }
   };
 
-  // Generate and download confirmation text file
   const handleDownloadConfirmation = () => {
     if (!submissionData) return;
 
@@ -96,7 +85,6 @@ ${t('pages.success.email')}: ${t('pages.success.emailAddress')}
 ${t('pages.success.thankYou')}
     `;
 
-    // Create and download the file
     const blob = new Blob([confirmationText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -115,7 +103,6 @@ ${t('pages.success.thankYou')}
     });
   };
 
-  // Show loading state if no submission data
   if (!submissionData) {
     return (
       <MainLayout title={t('common.loading')} centered maxWidth="4xl">
@@ -127,7 +114,6 @@ ${t('pages.success.thankYou')}
     );
   }
 
-  // Calculate processing timeline
   const submittedDate = new Date(submissionData.submittedAt);
   const expectedProcessingDate = new Date(submittedDate);
   expectedProcessingDate.setDate(expectedProcessingDate.getDate() + 10);
@@ -139,7 +125,6 @@ ${t('pages.success.thankYou')}
       className="bg-gradient-to-br from-primary-50 to-blue-50"
     >
       <div className="py-12">
-        {/* Success Message Section */}
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
@@ -152,20 +137,17 @@ ${t('pages.success.thankYou')}
           </p>
         </div>
 
-        {/* Reference Number Card */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="text-center">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               {t('pages.success.yourReferenceNumber')}
             </h2>
             
-            {/* Reference Number Display */}
             <div className="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
               <div className="text-3xl font-mono font-bold text-primary-600 mb-4">
                 {submissionData.referenceNumber}
               </div>
               
-              {/* Action Buttons */}
               <div className="flex justify-center gap-3">
                 <Button
                   variant="outline"
@@ -193,14 +175,12 @@ ${t('pages.success.thankYou')}
           </div>
         </div>
 
-        {/* Contact Information Section */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
             {t('pages.success.needHelp')}
           </h3>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {/* Phone Support */}
             <div className="text-center">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Phone className="w-6 h-6 text-primary-600" />
@@ -220,7 +200,6 @@ ${t('pages.success.thankYou')}
               </Button>
             </div>
             
-            {/* Email Support */}
             <div className="text-center">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Mail className="w-6 h-6 text-primary-600" />
@@ -242,7 +221,6 @@ ${t('pages.success.thankYou')}
           </div>
         </div>
 
-        {/* Navigation Actions */}
         <div className="text-center space-y-4">
           <Button
             variant="primary"

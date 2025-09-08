@@ -1,10 +1,6 @@
-/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-/* Import Tailwind CSS */
 @import "tailwindcss";
 
-/* Custom Theme Colors */
 @theme {
   /* Primary color scale - Pink theme */
   --color-primary-50: #fce4ec;
@@ -32,13 +28,11 @@
   --color-mint-900: #134e4a;
   --color-mint-950: #042f2e;
 
-  /* Font families for different languages */
   --font-family-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
   --font-family-arabic: 'Noto Sans Arabic', 'Open Sans', system-ui, sans-serif;
   --font-family-roboto: 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
-/* Global root styles */
 :root {
   --scroll-behavior: smooth;
 }
@@ -47,7 +41,6 @@ html {
   scroll-behavior: var(--scroll-behavior);
 }
 
-/* Language-specific font families */
 [dir="rtl"] {
   font-family: var(--font-family-arabic);
 }
@@ -56,7 +49,6 @@ html {
   font-family: var(--font-family-sans);
 }
 
-/* Global body styles */
 body {
   margin: 0;
   padding: 0;
@@ -66,7 +58,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Infinite scroll component fixes */
 .infinite-scroll-component {
   overflow: visible !important;
   width: 100% !important;
@@ -77,12 +68,10 @@ body {
   padding: 1rem;
 }
 
-/* RTL infinite scroll adjustments */
 [dir="rtl"] .infinite-scroll-component__end-message {
   text-align: center;
 }
 
-/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -101,7 +90,6 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* Date input styling fixes */
 input[type="date"] {
   width: 100% !important;
   min-width: 0;
@@ -113,7 +101,6 @@ input[type="date"] {
   line-height: inherit;
 }
 
-/* Selection and focus styles */
 ::selection {
   background-color: var(--color-primary-200);
   color: var(--color-primary-900);
@@ -123,7 +110,6 @@ input[type="date"] {
   outline: none;
 }
 
-/* RTL text input alignment */
 [dir="rtl"] input[type="text"],
 [dir="rtl"] input[type="email"],
 [dir="rtl"] input[type="password"],
@@ -132,7 +118,6 @@ input[type="date"] {
   text-align: right;
 }
 
-/* RTL layout support */
 [dir="rtl"] {
   text-align: right;
 }
@@ -146,13 +131,11 @@ input[type="date"] {
   margin-right: auto;
 }
 
-/* Mobile responsive font sizes */
 @media (max-width: 640px) {
   html {
     font-size: 14px;
   }
   
-  /* Mobile RTL overflow fixes */
   [dir="rtl"] {
     overflow-x: hidden;
   }
@@ -164,26 +147,22 @@ input[type="date"] {
   }
 }
 
-/* Tablet font size */
 @media (min-width: 641px) and (max-width: 1024px) {
   html {
     font-size: 15px;
   }
 }
 
-/* Desktop font size */
 @media (min-width: 1025px) {
   html {
     font-size: 16px;
   }
 }
 
-/* Performance optimization */
 * {
   box-sizing: border-box;
 }
 
-/* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -196,7 +175,6 @@ input[type="date"] {
   }
 }
 
-/* Additional RTL fixes */
 [dir="rtl"] {
   overflow-x: hidden;
 }
@@ -205,7 +183,6 @@ input[type="date"] {
   box-sizing: border-box;
 }
 
-/* Infinite scroll width fixes for RTL */
 [dir="rtl"] .infinite-scroll-component,
 [dir="rtl"] .infinite-scroll-component > div {
   width: 100% !important;
@@ -213,7 +190,6 @@ input[type="date"] {
   min-width: 0 !important;
 }
 
-/* Mobile RTL specific fixes */
 @media (max-width: 768px) {
   [dir="rtl"] {
     overflow-x: hidden !important;

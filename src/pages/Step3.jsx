@@ -1,5 +1,4 @@
-// pages/Step3.jsx
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -16,17 +15,13 @@ import StepNavigation from '../components/molecules/StepNavigation';
 import Button from '../components/atoms/Button';
 import { ROUTES } from '../config/constants';
 
-// Step 3 component for situation descriptions with AI assistance
 const Step3 = () => {
-  // Navigation and localization hooks
   const navigate = useNavigate();
   const { t } = useTranslation();
   
-  // Context hooks for form data and UI state
   const { formData, updateFormData } = useFormContext();
   const { isLoading, setIsLoading, language, addNotification } = useUIContext();
   
-  // AI assistance hook for generating suggestions
   const { 
     generateSuggestion, 
     getPredefinedSuggestions, 
@@ -36,17 +31,14 @@ const Step3 = () => {
     validateGeneration
   } = useAI();
 
-  // Configuration for current step
   const stepConfig = STEPS_CONFIG[3];
   const stepFields = getFieldsByStep(3);
   const aiFields = getAIFields();
 
-  // State for AI suggestion modal
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [currentField, setCurrentField] = useState('');
   const [currentFieldLabel, setCurrentFieldLabel] = useState('');
 
-  // React Hook Form setup with validation
   const {
     register,
     handleSubmit,
@@ -68,14 +60,11 @@ const Step3 = () => {
   // Watch form values for real-time updates
   const watchedValues = watch();
 
-  // Handle form submission and navigation to review page
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
-      // Save form data to context
       updateFormData(data);
       
-      // Show success notification
       addNotification({
         type: 'success',
         message: t('notifications.step3Saved'),
@@ -95,30 +84,23 @@ const Step3 = () => {
     }
   };
 
-  // Handle navigation to previous step
   const handlePrevious = () => {
-    // Save current progress before navigating
     const currentData = getValues();
     updateFormData(currentData);
     navigate(ROUTES.STEP_2);
   };
 
-  // Handle field value changes with validation
   const handleFieldChange = useCallback(async (fieldName, value) => {
-    // Update form field value
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
-    // Clear field-specific errors
     if (errors[fieldName]) {
       clearErrors(fieldName);
     }
     
-    // Trigger validation for the field
     await trigger(fieldName);
   }, [setValue, updateFormData, errors, clearErrors, trigger]);
 
-  // Open AI assistance modal for a specific field
   const handleAIHelp = useCallback((fieldName) => {
     const fieldConfig = aiFields.find(f => f.name === fieldName);
     if (!fieldConfig) {
@@ -126,12 +108,10 @@ const Step3 = () => {
       return;
     }
 
-    // Set modal state and open
     setCurrentField(fieldName);
     setCurrentFieldLabel(fieldConfig.config.label);
     setAiModalOpen(true);
     
-    // Clear any previous AI errors
     clearError();
   }, [aiFields, clearError]);
 
@@ -167,17 +147,14 @@ const Step3 = () => {
     }
 
     try {
-      // Update form field with suggestion
       setValue(currentField, suggestion);
       updateFormData({ [currentField]: suggestion });
       
-      // Clear errors and validate
       if (errors[currentField]) {
         clearErrors(currentField);
       }
       await trigger(currentField);
       
-      // Show success notification
       addNotification({
         type: 'success',
         message: t('notifications.suggestionAccepted'),
@@ -197,7 +174,6 @@ const Step3 = () => {
     }
   }, [currentField, setValue, updateFormData, errors, clearErrors, trigger, addNotification, t]);
 
-  // Discard AI suggestion and close modal
   const handleAIDiscard = useCallback(() => {
     setAiModalOpen(false);
     setCurrentField('');
@@ -205,7 +181,6 @@ const Step3 = () => {
     clearError();
   }, [clearError]);
 
-  // Get field configuration for rendering with translations
   const getFieldConfig = useCallback((fieldName) => {
     const baseConfig = aiFields.find(f => f.name === fieldName)?.config || {};
     return {
@@ -236,7 +211,6 @@ const Step3 = () => {
       maxWidth="4xl"
     >
       <div className="bg-white rounded-xl shadow-lg p-8">
-        {/* Step Header Section */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Edit3 className="w-8 h-8 text-primary-600" />
@@ -248,7 +222,6 @@ const Step3 = () => {
             {t('steps.situationDescriptions.description')}
           </p>
           
-          {/* AI Help Notice */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
             <div className="flex items-center gap-2 justify-center text-blue-700">
               <Sparkles className="w-4 h-4" />
@@ -260,20 +233,17 @@ const Step3 = () => {
         </div>
 
         <form onSubmit={handleSubmit(handleNext)} className="space-y-8">
-          {/* AI-Enabled Text Fields */}
           {aiFields.map((aiField, index) => {
             const fieldConfig = getFieldConfig(aiField.name);
             
             return (
               <div key={aiField.name} className="bg-gray-50 rounded-lg p-6">
-                {/* Field Header with AI Button */}
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-primary-600" />
                     {fieldConfig.label}
                   </h3>
                   
-                  {/* AI Help Button */}
                   <Button
                     type="button"
                     variant="outline"
@@ -292,7 +262,6 @@ const Step3 = () => {
                   </Button>
                 </div>
 
-                {/* Text Area Field */}
                 <FormField
                   type="textarea"
                   name={aiField.name}
@@ -311,7 +280,6 @@ const Step3 = () => {
             );
           })}
 
-          {/* AI Error Display */}
           {aiError && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex items-center justify-between">
@@ -328,7 +296,6 @@ const Step3 = () => {
             </div>
           )}
 
-          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={3}
@@ -347,7 +314,6 @@ const Step3 = () => {
         </form>
       </div>
 
-      {/* AI Suggestion Modal */}
       <AISuggestionModal
         isOpen={aiModalOpen}
         onClose={handleAIDiscard}

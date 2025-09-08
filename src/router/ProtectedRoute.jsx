@@ -6,27 +6,24 @@ import { ROUTES, stepRequirements } from '../config/constants';
 const ProtectedRoute = ({ children, stepNumber, requiredData = [] }) => {
   const { formData, currentStep, setCurrentStep, termsAccepted } = useFormContext();
 
-  // Sync currentStep with URL on mount/route change
+  // Sync currentStep with URL
   useEffect(() => {
     if (currentStep !== stepNumber) {
       setCurrentStep(stepNumber);
     }
   }, [stepNumber, currentStep, setCurrentStep]);
 
-  // If terms are not accepted, redirect to home/start page
   if (!termsAccepted) {
     return <Navigate to={ROUTES.HOME} replace />;
   }
 
-  // Check if required data from previous steps exists
   const hasRequiredData = (step) => {
     const required = stepRequirements[step] || [];
     return required.every(field => formData[field] && formData[field].trim() !== '');
   };
 
-  // Find the highest accessible step based on available data
   const getHighestAccessibleStep = () => {
-    if (hasRequiredData(4)) return 4; // Can access Review
+    if (hasRequiredData(4)) return 4; 
     if (hasRequiredData(3)) return 3;
     if (hasRequiredData(2)) return 2;
     return 1;
@@ -34,7 +31,6 @@ const ProtectedRoute = ({ children, stepNumber, requiredData = [] }) => {
 
   const highestAccessible = getHighestAccessibleStep();
 
-  // If trying to access a step beyond what's allowed, redirect to highest accessible
   if (stepNumber > highestAccessible) {
     const redirectRoutes = {
       1: ROUTES.STEP_1,

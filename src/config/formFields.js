@@ -1,20 +1,16 @@
-// Form field definitions with options and configurations
-
-import { useCallback } from "react";
-import { FIELD_TYPES } from "./constants";
+import { FIELD_TYPES, FORM_CONSTANTS } from "./constants";
 
 
-// Form field configurations
+
 export const FORM_FIELDS = {
-  // Step 1: Personal Information
   name: {
     type: FIELD_TYPES.TEXT,
     label: 'Full Name',
     labelKey: 'fields.name.label',
     placeholder: 'Enter your full name',
     placeholderKey: 'fields.name.placeholder',
-    autoComplete: 'name',
-    maxLength: 50,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.NAME,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.NAME,
     required: true
   },
 
@@ -24,8 +20,8 @@ export const FORM_FIELDS = {
     labelKey: 'fields.nationalId.label',
     placeholder: 'Enter your national ID number',
     placeholderKey: 'fields.nationalId.placeholder',
-    autoComplete: 'off',
-    maxLength: 15,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.OFF,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.NATIONAL_ID,
     required: true
   },
 
@@ -33,9 +29,9 @@ export const FORM_FIELDS = {
     type: FIELD_TYPES.DATE,
     label: 'Date of Birth',
     labelKey: 'fields.dateOfBirth.label',
-    autoComplete: 'bday',
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.BDAY,
     required: true,
-    max: new Date().toISOString().split('T')[0] // Today's date
+    max: new Date().toISOString().split('T')[0]
   },
 
   gender: {
@@ -46,10 +42,10 @@ export const FORM_FIELDS = {
     placeholderKey: 'fields.gender.placeholder',
     required: true,
     options: [
-      { value: 'male', label: 'Male', labelKey: 'fields.gender.options.male' },
-      { value: 'female', label: 'Female', labelKey: 'fields.gender.options.female' },
-      { value: 'other', label: 'Other', labelKey: 'fields.gender.options.other' },
-      { value: 'prefer-not-to-say', label: 'Prefer not to say', labelKey: 'fields.gender.options.preferNotToSay' }
+      { value: FORM_CONSTANTS.OPTION_VALUES.GENDER.MALE, label: 'Male', labelKey: 'fields.gender.options.male' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.GENDER.FEMALE, label: 'Female', labelKey: 'fields.gender.options.female' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.GENDER.OTHER, label: 'Other', labelKey: 'fields.gender.options.other' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.GENDER.PREFER_NOT_TO_SAY, label: 'Prefer not to say', labelKey: 'fields.gender.options.preferNotToSay' }
     ]
   },
 
@@ -59,9 +55,9 @@ export const FORM_FIELDS = {
     labelKey: 'fields.address.label',
     placeholder: 'Enter your complete address',
     placeholderKey: 'fields.address.placeholder',
-    autoComplete: 'street-address',
-    rows: 3,
-    maxLength: 200,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.STREET_ADDRESS,
+    rows: FORM_CONSTANTS.TEXTAREA_ROWS.SMALL,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.ADDRESS,
     required: true
   },
 
@@ -71,8 +67,8 @@ export const FORM_FIELDS = {
     labelKey: 'fields.city.label',
     placeholder: 'Enter your city',
     placeholderKey: 'fields.city.placeholder',
-    autoComplete: 'address-level2',
-    maxLength: 50,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.ADDRESS_LEVEL_2,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.CITY,
     required: true
   },
 
@@ -82,8 +78,8 @@ export const FORM_FIELDS = {
     labelKey: 'fields.state.label',
     placeholder: 'Enter your state or province',
     placeholderKey: 'fields.state.placeholder',
-    autoComplete: 'address-level1',
-    maxLength: 50,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.ADDRESS_LEVEL_1,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.STATE,
     required: true
   },
 
@@ -93,15 +89,15 @@ export const FORM_FIELDS = {
     labelKey: 'fields.country.label',
     placeholder: 'Select your country',
     placeholderKey: 'fields.country.placeholder',
-    autoComplete: 'country',
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.COUNTRY,
     required: true,
     options: [
-      { value: 'US', label: 'United States', labelKey: 'fields.country.options.us' },
-      { value: 'CA', label: 'Canada', labelKey: 'fields.country.options.ca' },
-      { value: 'UK', label: 'United Kingdom', labelKey: 'fields.country.options.uk' },
-      { value: 'AU', label: 'Australia', labelKey: 'fields.country.options.au' },
-      { value: 'IN', label: 'India', labelKey: 'fields.country.options.in' },
-      { value: 'other', label: 'Other', labelKey: 'fields.country.options.other' }
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.US, label: 'United States', labelKey: 'fields.country.options.us' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.CA, label: 'Canada', labelKey: 'fields.country.options.ca' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.UK, label: 'United Kingdom', labelKey: 'fields.country.options.uk' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.AU, label: 'Australia', labelKey: 'fields.country.options.au' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.IN, label: 'India', labelKey: 'fields.country.options.in' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.COUNTRY.OTHER, label: 'Other', labelKey: 'fields.country.options.other' }
     ]
   },
 
@@ -109,10 +105,10 @@ export const FORM_FIELDS = {
     type: FIELD_TYPES.TEL,
     label: 'Phone Number',
     labelKey: 'fields.phone.label',
-    placeholder: '+1 (555) 123-4567',
+    placeholder: FORM_CONSTANTS.PLACEHOLDERS.PHONE,
     placeholderKey: 'fields.phone.placeholder',
-    autoComplete: 'tel',
-    maxLength: 20,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.TEL,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.PHONE,
     required: true
   },
 
@@ -122,12 +118,11 @@ export const FORM_FIELDS = {
     labelKey: 'fields.email.label',
     placeholder: 'Enter your email address',
     placeholderKey: 'fields.email.placeholder',
-    autoComplete: 'email',
-    maxLength: 100,
+    autoComplete: FORM_CONSTANTS.AUTOCOMPLETE.EMAIL,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.EMAIL,
     required: true
   },
 
-  // Step 2: Family & Financial Information
   maritalStatus: {
     type: FIELD_TYPES.SELECT,
     label: 'Marital Status',
@@ -136,11 +131,11 @@ export const FORM_FIELDS = {
     placeholderKey: 'fields.maritalStatus.placeholder',
     required: true,
     options: [
-      { value: 'single', label: 'Single', labelKey: 'fields.maritalStatus.options.single' },
-      { value: 'married', label: 'Married', labelKey: 'fields.maritalStatus.options.married' },
-      { value: 'divorced', label: 'Divorced', labelKey: 'fields.maritalStatus.options.divorced' },
-      { value: 'widowed', label: 'Widowed', labelKey: 'fields.maritalStatus.options.widowed' },
-      { value: 'separated', label: 'Separated', labelKey: 'fields.maritalStatus.options.separated' }
+      { value: FORM_CONSTANTS.OPTION_VALUES.MARITAL_STATUS.SINGLE, label: 'Single', labelKey: 'fields.maritalStatus.options.single' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.MARITAL_STATUS.MARRIED, label: 'Married', labelKey: 'fields.maritalStatus.options.married' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.MARITAL_STATUS.DIVORCED, label: 'Divorced', labelKey: 'fields.maritalStatus.options.divorced' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.MARITAL_STATUS.WIDOWED, label: 'Widowed', labelKey: 'fields.maritalStatus.options.widowed' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.MARITAL_STATUS.SEPARATED, label: 'Separated', labelKey: 'fields.maritalStatus.options.separated' }
     ]
   },
 
@@ -148,10 +143,10 @@ export const FORM_FIELDS = {
     type: FIELD_TYPES.NUMBER,
     label: 'Number of Dependents',
     labelKey: 'fields.dependents.label',
-    placeholder: '0',
+    placeholder: FORM_CONSTANTS.PLACEHOLDERS.DEPENDENTS,
     placeholderKey: 'fields.dependents.placeholder',
-    min: 0,
-    max: 20,
+    min: FORM_CONSTANTS.NUMBER_LIMITS.DEPENDENTS_MIN,
+    max: FORM_CONSTANTS.NUMBER_LIMITS.DEPENDENTS_MAX,
     required: true
   },
 
@@ -163,14 +158,14 @@ export const FORM_FIELDS = {
     placeholderKey: 'fields.employmentStatus.placeholder',
     required: true,
     options: [
-      { value: 'employed-full-time', label: 'Employed (Full-time)', labelKey: 'fields.employmentStatus.options.employedFullTime' },
-      { value: 'employed-part-time', label: 'Employed (Part-time)', labelKey: 'fields.employmentStatus.options.employedPartTime' },
-      { value: 'self-employed', label: 'Self-employed', labelKey: 'fields.employmentStatus.options.selfEmployed' },
-      { value: 'unemployed', label: 'Unemployed', labelKey: 'fields.employmentStatus.options.unemployed' },
-      { value: 'student', label: 'Student', labelKey: 'fields.employmentStatus.options.student' },
-      { value: 'retired', label: 'Retired', labelKey: 'fields.employmentStatus.options.retired' },
-      { value: 'disabled', label: 'Disabled', labelKey: 'fields.employmentStatus.options.disabled' },
-      { value: 'other', label: 'Other', labelKey: 'fields.employmentStatus.options.other' }
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.EMPLOYED_FULL_TIME, label: 'Employed (Full-time)', labelKey: 'fields.employmentStatus.options.employedFullTime' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.EMPLOYED_PART_TIME, label: 'Employed (Part-time)', labelKey: 'fields.employmentStatus.options.employedPartTime' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.SELF_EMPLOYED, label: 'Self-employed', labelKey: 'fields.employmentStatus.options.selfEmployed' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.UNEMPLOYED, label: 'Unemployed', labelKey: 'fields.employmentStatus.options.unemployed' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.STUDENT, label: 'Student', labelKey: 'fields.employmentStatus.options.student' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.RETIRED, label: 'Retired', labelKey: 'fields.employmentStatus.options.retired' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.DISABLED, label: 'Disabled', labelKey: 'fields.employmentStatus.options.disabled' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.EMPLOYMENT.OTHER, label: 'Other', labelKey: 'fields.employmentStatus.options.other' }
     ]
   },
 
@@ -178,10 +173,10 @@ export const FORM_FIELDS = {
     type: FIELD_TYPES.NUMBER,
     label: 'Monthly Income',
     labelKey: 'fields.monthlyIncome.label',
-    placeholder: '0.00',
+    placeholder: FORM_CONSTANTS.PLACEHOLDERS.INCOME,
     placeholderKey: 'fields.monthlyIncome.placeholder',
-    min: 0,
-    step: 0.01,
+    min: FORM_CONSTANTS.NUMBER_LIMITS.INCOME_MIN,
+    step: FORM_CONSTANTS.NUMBER_LIMITS.INCOME_STEP,
     required: true,
     currency: true
   },
@@ -194,24 +189,23 @@ export const FORM_FIELDS = {
     placeholderKey: 'fields.housingStatus.placeholder',
     required: true,
     options: [
-      { value: 'owned', label: 'Owned', labelKey: 'fields.housingStatus.options.owned' },
-      { value: 'rented', label: 'Rented', labelKey: 'fields.housingStatus.options.rented' },
-      { value: 'living-with-family', label: 'Living with family', labelKey: 'fields.housingStatus.options.livingWithFamily' },
-      { value: 'temporary-housing', label: 'Temporary housing', labelKey: 'fields.housingStatus.options.temporaryHousing' },
-      { value: 'homeless', label: 'Homeless', labelKey: 'fields.housingStatus.options.homeless' },
-      { value: 'other', label: 'Other', labelKey: 'fields.housingStatus.options.other' }
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.OWNED, label: 'Owned', labelKey: 'fields.housingStatus.options.owned' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.RENTED, label: 'Rented', labelKey: 'fields.housingStatus.options.rented' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.LIVING_WITH_FAMILY, label: 'Living with family', labelKey: 'fields.housingStatus.options.livingWithFamily' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.TEMPORARY_HOUSING, label: 'Temporary housing', labelKey: 'fields.housingStatus.options.temporaryHousing' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.HOMELESS, label: 'Homeless', labelKey: 'fields.housingStatus.options.homeless' },
+      { value: FORM_CONSTANTS.OPTION_VALUES.HOUSING.OTHER, label: 'Other', labelKey: 'fields.housingStatus.options.other' }
     ]
   },
 
-  // Step 3: Situation Descriptions (AI-assisted)
   currentFinancialSituation: {
     type: FIELD_TYPES.TEXTAREA,
     label: 'Current Financial Situation',
     labelKey: 'fields.currentFinancialSituation.label',
     placeholder: 'Describe your current financial situation...',
     placeholderKey: 'fields.currentFinancialSituation.placeholder',
-    rows: 5,
-    maxLength: 1000,
+    rows: FORM_CONSTANTS.TEXTAREA_ROWS.MEDIUM,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.TEXTAREA_LONG,
     required: true,
     hasAI: true,
     aiPrompt: 'Help me describe my current financial situation for a social support application'
@@ -223,8 +217,8 @@ export const FORM_FIELDS = {
     labelKey: 'fields.employmentCircumstances.label',
     placeholder: 'Describe your employment circumstances...',
     placeholderKey: 'fields.employmentCircumstances.placeholder',
-    rows: 5,
-    maxLength: 1000,
+    rows: FORM_CONSTANTS.TEXTAREA_ROWS.MEDIUM,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.TEXTAREA_LONG,
     required: true,
     hasAI: true,
     aiPrompt: 'Help me describe my employment circumstances for a social support application'
@@ -236,27 +230,20 @@ export const FORM_FIELDS = {
     labelKey: 'fields.reasonForApplying.label',
     placeholder: 'Explain why you are applying for assistance...',
     placeholderKey: 'fields.reasonForApplying.placeholder',
-    rows: 5,
-    maxLength: 1000,
+    rows: FORM_CONSTANTS.TEXTAREA_ROWS.MEDIUM,
+    maxLength: FORM_CONSTANTS.MAX_LENGTHS.TEXTAREA_LONG,
     required: true,
     hasAI: true,
     aiPrompt: 'Help me explain why I need social support assistance'
   }
 };
 
-// Helper functions
 export const getFieldConfig = (fieldName) => {
   return FORM_FIELDS[fieldName] || null;
 };
 
 export const getFieldsByStep = (stepNumber) => {
-  const stepFields = {
-    1: ['name', 'nationalId', 'dateOfBirth', 'gender', 'address', 'city', 'state', 'country', 'phone', 'email'],
-    2: ['maritalStatus', 'dependents', 'employmentStatus', 'monthlyIncome', 'housingStatus'],
-    3: ['currentFinancialSituation', 'employmentCircumstances', 'reasonForApplying']
-  };
-  
-  return stepFields[stepNumber] || [];
+  return FORM_CONSTANTS.STEP_FIELDS[stepNumber] || [];
 };
 
 export const getAIFields = () => {
@@ -266,21 +253,6 @@ export const getAIFields = () => {
       name: fieldName,
       config
     }));
-};
-
-export const isRequiredField = (fieldName) => {
-  const field = getFieldConfig(fieldName);
-  return field?.required || false;
-};
-
-export const getFieldType = (fieldName) => {
-  const field = getFieldConfig(fieldName);
-  return field?.type || FIELD_TYPES.TEXT;
-};
-
-export const getFieldOptions = (fieldName) => {
-  const field = getFieldConfig(fieldName);
-  return field?.options || [];
 };
 
 export default FORM_FIELDS;

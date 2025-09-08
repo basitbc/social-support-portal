@@ -20,7 +20,6 @@ const WizardLayout = ({
   const { t } = useTranslation();
   const { isRTL } = useUIContext();
 
-  // Generate steps from config
  const steps = Object.entries(STEPS_CONFIG).map(([stepNum, config]) => ({
   id: parseInt(stepNum),
   label: t(config.titleKey) || config.title,
@@ -58,9 +57,7 @@ const subtitleClasses = cn(
   return (
     <div className={containerClasses} {...props}>
       <div className={wrapperClasses}>
-        {/* Header */}
         <header className={headerClasses}>
-          {/* Language Toggle */}
           <div className={cn(
             'flex mb-6',
             isRTL ? 'justify-start' : 'justify-end'
@@ -68,7 +65,6 @@ const subtitleClasses = cn(
             <LanguageToggle />
           </div>
 
-          {/* Title and Subtitle */}
           <div className="mb-6">
             <h1 className={titleClasses}>
               {title}
@@ -80,12 +76,10 @@ const subtitleClasses = cn(
             )}
           </div>
 
-          {/* Progress Bar */}
        {showProgress && (
             <div className="mb-8">
               <div className={cn(
                 'max-w-3xl mx-auto',
-                // Add padding to prevent overflow
                 'px-4 sm:px-8 lg:px-12'
               )}>
                 <ProgressBar
@@ -100,12 +94,10 @@ const subtitleClasses = cn(
           )}
         </header>
 
-        {/* Main Content */}
         <main className="flex-1" id="main-content">
           {children}
         </main>
 
-        {/* Footer */}
         {footer && (
           <footer className="mt-12 pt-8 border-t border-gray-200">
             {footer}

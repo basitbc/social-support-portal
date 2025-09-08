@@ -6,7 +6,6 @@ import Button from '../atoms/Button';
 import { useFormContext } from '../../context/FormContext';
 
 const StepNavigation = ({
-  // Navigation state
   currentStep = 1,
   totalSteps = 3,
   canGoNext = true,
@@ -14,22 +13,17 @@ const StepNavigation = ({
   isFirstStep = false,
   isLastStep = false,
   
-  // Event handlers
   onNext,
   onPrev,
   
-  // Loading state
   isLoading = false,
   
-  // Button labels
   nextLabel,
   prevLabel,
   
-  // Cancel options
   showCancel = true,
-  onCancel, // Optional custom cancel handler
+  onCancel, 
   
-  // Styling
   className,
   
   ...props
@@ -37,30 +31,27 @@ const StepNavigation = ({
   const { t } = useTranslation();
   const { resetForm, setCurrentStep } = useFormContext();
   
-  // Auto-determine labels based on step with translations
   const finalNextLabel = nextLabel || (isLastStep ? t('common.submit') : t('common.next'));
   const finalPrevLabel = prevLabel || t('common.previous');
   const cancelLabel = t('common.cancel');
 
-  // Handle cancel action
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
       resetForm();
     } else {
-      resetForm(); // This clears form data and resets current step to 1
+      resetForm(); 
       if (typeof window !== 'undefined') {
         window.location.href = '/';
       }
     }
   };
 
-  // Handle previous step with context update
+
   const handlePrevious = () => {
     if (onPrev) {
       onPrev();
     }
-    // Update the current step in context when going back
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
@@ -68,7 +59,6 @@ const StepNavigation = ({
 
   return (
     <>
-      {/* Desktop Layout */}
       <div 
         className={cn(
           'hidden sm:flex items-center justify-between w-full gap-6 py-6',
@@ -76,7 +66,6 @@ const StepNavigation = ({
         )} 
         {...props}
       >
-        {/* Left side - Previous Button */}
         <div className="flex items-center">
           {!isFirstStep && onPrev ? (
             <Button
@@ -94,9 +83,7 @@ const StepNavigation = ({
           ) : null}
         </div>
 
-        {/* Right side - Cancel and Next/Submit Button */}
         <div className="flex items-center gap-4">
-          {/* Cancel Button */}
           {showCancel && (
             <Button
               variant="outline"
@@ -112,7 +99,6 @@ const StepNavigation = ({
             </Button>
           )}
 
-          {/* Next/Submit Button */}
           {onNext && (
             <Button
               variant="primary"
@@ -131,7 +117,6 @@ const StepNavigation = ({
         </div>
       </div>
 
-      {/* Mobile Layout */}
       <div 
         className={cn(
           'flex sm:hidden items-center justify-between gap-3 py-4',
@@ -139,7 +124,6 @@ const StepNavigation = ({
         )} 
         {...props}
       >
-        {/* Left Side - Previous Button */}
         <div className="flex items-center">
           {!isFirstStep && onPrev ? (
             <Button
@@ -155,13 +139,11 @@ const StepNavigation = ({
               {t('common.back')}
             </Button>
           ) : (
-            <div /> // Empty div to maintain layout
+            <div />
           )}
         </div>
 
-        {/* Right Side - Cancel and Next/Submit */}
         <div className="flex items-center gap-2">
-          {/* Cancel Icon Button (Mobile) */}
           {showCancel && (
             <Button
               variant="outline"
@@ -174,7 +156,6 @@ const StepNavigation = ({
             />
           )}
 
-          {/* Next/Submit Button */}
           {onNext && (
             <Button
               variant="primary"

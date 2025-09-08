@@ -1,12 +1,14 @@
-// Wizard steps configuration with validation rules
+import { STEPS_CONSTANTS } from "./constants";
+
+
 export const STEPS_CONFIG = {
   1: {
-    id: 'personal-info',
+    id: STEPS_CONSTANTS.STEP_IDS.PERSONAL_INFO,
     title: 'Personal Information',
     titleKey: 'steps.personalInfo.title',
     description: 'Please provide your basic personal details',
     descriptionKey: 'steps.personalInfo.description',
-    route: '/step-1',
+    route: STEPS_CONSTANTS.ROUTES.STEP_1,
     hasAI: false,
     fields: [
       'name',
@@ -22,64 +24,73 @@ export const STEPS_CONFIG = {
     ],
     validationRules: {
       name: {
-        required: 'Name is required',
-        minLength: { value: 2, message: 'Name must be at least 2 characters' },
-        maxLength: { value: 50, message: 'Name cannot exceed 50 characters' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.NAME,
+        minLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.NAME_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.NAME_MIN 
+        },
+        maxLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.NAME_MAX, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.NAME_MAX 
+        }
       },
       nationalId: {
-        required: 'National ID is required',
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.NATIONAL_ID,
         pattern: {
-          value: /^[0-9]{10,15}$/,
-          message: 'National ID must be 10-15 digits'
+          value: STEPS_CONSTANTS.VALIDATION_PATTERNS.NATIONAL_ID,
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.PATTERN.NATIONAL_ID
         }
       },
       dateOfBirth: {
-        required: 'Date of birth is required',
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.DATE_OF_BIRTH,
         validate: (value) => {
           const age = new Date().getFullYear() - new Date(value).getFullYear();
-          return age >= 18 || 'You must be at least 18 years old';
+          return age >= STEPS_CONSTANTS.VALIDATION_LIMITS.MIN_AGE || STEPS_CONSTANTS.ERROR_MESSAGES.RANGE.AGE_MIN;
         }
       },
       gender: {
-        required: 'Gender is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.GENDER
       },
       address: {
-        required: 'Address is required',
-        minLength: { value: 10, message: 'Address must be at least 10 characters' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.ADDRESS,
+        minLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.ADDRESS_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.ADDRESS_MIN 
+        }
       },
       city: {
-        required: 'City is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.CITY
       },
       state: {
-        required: 'State is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.STATE
       },
       country: {
-        required: 'Country is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.COUNTRY
       },
       phone: {
-        required: 'Phone number is required',
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.PHONE,
         pattern: {
-          value: /^[\+]?[0-9\-\(\)\s]{10,15}$/,
-          message: 'Please enter a valid phone number'
+          value: STEPS_CONSTANTS.VALIDATION_PATTERNS.PHONE,
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.PATTERN.PHONE
         }
       },
       email: {
-        required: 'Email is required',
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.EMAIL,
         pattern: {
-          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          message: 'Please enter a valid email address'
+          value: STEPS_CONSTANTS.VALIDATION_PATTERNS.EMAIL,
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.PATTERN.EMAIL
         }
       }
     }
   },
 
   2: {
-    id: 'family-financial',
+    id: STEPS_CONSTANTS.STEP_IDS.FAMILY_FINANCIAL,
     title: 'Family & Financial Information',
     titleKey: 'steps.familyFinancial.title',
     description: 'Tell us about your family and financial situation',
     descriptionKey: 'steps.familyFinancial.description',
-    route: '/step-2',
+    route: STEPS_CONSTANTS.ROUTES.STEP_2,
     hasAI: false,
     fields: [
       'maritalStatus',
@@ -90,33 +101,42 @@ export const STEPS_CONFIG = {
     ],
     validationRules: {
       maritalStatus: {
-        required: 'Marital status is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.MARITAL_STATUS
       },
       dependents: {
-        required: 'Number of dependents is required',
-        min: { value: 0, message: 'Number cannot be negative' },
-        max: { value: 20, message: 'Please enter a realistic number' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.DEPENDENTS,
+        min: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DEPENDENTS_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.RANGE.DEPENDENTS_MIN 
+        },
+        max: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DEPENDENTS_MAX, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.RANGE.DEPENDENTS_MAX 
+        }
       },
       employmentStatus: {
-        required: 'Employment status is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.EMPLOYMENT_STATUS
       },
       monthlyIncome: {
-        required: 'Monthly income is required',
-        min: { value: 0, message: 'Income cannot be negative' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.MONTHLY_INCOME,
+        min: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.INCOME_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.RANGE.INCOME_MIN 
+        }
       },
       housingStatus: {
-        required: 'Housing status is required'
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.HOUSING_STATUS
       }
     }
   },
 
   3: {
-    id: 'situation-descriptions',
+    id: STEPS_CONSTANTS.STEP_IDS.SITUATION_DESCRIPTIONS,
     title: 'Situation Descriptions',
     titleKey: 'steps.situationDescriptions.title',
     description: 'Describe your current situation (AI assistance available)',
     descriptionKey: 'steps.situationDescriptions.description',
-    route: '/step-3',
+    route: STEPS_CONSTANTS.ROUTES.STEP_3,
     hasAI: true,
     fields: [
       'currentFinancialSituation',
@@ -125,61 +145,71 @@ export const STEPS_CONFIG = {
     ],
     validationRules: {
       currentFinancialSituation: {
-        required: 'Please describe your current financial situation',
-        minLength: { value: 20, message: 'Please provide at least 20 characters' },
-        maxLength: { value: 1000, message: 'Description cannot exceed 1000 characters' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.FINANCIAL_SITUATION,
+        minLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MIN 
+        },
+        maxLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MAX, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MAX 
+        }
       },
       employmentCircumstances: {
-        required: 'Please describe your employment circumstances',
-        minLength: { value: 20, message: 'Please provide at least 20 characters' },
-        maxLength: { value: 1000, message: 'Description cannot exceed 1000 characters' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.EMPLOYMENT_CIRCUMSTANCES,
+        minLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MIN 
+        },
+        maxLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MAX, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MAX 
+        }
       },
       reasonForApplying: {
-        required: 'Please explain why you are applying for assistance',
-        minLength: { value: 20, message: 'Please provide at least 20 characters' },
-        maxLength: { value: 1000, message: 'Description cannot exceed 1000 characters' }
+        required: STEPS_CONSTANTS.ERROR_MESSAGES.REQUIRED.REASON_FOR_APPLYING,
+        minLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MIN, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MIN 
+        },
+        maxLength: { 
+          value: STEPS_CONSTANTS.VALIDATION_LIMITS.DESCRIPTION_MAX, 
+          message: STEPS_CONSTANTS.ERROR_MESSAGES.LENGTH.DESCRIPTION_MAX 
+        }
       }
     }
   }
 };
 
-// Total number of steps in the wizard
 export const TOTAL_STEPS = Object.keys(STEPS_CONFIG).length;
 
-// Get configuration for a specific step
 export const getStepConfig = (stepNumber) => {
   return STEPS_CONFIG[stepNumber] || null;
 };
 
-// Get next step number or null if at end
 export const getNextStep = (currentStep) => {
   const nextStep = currentStep + 1;
   return nextStep <= TOTAL_STEPS ? nextStep : null;
 };
 
-// Get previous step number or null if at beginning
 export const getPreviousStep = (currentStep) => {
   const prevStep = currentStep - 1;
   return prevStep >= 1 ? prevStep : null;
 };
 
-// Get all step routes as an array
 export const getAllStepRoutes = () => {
   return Object.values(STEPS_CONFIG).map(step => step.route);
 };
 
-// Find step configuration by route
 export const getStepByRoute = (route) => {
   return Object.values(STEPS_CONFIG).find(step => step.route === route) || null;
 };
 
-// Get step number from route
 export const getStepNumberByRoute = (route) => {
   const stepEntry = Object.entries(STEPS_CONFIG).find(([_, config]) => config.route === route);
   return stepEntry ? parseInt(stepEntry[0]) : null;
 };
 
-// Get validation rules for a specific field in a step
 export const getFieldValidation = (stepNumber, fieldName) => {
   const step = getStepConfig(stepNumber);
   return step?.validationRules?.[fieldName] || {};

@@ -150,7 +150,7 @@
             }
         },
         "monthlyIncome": {
-            "label": "Monthly Income",
+            "label": "Monthly Income (AED)",
             "placeholder": "0.00",
             "helpText": "Include all sources of income before taxes and deductions"
         },

@@ -1,5 +1,3 @@
-// pages/Step2.jsx
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -18,21 +16,16 @@ import {
   ROUTES 
 } from '../config/constants';
 
-// Step 2 component for family and financial information collection
 const Step2 = () => {
-  // Navigation and internationalization hooks
   const navigate = useNavigate();
   const { t } = useTranslation();
   
-  // Form and UI context hooks
   const { formData, updateFormData, setCurrentStep } = useFormContext();
   const { isLoading, setIsLoading } = useUIContext();
 
-  // Get configuration for current step
   const stepConfig = STEPS_CONFIG[2];
   const stepFields = getFieldsByStep(2);
 
-  // Form validation and state management
   const {
     register,
     handleSubmit,
@@ -44,7 +37,7 @@ const Step2 = () => {
   } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    // Initialize form with existing data or empty strings
+    // Initialize form with existing data
     defaultValues: stepFields.reduce((acc, field) => ({
       ...acc,
       [field]: formData[field] || ''
@@ -54,7 +47,6 @@ const Step2 = () => {
   // Watch form values for real-time updates
   const watchedValues = watch();
 
-  // Handle form submission and navigation to next step
   const handleNext = async (data) => {
     setIsLoading(true);
     try {
@@ -68,47 +60,39 @@ const Step2 = () => {
     }
   };
 
-  // Navigate to previous step
   const handlePrevious = () => {
     navigate(ROUTES.STEP_1);
   };
 
-  // Handle individual field changes with validation
   const handleFieldChange = async (fieldName, value) => {
     setValue(fieldName, value);
     updateFormData({ [fieldName]: value });
     
-    // Clear field errors when user starts typing
     if (errors[fieldName]) {
       clearErrors(fieldName);
     }
     
-    // Trigger validation for the field
     await trigger(fieldName);
   };
 
-  // Get marital status options with translations
   const getMaritalStatusOptions = () => 
     MARITAL_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.maritalStatus.options.${option.value}`)
     }));
 
-  // Get employment status options with translations
   const getEmploymentStatusOptions = () => 
     EMPLOYMENT_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.employmentStatus.options.${option.value}`)
     }));
 
-  // Get housing status options with translations
   const getHousingStatusOptions = () => 
     HOUSING_STATUS_OPTIONS.map(option => ({
       ...option,
       label: t(`fields.housingStatus.options.${option.value}`)
     }));
 
-  // Create validation rules with translated error messages
   const getValidationRules = (fieldName) => {
     const baseRules = stepConfig.validationRules[fieldName] || {};
     const translatedRules = { ...baseRules };
@@ -158,7 +142,6 @@ const Step2 = () => {
         </div>
 
         <form onSubmit={handleSubmit(handleNext)} className="space-y-6">
-          {/* Family Information Section */}
           <div className="bg-gray-50 rounded-lg p-6 mb-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Users className="w-5 h-5 text-primary-600" />
@@ -166,7 +149,6 @@ const Step2 = () => {
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Marital Status Field */}
               <FormField
                 type="select"
                 name="maritalStatus"
@@ -180,7 +162,6 @@ const Step2 = () => {
                 onChange={(e) => handleFieldChange('maritalStatus', e.target.value)}
               />
 
-              {/* Number of Dependents Field */}
               <FormField
                 type="number"
                 name="dependents"
@@ -198,7 +179,6 @@ const Step2 = () => {
             </div>
           </div>
 
-          {/* Financial Information Section */}
           <div className="bg-gray-50 rounded-lg p-6 mb-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <DollarSign className="w-5 h-5 text-primary-600" />
@@ -206,7 +186,6 @@ const Step2 = () => {
             </h3>
             
             <div className="space-y-6">
-              {/* Monthly Income Field - Full Width */}
               <FormField
                 type="number"
                 name="monthlyIncome"
@@ -222,9 +201,7 @@ const Step2 = () => {
                 onChange={(e) => handleFieldChange('monthlyIncome', e.target.value)}
               />
 
-              {/* Employment and Housing Status - Two Column Layout */}
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Employment Status Field */}
                 <FormField
                   type="select"
                   name="employmentStatus"
@@ -238,7 +215,6 @@ const Step2 = () => {
                   onChange={(e) => handleFieldChange('employmentStatus', e.target.value)}
                 />
 
-                {/* Housing Status Field */}
                 <FormField
                   type="select"
                   name="housingStatus"
@@ -255,7 +231,6 @@ const Step2 = () => {
             </div>
           </div>
 
-          {/* Navigation Section */}
           <div className="pt-8 border-t border-gray-200">
             <StepNavigation
               currentStep={2}

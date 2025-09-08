@@ -34,7 +34,6 @@ const Select = forwardRef(({
     rtl:text-right rtl:pr-10 rtl:pl-4
   `;
 
-  // Handle both simple options array and option groups
   const hasGroups = optionGroups.length > 0;
   const simpleOptions = hasGroups ? [] : options;
 
@@ -79,7 +78,7 @@ const Select = forwardRef(({
           baseStyles,
           error ? errorStyles : validStyles,
           rtlStyles,
-          'pr-10 rtl:pr-4 rtl:pl-10', // Space for dropdown arrow
+          'pr-10 rtl:pr-4 rtl:pl-10', 
           className
         )}
         {...props}
@@ -97,7 +96,6 @@ const Select = forwardRef(({
         )}
       </select>
 
-      {/* Custom Dropdown Arrow */}
       <div className={cn(
         'absolute inset-y-0 right-0 rtl:right-auto rtl:left-0',
         'flex items-center px-2 pointer-events-none',

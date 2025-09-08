@@ -1,19 +1,9 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-// Providers Wrapper
-
-// Router Component
 import AppRouter from './router/AppRouter.jsx';
-
-// Error Boundary
 import ErrorBoundary from './components/organisms/ErrorBoundary.jsx';
-
-// Loading Component
 import LoadingSpinner from './components/atoms/LoadingSpinner.jsx';
-
-// Custom Hooks
 import AppProviders from './context/AppProviders.jsx';
 import ScrollToTop from './components/atoms/ScrollToTop.jsx';
 

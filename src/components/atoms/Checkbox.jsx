@@ -107,7 +107,6 @@ const Checkbox = forwardRef(({
         </label>
       </div>
 
-      {/* Label and Description */}
       {(label || description) && (
         <div className={cn(
           'ml-3 rtl:ml-0 rtl:mr-3',

@@ -31,19 +31,16 @@ const Review = () => {
     }))
   }));
 
-  // Navigate to specific step for editing
   const handleEdit = (route) => {
     navigate(route);
   };
 
-  // Navigate back to previous step
   const handlePrevious = () => {
     navigate(ROUTES.STEP_3);
   };
 
   // Handle form submission with validation and API call
   const handleSubmit = async () => {
-    // Basic validation - check for required fields
     const requiredFields = Object.values(STEPS_CONFIG)
       .flatMap(step => getFieldsByStep(parseInt(Object.keys(STEPS_CONFIG).find(key => STEPS_CONFIG[key] === step))));
 
@@ -59,10 +56,8 @@ const Review = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API submission delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Generate submission data with reference number
       const referenceNumber = `SSA-${Date.now().toString().slice(-8)}`;
       const submissionData = {
         referenceNumber,
@@ -70,7 +65,6 @@ const Review = () => {
         formData: { ...formData }
       };
       
-      // Update context state and navigate to success page
       setSubmissionData(submissionData);
       setIsSubmitted(true);
       navigate(ROUTES.SUCCESS);
@@ -84,7 +78,6 @@ const Review = () => {
     }
   };
 
-  // Helper function to get translated field labels
   function getFieldLabel(fieldName) {
     return t(`fields.${fieldName}.label`, { defaultValue: fieldName });
   }
@@ -93,7 +86,6 @@ const Review = () => {
   function formatFieldValue(fieldName, value) {
     if (!value) return null;
 
-    // Handle select field values that need translation
     const selectFields = {
       gender: 'fields.gender.options',
       maritalStatus: 'fields.maritalStatus.options',
@@ -107,7 +99,6 @@ const Review = () => {
       return translatedValue;
     }
 
-    // Format currency for monthlyIncome field
     if (fieldName === 'monthlyIncome') {
       const number = parseFloat(value);
       return new Intl.NumberFormat(t('common.locale', { defaultValue: 'en-US' }), {
@@ -116,7 +107,6 @@ const Review = () => {
       }).format(number);
     }
 
-    // Format date for dateOfBirth field
     if (fieldName === 'dateOfBirth') {
       const date = new Date(value);
       return new Intl.DateTimeFormat(t('common.locale', { defaultValue: 'en-US' })).format(date);
@@ -139,38 +129,31 @@ const Review = () => {
       maxWidth="5xl"
     >
       <div className="space-y-8">
-        {/* Completion Status Header */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="text-center mb-6">
-            {/* Status icon */}
             <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-primary-600" />
             </div>
             
-            {/* Page title */}
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               {t('pages.review.title')}
             </h2>
             
-            {/* Description */}
             <p className="text-gray-600 mb-4">
               {t('pages.review.description')}
             </p>
           </div>
         </div>
 
-        {/* Review Sections - Display all form data organized by steps */}
         <div className="space-y-6">
           {reviewSections.map((section) => (
             <div key={section.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
-              {/* Section Header with Edit Button */}
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">
                     {section.title}
                   </h3>
                   
-                  {/* Edit button for this section */}
                   <Button
                     variant="outline"
                     size="sm"
@@ -183,7 +166,6 @@ const Review = () => {
                 </div>
               </div>
 
-              {/* Section Content - Display all fields from this step */}
               <div className="p-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   {section.fields.map((field) => (
@@ -193,7 +175,6 @@ const Review = () => {
                         {field.label}
                       </label>
                       
-                      {/* Field value - different rendering for textarea vs regular fields */}
                       {field.isTextArea ? (
                         <div className="bg-gray-50 rounded-lg p-3 min-h-[100px] mt-1">
                           <p className="text-gray-900 text-sm leading-relaxed whitespace-pre-wrap">
@@ -221,10 +202,8 @@ const Review = () => {
           ))}
         </div>
 
-        {/* Final Actions - Submit section */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="text-center mb-6">
-            {/* Submission confirmation text */}
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {t('pages.review.readyToSubmit')}
             </h3>
@@ -233,13 +212,12 @@ const Review = () => {
             </p>
           </div>
 
-          {/* Navigation with submit functionality */}
           <StepNavigation
             currentStep={4}
             totalSteps={4}
             onNext={handleSubmit}
             onPrev={handlePrevious}
-            canGoNext={completionPercentage === 100} // Only allow submit if 100% complete
+            canGoNext={completionPercentage === 100}
             canGoPrev={true}
             isFirstStep={false}
             isLastStep={true}
