@@ -52,7 +52,7 @@ const Step2 = () => {
     try {
       updateFormData(data);
       setCurrentStep(3);
-      navigate(ROUTES.STEP_3);
+      navigate(ROUTES.SITUATION_DETAILS);
     } catch (error) {
       console.error('Error saving step 2 data:', error);
     } finally {
@@ -61,7 +61,7 @@ const Step2 = () => {
   };
 
   const handlePrevious = () => {
-    navigate(ROUTES.STEP_1);
+    navigate(ROUTES.PERSONAL_INFO);
   };
 
   const handleFieldChange = async (fieldName, value) => {

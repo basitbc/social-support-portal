@@ -87,7 +87,7 @@ const Step3 = () => {
   const handlePrevious = () => {
     const currentData = getValues();
     updateFormData(currentData);
-    navigate(ROUTES.STEP_2);
+    navigate(ROUTES.FAMILY_FINANCIAL);
   };
 
   const handleFieldChange = useCallback(async (fieldName, value) => {

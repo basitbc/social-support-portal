@@ -5,18 +5,18 @@ import ProtectedRoute from './ProtectedRoute';
 import Docs from '../pages/Documentation';
 import LoadingSpinner from '../components/atoms/LoadingSpinner';
 
-// code splitting
+// Code splitting with descriptive component names
 const Start = React.lazy(() => import('../pages/Start'));
-const Step1 = React.lazy(() => import('../pages/Step1'));
-const Step2 = React.lazy(() => import('../pages/Step2'));
-const Step3 = React.lazy(() => import('../pages/Step3'));
+const PersonalInfo = React.lazy(() => import('../pages/PersonalInfo'));
+const FamilyFinancial = React.lazy(() => import('../pages/FamilyFinancial'));
+const SituationDetails = React.lazy(() => import('../pages/SituationDetails'));
 const Review = React.lazy(() => import('../pages/Review'));
 const Success = React.lazy(() => import('../pages/Success'));
 
 const STEP_ROUTES = [
-  { path: ROUTES.STEP_1, component: Step1, stepNumber: 1 },
-  { path: ROUTES.STEP_2, component: Step2, stepNumber: 2 },
-  { path: ROUTES.STEP_3, component: Step3, stepNumber: 3 },
+  { path: ROUTES.PERSONAL_INFO, component: PersonalInfo, stepNumber: 1 },
+  { path: ROUTES.FAMILY_FINANCIAL, component: FamilyFinancial, stepNumber: 2 },
+  { path: ROUTES.SITUATION_DETAILS, component: SituationDetails, stepNumber: 3 },
   { path: ROUTES.REVIEW, component: Review, stepNumber: 4 }
 ];
 

@@ -48,7 +48,7 @@ const Step1 = () => {
     try {
       updateFormData(data);
       setCurrentStep(2);
-      navigate(ROUTES.STEP_2);
+      navigate(ROUTES.FAMILY_FINANCIAL);
     } catch (error) {
       console.error('Error saving step 1 data:', error);
     } finally {

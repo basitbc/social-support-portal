@@ -11,12 +11,19 @@ export const STORAGE_KEYS = {
 // Application routes
 export const ROUTES = {
   HOME: '/',
-  STEP_1: '/step-1',
-  STEP_2: '/step-2', 
-  STEP_3: '/step-3',
+  PERSONAL_INFO: '/personal-info',
+  FAMILY_FINANCIAL: '/family-financial', 
+  SITUATION_DETAILS: '/situation-details',
   REVIEW: '/review',
   SUCCESS: '/success',
   DOCS: '/docs'
+};
+
+export const STEP_ROUTES = {
+  1: ROUTES.PERSONAL_INFO,
+  2: ROUTES.FAMILY_FINANCIAL,
+  3: ROUTES.SITUATION_DETAILS,
+  4: ROUTES.REVIEW,
 };
 
 // Predefined AI suggestions for form fields by language
@@ -334,9 +341,9 @@ export const STEPS_CONSTANTS = {
     SITUATION_DESCRIPTIONS: 'situation-descriptions'
   },
   ROUTES: {
-    STEP_1: '/step-1',
-    STEP_2: '/step-2',
-    STEP_3: '/step-3'
+  PERSONAL_INFO: '/personal-info',
+  FAMILY_FINANCIAL: '/family-financial', 
+  SITUATION_DETAILS: '/situation-details',
   },
   VALIDATION_LIMITS: {
     NAME_MIN: 2,

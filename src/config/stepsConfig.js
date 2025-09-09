@@ -1,4 +1,4 @@
-import { STEPS_CONSTANTS } from "./constants";
+import { ROUTES, STEPS_CONSTANTS } from "./constants";
 
 
 export const STEPS_CONFIG = {
@@ -8,7 +8,7 @@ export const STEPS_CONFIG = {
     titleKey: 'steps.personalInfo.title',
     description: 'Please provide your basic personal details',
     descriptionKey: 'steps.personalInfo.description',
-    route: STEPS_CONSTANTS.ROUTES.STEP_1,
+    route: ROUTES.PERSONAL_INFO,
     hasAI: false,
     fields: [
       'name',
@@ -90,7 +90,7 @@ export const STEPS_CONFIG = {
     titleKey: 'steps.familyFinancial.title',
     description: 'Tell us about your family and financial situation',
     descriptionKey: 'steps.familyFinancial.description',
-    route: STEPS_CONSTANTS.ROUTES.STEP_2,
+    route: ROUTES.FAMILY_FINANCIAL,
     hasAI: false,
     fields: [
       'maritalStatus',
@@ -136,7 +136,7 @@ export const STEPS_CONFIG = {
     titleKey: 'steps.situationDescriptions.title',
     description: 'Describe your current situation (AI assistance available)',
     descriptionKey: 'steps.situationDescriptions.description',
-    route: STEPS_CONSTANTS.ROUTES.STEP_3,
+    route: ROUTES.SITUATION_DETAILS,
     hasAI: true,
     fields: [
       'currentFinancialSituation',

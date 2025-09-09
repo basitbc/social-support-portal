@@ -33,13 +33,13 @@ const ProtectedRoute = ({ children, stepNumber, requiredData = [] }) => {
 
   if (stepNumber > highestAccessible) {
     const redirectRoutes = {
-      1: ROUTES.STEP_1,
-      2: ROUTES.STEP_2,
-      3: ROUTES.STEP_3,
+      1: ROUTES.PERSONAL_INFO,
+      2: ROUTES.FAMILY_FINANCIAL,
+      3: ROUTES.SITUATION_DETAILS,
       4: ROUTES.REVIEW
     };
     
-    const redirectRoute = redirectRoutes[highestAccessible] || ROUTES.STEP_1;
+    const redirectRoute = redirectRoutes[highestAccessible] || ROUTES.PERSONAL_INFO;
     return <Navigate to={redirectRoute} replace />;
   }
 

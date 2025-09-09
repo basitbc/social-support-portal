@@ -36,7 +36,7 @@ const Review = () => {
   };
 
   const handlePrevious = () => {
-    navigate(ROUTES.STEP_3);
+    navigate(ROUTES.SITUATION_DETAILS);
   };
 
   // Handle form submission with validation and API call
@@ -72,7 +72,6 @@ const Review = () => {
     } catch (error) {
       console.error('Submission error:', error);
       setFieldError('submission', t('validation.submissionFailed'));
-      navigate(ROUTES.ERROR, { state: { error: { type: 'submission_failed', message: error.message } } });
     } finally {
       setIsLoading(false);
     }

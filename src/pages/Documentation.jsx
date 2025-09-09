@@ -17,156 +17,27 @@ const ATOMS_DATA = [
   { name: 'LoadingSpinner.jsx', desc: 'Loading indicator with accessibility announcements' }
 ];
 
+// Simplified requirements data
 const FUNCTIONAL_REQUIREMENTS = [
-  {
-    title: 'Core User Journey',
-    color: 'green',
-    items: [
-      'Multi-step wizard form (3 steps + review)',
-      'Form validation with real-time feedback',
-      'Data persistence across sessions',
-      'Progress tracking and navigation',
-      'Final submission with confirmation'
-    ]
-  },
-  {
-    title: 'Form Fields',
-    color: 'blue',
-    items: [
-      'Step 1: 9 personal info fields',
-      'Step 2: 5 family & financial fields',
-      'Step 3: 3 situation description textareas',
-      'Field validation with error messages',
-      'Required field indicators'
-    ]
-  },
-  {
-    title: 'AI Integration',
-    color: 'purple',
-    items: [
-      '"Help Me Write" button on textareas',
-      'OpenAI GPT text suggestions',
-      'Modal with Accept/Edit/Discard options',
-      'Context-aware prompting',
-      'Fallback for API failures'
-    ]
-  },
-  {
-    title: 'Internationalization',
-    color: 'orange',
-    items: [
-      'Bilingual support (English + Arabic)',
-      'RTL (Right-to-Left) layout support',
-      'Dynamic language switching',
-      'Culturally appropriate formatting',
-      'Translation persistence'
-    ]
-  },
-  {
-    title: 'Data Management',
-    color: 'teal',
-    items: [
-      'LocalStorage persistence',
-      'Auto-save on field changes',
-      'Data recovery on page reload',
-      'Final submission via mock API',
-      'Reference number generation'
-    ]
-  },
-  {
-    title: 'User Experience',
-    color: 'pink',
-    items: [
-      'Responsive, mobile-first design',
-      'Loading states and transitions',
-      'Error boundaries for graceful failures',
-      'Confirmation and success pages',
-      'Terms & conditions acceptance'
-    ]
-  }
+  'Multi-step wizard form',
+  'Form validations',
+  'Data persistence across sessions',
+  'Progress tracking and navigation',
+  'AI-powered "Help Me Write" for textareas',
+  'Bilingual support (English + Arabic)',
+  'RTL (Right-to-Left) layout support',
+  'Responsive, mobile-first design',
+  'Error boundaries for graceful failures'
 ];
 
 const NON_FUNCTIONAL_REQUIREMENTS = [
-  {
-    title: 'Performance',
-    color: 'red',
-    items: [
-      'Initial load time < 3 seconds',
-      'Form submission < 2 seconds',
-      'AI response time < 10 seconds',
-      'Smooth animations (60fps)',
-      'Lazy loading for heavy components'
-    ]
-  },
-  {
-    title: 'Accessibility',
-    color: 'blue',
-    items: [
-      'WCAG 2.1 AA compliance',
-      'Screen reader compatibility',
-      'Keyboard navigation support',
-      'High contrast mode support',
-      'Focus management and ARIA labels'
-    ]
-  },
-  {
-    title: 'Reliability',
-    color: 'green',
-    items: [
-      '99.5% uptime availability',
-      'Error recovery mechanisms',
-      'Data persistence reliability',
-      'Graceful API failure handling',
-      'Cross-browser compatibility'
-    ]
-  },
-  {
-    title: 'Security',
-    color: 'yellow',
-    items: [
-      'Client-side data validation',
-      'Secure API communication',
-      'PII data protection',
-      'Content Security Policy (CSP)',
-      'XSS and injection prevention'
-    ]
-  },
-  {
-    title: 'Scalability',
-    color: 'purple',
-    items: [
-      'Component reusability',
-      'Modular architecture',
-      'Easy step addition/removal',
-      'Language expansion support',
-      'API integration flexibility'
-    ]
-  },
-  {
-    title: 'Maintainability',
-    color: 'teal',
-    items: [
-      'Clean code principles',
-      'Comprehensive documentation',
-      'Automated testing setup',
-      'Version control best practices',
-      'Code review processes'
-    ]
-  }
+  'Keyboard navigation support',
+  'Component reusability',
+  'Modular architecture',
+  'Clean code principles',
 ];
 
 // Reusable Components
-const RequirementCard = memo(({ title, color, items }) => (
-  <div className={`bg-${color}-50 p-4 rounded border-l-4 border-${color}-400`}>
-    <h5 className={`font-semibold text-${color}-900 mb-2`}>{title}</h5>
-    <ul className={`text-sm text-${color}-800 space-y-1`}>
-      {items.map((item, index) => (
-        <li key={index}>• {item}</li>
-      ))}
-    </ul>
-  </div>
-));
-
 const FlowStep = memo(({ step, action, index, isLast }) => (
   <div className="flex items-center">
     <div className="bg-green-100 text-green-800 px-3 py-2 rounded-full text-sm font-medium">
@@ -197,19 +68,21 @@ const ErrorBoundary = ({ children }) => {
   return children;
 };
 
-// Memoized Section Components
+// Simplified Requirements Section
 const RequirementsSection = memo(() => (
   <div className="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl border border-indigo-200">
     <div className="space-y-6">
-      {/* Functional Requirements */}
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <h4 className="font-semibold text-indigo-900 mb-4 flex items-center gap-2">
           <Settings className="w-5 h-5" aria-hidden="true" />
           Functional Requirements
         </h4>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {FUNCTIONAL_REQUIREMENTS.map((req, index) => (
-            <RequirementCard key={req.title} {...req} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {FUNCTIONAL_REQUIREMENTS.map((requirement, index) => (
+            <div key={index} className="flex items-start gap-2">
+              <span className="text-blue-500 mt-1">•</span>
+              <span className="text-gray-700 text-sm">{requirement}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -220,35 +93,13 @@ const RequirementsSection = memo(() => (
           <Zap className="w-5 h-5" aria-hidden="true" />
           Non-Functional Requirements
         </h4>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {NON_FUNCTIONAL_REQUIREMENTS.map((req) => (
-            <RequirementCard key={req.title} {...req} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {NON_FUNCTIONAL_REQUIREMENTS.map((requirement, index) => (
+            <div key={index} className="flex items-start gap-2">
+              <span className="text-purple-500 mt-1">•</span>
+              <span className="text-gray-700 text-sm">{requirement}</span>
+            </div>
           ))}
-        </div>
-      </div>
-
-      {/* Out of Scope */}
-      <div className="bg-white p-6 rounded-lg shadow-sm">
-        <h4 className="font-semibold text-red-900 mb-4">Out of Scope (Non-Requirements)</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-gray-50 p-4 rounded">
-            <h5 className="font-semibold text-gray-800 mb-2">Backend Implementation</h5>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Real database integration</li>
-              <li>• User authentication system</li>
-              <li>• Server-side validation</li>
-              <li>• Payment processing</li>
-            </ul>
-          </div>
-          <div className="bg-gray-50 p-4 rounded">
-            <h5 className="font-semibold text-gray-800 mb-2">Advanced Features</h5>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Document upload/attachment</li>
-              <li>• Email notifications</li>
-              <li>• Application status tracking</li>
-              <li>• Admin dashboard</li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -256,6 +107,7 @@ const RequirementsSection = memo(() => (
 ));
 
 const ArchitectureDiagram = memo(() => (
+  <>
   <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-xl border border-blue-200">
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
       {/* Presentation Layer */}
@@ -332,6 +184,26 @@ const ArchitectureDiagram = memo(() => (
       <ArrowRight className="w-6 h-6" />
     </div>
   </div>
+     {/* Key Principles */}
+          <section className="bg-white p-8 mt-5 rounded-xl shadow-sm border">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Architecture Principles</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: 'SOLID Principles', desc: 'Single responsibility, open/closed, dependency inversion for maintainable code.', color: 'blue' },
+                { title: 'Atomic Design', desc: 'Hierarchical component structure from atoms to templates for consistency.', color: 'green' },
+                { title: 'Context Pattern', desc: 'Centralized state management with separation of concerns.', color: 'purple' },
+                { title: 'Progressive Enhancement', desc: 'AI features enhance but don\'t replace core functionality.', color: 'orange' },
+                { title: 'Accessibility First', desc: 'ARIA roles, keyboard navigation, screen reader support.', color: 'teal' },
+                { title: 'Internationalization', desc: 'RTL support, dynamic translations, cultural considerations.', color: 'pink' }
+              ].map(principle => (
+                <div key={principle.title} className={`bg-${principle.color}-50 p-6 rounded-lg`}>
+                  <h3 className={`font-semibold text-${principle.color}-900 mb-3`}>{principle.title}</h3>
+                  <p className={`text-${principle.color}-800 text-sm`}>{principle.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+  </>
 ));
 
 const DataFlowDiagram = memo(() => {
@@ -347,6 +219,20 @@ const DataFlowDiagram = memo(() => {
   return (
     <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-xl border border-green-200">
       <div className="space-y-6">
+         {/* Data Persistence Flow */}
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+          <h4 className="font-semibold text-green-900 mb-4">Data Persistence Flow</h4>
+          <div className="flex flex-wrap justify-center gap-4">
+            {persistenceSteps.map((step, index) => (
+              <FlowStep
+                key={step}
+                step={step}
+                index={index}
+                isLast={index === persistenceSteps.length - 1}
+              />
+            ))}
+          </div>
+        </div>
         {/* State Flow */}
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="font-semibold text-green-900 mb-4">State Flow Architecture</h4>
@@ -381,20 +267,7 @@ const DataFlowDiagram = memo(() => {
           </div>
         </div>
 
-        {/* Data Persistence Flow */}
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="font-semibold text-green-900 mb-4">Data Persistence Flow</h4>
-          <div className="flex flex-wrap justify-center gap-4">
-            {persistenceSteps.map((step, index) => (
-              <FlowStep
-                key={step}
-                step={step}
-                index={index}
-                isLast={index === persistenceSteps.length - 1}
-              />
-            ))}
-          </div>
-        </div>
+       
       </div>
     </div>
   );
@@ -588,25 +461,7 @@ const SystemDesignDocs = () => {
             {renderContent()}
           </main>
 
-          {/* Key Principles */}
-          <section className="bg-white p-8 rounded-xl shadow-sm border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Architecture Principles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { title: 'SOLID Principles', desc: 'Single responsibility, open/closed, dependency inversion for maintainable code.', color: 'blue' },
-                { title: 'Atomic Design', desc: 'Hierarchical component structure from atoms to templates for consistency.', color: 'green' },
-                { title: 'Context Pattern', desc: 'Centralized state management with separation of concerns.', color: 'purple' },
-                { title: 'Progressive Enhancement', desc: 'AI features enhance but don\'t replace core functionality.', color: 'orange' },
-                { title: 'Accessibility First', desc: 'ARIA roles, keyboard navigation, screen reader support.', color: 'teal' },
-                { title: 'Internationalization', desc: 'RTL support, dynamic translations, cultural considerations.', color: 'pink' }
-              ].map(principle => (
-                <div key={principle.title} className={`bg-${principle.color}-50 p-6 rounded-lg`}>
-                  <h3 className={`font-semibold text-${principle.color}-900 mb-3`}>{principle.title}</h3>
-                  <p className={`text-${principle.color}-800 text-sm`}>{principle.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+       
         </div>
       </div>
     </ErrorBoundary>

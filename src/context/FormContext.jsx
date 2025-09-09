@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { stepRequirements, STORAGE_KEYS } from '../config/constants';
+import { STEP_ROUTES, stepRequirements, STORAGE_KEYS } from '../config/constants';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 
@@ -83,10 +83,10 @@ export const FormProvider = ({ children }) => {
     setTermsAccepted(false);
   };
 
- const hasRequiredDataForStep = (step, formData) => {
+const hasRequiredDataForStep = (step, data = formData) => {
   const required = stepRequirements[step] || [];
   return required.every(
-    field => formData[field] && String(formData[field]).trim() !== ''
+    field => data && data[field] && String(data[field]).trim() !== ''
   );
 };
 
@@ -98,7 +98,7 @@ export const FormProvider = ({ children }) => {
 
     let highestAccessible = 1;
     for (let step = 2; step <= 3; step++) {
-      if (hasRequiredDataForStep(step)) {
+      if (hasRequiredDataForStep(step,formData)) {
         highestAccessible = step;
       } else {
         break; 
@@ -109,16 +109,9 @@ export const FormProvider = ({ children }) => {
     
     setCurrentStep(allowedStep);
     
-    const routes = {
-      1: '/step-1',
-      2: '/step-2', 
-      3: '/step-3',
-      4: '/review'
-    };
-    
-    if (routes[allowedStep]) {
-      navigate(routes[allowedStep]);
-    }
+  if (STEP_ROUTES[allowedStep]) {
+  navigate(STEP_ROUTES[allowedStep]);
+}
   };
 
   const value = {

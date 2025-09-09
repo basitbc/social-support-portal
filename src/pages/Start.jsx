@@ -23,7 +23,7 @@ const Start = () => {
       return;
     }
     clearFieldError('terms');
-    navigate(ROUTES.STEP_1);
+    navigate(ROUTES.PERSONAL_INFO);
   };
 
   const handleTermsChange = (accepted) => {
