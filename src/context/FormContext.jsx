@@ -83,6 +83,11 @@ export const FormProvider = ({ children }) => {
     setTermsAccepted(false);
   };
 
+    const handleReset = () => {
+    setFormData(initialFormData);
+    removeFormData();
+  };
+
 const hasRequiredDataForStep = (step, data = formData) => {
   const required = stepRequirements[step] || [];
   return required.every(
@@ -130,7 +135,8 @@ const hasRequiredDataForStep = (step, data = formData) => {
     goToStep,
     navigateToStep, 
     hasRequiredDataForStep,
-    clearFormData
+    clearFormData,
+    handleReset
   };
 
   return (

@@ -292,6 +292,8 @@
             },
             "termsTitle": "الشروط والأحكام",
             "startButton": "بدء الطلب",
+            "startNewButton": "ابدأ طلباً جديداً",
+            "resumeButton": "استكمل الطلب السابق",
             "estimatedTime": "يستغرق حوالي 10-15 دقيقة لإكماله"
         },
         "review": {

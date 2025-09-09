@@ -292,6 +292,8 @@
             },
             "termsTitle": "Terms and Conditions",
             "startButton": "Start Application",
+            "startNewButton": "Start New Application",
+            "resumeButton": "Resume Previous Application",
             "estimatedTime": "Takes approximately 10-15 minutes to complete"
         },
         "review": {
