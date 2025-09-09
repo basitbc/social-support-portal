@@ -131,7 +131,6 @@ const Button = forwardRef(
   }
 );
 
-// Set display name for better debugging in React DevTools
 Button.displayName = "Button";
 
 export default Button;

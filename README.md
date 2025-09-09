@@ -2,15 +2,20 @@
 
 A multi-step government social support portal with AI assistance, built with React, Vite, and Tailwind CSS.
 
+## 🌐 Live Links
+
+* **Live Demo (Deployed on Vercel):** [https://social-support-portal-xi.vercel.app/](https://social-support-portal-xi.vercel.app/)
+* **Project Demo Video:** [Watch on Google Drive](https://drive.google.com/file/d/1Dor2K6nZLILGU9oe72yq_zykhYiu0ViO/view?usp=sharing)
+
 ## 🚀 Quick Start
 
 Follow these simple steps to get the project running on your local machine.
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- OpenAI API key (optional, for AI features)
+* Node.js (v16 or higher)
+* npm or yarn
+* OpenAI API key (optional, for AI features)
 
 ### 📦 Installation
 
@@ -109,13 +114,13 @@ npm run lint
 
 ## 🌟 Features
 
-- ✅ Multi-step wizard form (3 steps + review)
-- ✅ AI-powered text suggestions
-- ✅ Bilingual support (English/Arabic) with RTL
-- ✅ Mobile-first responsive design
-- ✅ Form validation and persistence
-- ✅ Accessibility compliant (WCAG 2.1 AA)
-- ✅ Modern React architecture with Context API
+* ✅ Multi-step wizard form (3 steps + review)
+* ✅ AI-powered text suggestions
+* ✅ Bilingual support (English/Arabic) with RTL
+* ✅ Mobile-first responsive design
+* ✅ Form validation and persistence
+* ✅ Accessibility compliant (WCAG 2.1 AA)
+* ✅ Modern React architecture with Context API
 
 ## 🔧 Configuration
 
@@ -123,6 +128,7 @@ npm run lint
 
 1. Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
 2. Update the `.env` file with your key:
+
    ```env
    VITE_OPENAI_API_KEY=sk-your-actual-api-key-here
    ```
@@ -130,8 +136,9 @@ npm run lint
 ### Language Configuration
 
 The app supports English and Arabic by default. Language files are located in:
-- `public/locales/en.json`
-- `public/locales/ar.json`
+
+* `public/locales/en.json`
+* `public/locales/ar.json`
 
 ## 📁 Project Structure
 
@@ -154,6 +161,7 @@ src/
 ### Common Issues
 
 **Port already in use:**
+
 ```bash
 # Kill process on port 5173
 npx kill-port 5173
@@ -162,6 +170,7 @@ npm run dev -- --port 3000
 ```
 
 **Dependencies issues:**
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules package-lock.json
@@ -169,9 +178,9 @@ npm install
 ```
 
 **OpenAI API not working:**
-- Check your API key is valid
-- Ensure you have credits in your OpenAI account
-- Verify the `.env` file is in the root directory
 
+* Check your API key is valid
+* Ensure you have credits in your OpenAI account
+* Verify the `.env` file is in the root directory
 
 **Happy coding! 🎉**

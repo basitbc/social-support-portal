@@ -15,7 +15,6 @@ const ErrorMessage = ({
   dir = 'auto',
   ...props
 }) => {
-  // Handle different error formats
   const errorMessages = (() => {
     if (error) {
       if (typeof error === 'string') return [error];
@@ -33,7 +32,6 @@ const ErrorMessage = ({
     return [];
   })();
 
-  // Don't render if no errors or show is false
   if (!show || errorMessages.length === 0) {
     return null;
   }
