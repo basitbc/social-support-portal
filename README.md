@@ -96,32 +96,6 @@ npm run dev
 
 **Don't forget to replace `<your-openai-api-key>` with your actual API key in the `.env` file!**
 
-## 🛠️ Available Scripts
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run linting
-npm run lint
-```
-
-## 🌟 Features
-
-* ✅ Multi-step wizard form (3 steps + review)
-* ✅ AI-powered text suggestions
-* ✅ Bilingual support (English/Arabic) with RTL
-* ✅ Mobile-first responsive design
-* ✅ Form validation and persistence
-* ✅ Accessibility compliant (WCAG 2.1 AA)
-* ✅ Modern React architecture with Context API
-
 ## 🔧 Configuration
 
 ### OpenAI API Setup
@@ -155,32 +129,5 @@ src/
 ├── services/           # API integrations
 └── config/             # Configuration files
 ```
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-**Port already in use:**
-
-```bash
-# Kill process on port 5173
-npx kill-port 5173
-# Or use a different port
-npm run dev -- --port 3000
-```
-
-**Dependencies issues:**
-
-```bash
-# Clear cache and reinstall
-rm -rf node_modules package-lock.json
-npm install
-```
-
-**OpenAI API not working:**
-
-* Check your API key is valid
-* Ensure you have credits in your OpenAI account
-* Verify the `.env` file is in the root directory
 
 **Happy coding! 🎉**
